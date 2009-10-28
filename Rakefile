@@ -6,11 +6,14 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "rbbt"
     gem.summary = %Q{Bioinformatics and text mining toolbox}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.description = %Q{This toolbox includes modules for text-mining, like Named Entity Recognition and Normalization and document
+    classification, as well as data integration modules that interface with PubMed, Entrez Gene, BioMart.}
     gem.email = "miguel.vazquez@fdi.ucm.es"
     gem.homepage = "http://github.com/mikisvaz/rbbt"
     gem.authors = ["Miguel Vazquez"]
-    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
+    gem.files = Dir['lib/**/*.rb','bin/rbbt.rb','tasks/install.rake', 'install_scripts/**/*']
+    gem.test_files = Dir['lib/**/test_*.rb']
+
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
 rescue LoadError
