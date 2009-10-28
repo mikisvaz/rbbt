@@ -1,0 +1,140 @@
+require 'rbbt'
+require 'rbbt/sources/organism'
+require 'rbbt/sources/pubmed'
+require 'rbbt/bow/bow'
+require 'rbbt/bow/dictionary'
+require 'rbbt/bow/classifier'
+require 'rbbt/util/misc'
+
+require 'progress-monitor'
+require 'rand'
+
+$hi      = ENV['hi']  || 0.8
+$low     = ENV['low'] || 0.01
+$max     = ENV['max'] || 3000
+$bigrams = ENV['bigrams'] == 'true' || false
+
+$ndocs   = ENV['ndocs'] || 5000
+
+desc "Bilds Dictionary and Features for an organism"
+rule(/data\/(.*)/) do |t|
+  org = File.basename(t.name)
+
+  go  = Organism.gene_literature_go(org).collect{|gene, pmids| pmids}.flatten.uniq
+  all = Organism.literature(org).flatten.uniq - go
+
+  ndocs = [go.length, all.length, $ndocs.to_i].min
+  puts "Using #{ ndocs } from each class\n\n"
+
+  go    = go.shuffle[0..ndocs - 1]
+  all   = all.shuffle[0..ndocs - 1]
+
+  dict = Dictionary::KL.new
+
+ 
+
+  chunks = all.chunk(50)
+  Progress.monitor("Building Dictionary for #{ org }: -",1000)
+  chunks.each{|chunk|
+    PubMed.get_article(chunk).each{|pmid, article|
+      words = BagOfWords.terms(article.text,$bigrams)
+      dict.add(words, :-)
+    }
+  }
+
+  chunks = go.chunk(50)
+  Progress.monitor("Building Dictionary for #{ org }: +",1000)
+  chunks.each{|chunk|
+    PubMed.get_article(chunk).each{|pmid, article|
+      words = BagOfWords.terms(article.text,$bigrams)
+      dict.add(words, :+)
+    }
+  }
+
+  term_weigths = dict.weights(:low => $low.to_f, :hi => $hi.to_f, :limit => $max.to_i)
+  Open.write(t.name + '.dict', term_weigths.sort.collect{|p| p.join("\t")}.join("\n"))
+
+  terms = term_weigths.keys.sort
+
+  fout = File.open(t.name, 'w')
+  fout.puts((['Name','Class'] + terms).join("\t"))
+  
+  Progress.monitor("Building Features for #{ org }", 1000)
+  all.each{|pmid|
+    text = PubMed.get_article(pmid).text
+    fout.puts(([pmid, :-] + BagOfWords.features(text, terms)).join("\t"))
+  }
+  go.each{|pmid|
+    text = PubMed.get_article(pmid).text
+    fout.puts(([pmid, :+] + BagOfWords.features(text, terms)).join("\t"))
+  }
+
+
+  fout.close
+end
+
+rule (/model\/(.*)/) => lambda{|n| n.sub(/model/,'data')} do |t|
+  features = t.name.sub(/model/,'data')
+  Classifier.create_model(features, t.name, features + '.dict')
+end
+
+rule (/results\/(.*)/) => lambda{|n| n.sub(/results/,'model')} do |t|
+  model       = t.name.sub(/results/,'model')
+  features    = t.name.sub(/results/,'data')
+  org = File.basename(t.name)
+
+  ndocs    = 100
+
+  used = Open.read(features).collect{|l| l.chomp.split(/\t/).first}[1..-1]
+
+  classifier = Classifier.new(model)
+  go  = Organism.gene_literature_go(org).collect{|gene, pmids| pmids}.flatten.uniq - used
+  all = Organism.literature(org).flatten.uniq - go - used
+
+  go    = go.shuffle[0..ndocs - 1]
+  all   = all.shuffle[0..ndocs - 1]
+
+  ndocs = go.length + all.length
+
+  raise "Not enogh unused articles to evaluate" if  go.empty? || all.empty?
+
+  features_go = PubMed.get_article(go).collect{|pmid, article|
+    article = article.text
+  }
+  pos = classifier.classify(features_go).select{|v| v == '+'}.length
+
+  features_all = PubMed.get_article(all).collect{|pmid, article|
+    article = article.text
+  }
+  neg = classifier.classify(features_all).select{|v| v == '-'}.length
+
+  puts "#{ pos } #{ neg }"
+
+  precision = (pos + neg) / (ndocs).to_f
+  recall    = pos / go.length.to_f
+  f1        = ( 2 * precision * recall) / (precision + recall ).to_f
+
+  puts "Precision: #{ precision}, Recall: #{ recall }, F1: #{f1}"
+end
+
+task 'clean' do
+  FileUtils.rm Dir.glob("data/*")
+  FileUtils.rm Dir.glob("model/*")
+  FileUtils.rm Dir.glob("results/*")
+
+end
+task 'all' do
+  Organism.all.each{|org|
+    Rake::Task["model/#{ org }"].invoke
+  }
+end
+task 'update' do
+  if $org
+    FileUtils.rm Dir.glob("**/#{$org}.*") if $force
+    Rake::Task["model/#{$org}"].invoke
+  else
+    Rake::Task['clean'].invoke if $force
+    Rake::Task['all'].invoke
+  end
+end
+

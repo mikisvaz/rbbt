@@ -1,0 +1,218 @@
+require 'rbbt'
+require 'rbbt/sources/organism'
+require 'rbbt/util/open'
+require 'rbbt/ner/rner'
+
+
+require 'progress-meter'
+
+$type = ENV['ner'] || :rner 
+$debug = !ENV['debug'].nil?
+$perfect = !ENV['perfect'].nil?
+$docs  = ENV['docs'] 
+
+
+$org2rbbt = {
+  'yeast' => 'sgd',
+  'mouse' => 'mgi',
+  'fly' => 'sgd',
+  'bc2gn' => 'human',
+}
+
+def match(org, filedir, goldstandard,outfile)
+  
+  t = Time.now
+  if org == 'bc2gn'
+    custom_file = File.join('config', org + '.config')
+    norm = Normalizer.new(File.join(Rbbt.datadir,"biocreative/BC2GN/entrezGeneLexicon.list"),
+                        :to_entrez => false, 
+                        :file => (File.exist?(custom_file) ? custom_file : nil),
+                        :max_candidates => 200)
+  else
+    custom_file = File.join('config', org + '.config')
+    norm = Normalizer.new(File.join(Rbbt.datadir,"biocreative/BC1GN/#{org}/synonyms.list"),
+                        :to_entrez => Open.to_hash(File.join(Rbbt.datadir,"organisms/#{$org2rbbt[org]}/identifiers"), 
+                                     :native => 0, :extra => 1,:single => true, :sep => "\t|\\|",
+                                     :fix => proc{|l| l.sub(/S000/,'S0')}), 
+                        :file => (File.exist?(custom_file) ? custom_file : nil),
+                        :max_candidates => 200)
+  end
+  STDERR.puts "Loaded Normalizer #{Time.now - t}\n\n"
+
+
+  if $type.to_s == 'rner'
+    ner = NER.new('models/' + org)
+  else
+    ner = Organism.ner($org2rbbt[org], $type)
+  end
+  
+
+  fout=File.open(outfile,'w')
+
+  gs  = Open.to_hash(goldstandard,:native => 0,:extra => 1)
+  gs_mentions  = Open.to_hash(goldstandard,:native => 0,:extra => 2)
+    
+  if org == 'bc2gn'
+    lex = Open.to_hash( File.join(Rbbt.datadir,"biocreative/BC2GN/entrezGeneLexicon.list"), :sep => "\t|\\|")
+  else
+    lex = Open.to_hash( File.join(Rbbt.datadir,"biocreative/BC1GN/#{org}/synonyms.list"), :sep => "\t|\\|")
+  end
+
+  if $docs
+    files = $docs.split(',').collect{|doc| File.join(filedir, doc + '.txt')}
+  else
+    files = Dir.glob(filedir + '*.txt').sort
+  end
+  
+  Progress.monitor("Processing Files")
+  files.each{|f|
+    fid = File.basename(f).sub(/.txt/,'')
+
+    text = Open.read(f)
+    if $perfect
+      mentions = (gs_mentions[fid] || []).flatten
+
+    else
+      mentions = ner.extract(text).uniq
+    end
+
+    if $debug
+      puts "------------------------------------"
+      puts "FILE #{fid}"
+      puts
+      puts text
+      puts "CODES: #{(gs[fid] || []).flatten.join(", ")}"
+      puts "MENTIONS: #{mentions.join(", ")}"
+    end
+
+   
+    found = []
+    mentions.each{|mention|
+
+      codes = norm.select(norm.match(mention),mention,text)
+
+      found += codes
+      codes.each{|code|
+        #code = code.sub(/S000/,'S0')
+        fout.puts "#{ fid }\t#{ code}\t#{mention}" 
+      }
+
+      puts "Mention: #{ mention } => #{ codes.join(", ") }"  if $debug
+    }
+
+    if $debug
+      found.uniq!
+      fn = (gs[fid] || []).flatten.uniq - found
+      fp = found - (gs[fid] || []).flatten.uniq
+
+      fn.each{|code|
+        if lex[code]
+          puts "FN: #{ code } => #{lex[code].flatten.join(", ")}" 
+        else 
+           puts "FN: #{ code }"
+        end
+     }
+      fp.each{|code|
+        if lex[code]
+          puts "FP: #{ code } => #{lex[code].flatten.join(", ")}" 
+        else 
+           puts "FN: #{ code }"
+        end
+      }
+
+
+    end
+
+  }
+  fout.close
+
+end
+
+rule (/models\/(yeast|mouse|fly|bc2gn).features/) do |t|
+  org = File.basename(t.name).sub(/\.features/,'')
+
+  if org == 'bc2gn'
+    lexicon = File.join(Rbbt.datadir, "biocreative/BC2GN/entrezGeneLexicon.list")
+  else
+    lexicon = File.join(Rbbt.datadir, "biocreative/BC1GN/#{ org }/synonyms.list")
+  end
+
+  names = File.open(lexicon).collect{|l|
+    names = l.split(/\t/)
+    names.shift
+    names.compact.select{|n| !n.empty?}
+  }.flatten
+
+  fout = File.open(t.name,'w')
+  parser   = NERFeatures.new
+
+  Progress.monitor("CRFPP Features #{ org }")
+  names.each{|name|
+    features = parser.text_features(name, true)
+    features.each{|feat|
+      fout.puts feat.join(" ")
+    }
+    fout.puts
+  }
+  fout.close
+  if org != 'bc2gn'
+    Open.append(t.name, Open.read('../ner/data/BC2.features'))
+  else
+    Open.append(t.name, Open.read('../ner/data/BC2GM.features'))
+    Open.append(t.name, Open.read('../ner/data/BC2GN_Train.features'))
+  end
+
+end
+
+rule (/models\/(yeast|mouse|fly|bc2gn)$/) => lambda{|t| t + '.features' } do |t|
+  org = File.basename(t.name)
+  
+  parser = NERFeatures.new 
+  parser.train( t.name + '.features', t.name)
+end
+
+
+rule (/results\/(yeast|mouse|fly)_(devtest|train|test)$/) do |t|
+  org, dataset = File.basename(t.name).split(/_/)
+
+  if $type.to_sym == :rner
+    Rake::Task['models/' + org].invoke
+  end
+
+  filedir      = File.join(Rbbt.datadir, "biocreative/BC1GN/#{ org }/#{ dataset }/text/")
+  goldstandard = File.join(Rbbt.datadir, "biocreative/BC1GN/#{ org }/#{ dataset }/genelist")
+
+  match(org,filedir, goldstandard,t.name)
+end
+
+rule (/results\/(.+)_(.+).eval/) => lambda{|t| t.sub(/.eval/,'')} do |t|
+  org, dataset = File.basename(t.name.sub(/.eval/,'')).split(/_/)
+
+  cmd = "perl #{File.join(Rbbt.datadir, "biocreative/BC1GN/task1Bscorer.pl")} #{File.join(Rbbt.datadir, "biocreative/BC1GN/#{ org }/#{ dataset }/genelist")} #{t.name.sub(/.eval/,'')} > #{t.name}"
+  puts cmd
+  system cmd
+end
+
+rule (/results\/bc2gn$/) do |t|
+  org = 'bc2gn'
+
+  if $type.to_sym == :rner
+    Rake::Task['models/' + org].invoke
+  end
+
+  filedir      = File.join(Rbbt.datadir, "biocreative/BC2GN/Test/")
+  goldstandard = File.join(Rbbt.datadir, "biocreative/BC2GN/Test/genelist")
+
+  match(org,filedir, goldstandard,t.name)
+end
+
+rule (/results\/bc2gn.eval/) => lambda{|t| t.sub(/.eval/,'')} do |t|
+
+  cmd = "python #{Rbbt.datadir + '/biocreative/BC2GN/bc2scoring.py'} #{Rbbt.datadir + '/biocreative/BC2GN/Test/genelist'} results/bc2gn > #{t.name}"
+  system cmd
+
+end
+
+
+
+

@@ -1,0 +1,180 @@
+#!/usr/bin/ruby
+
+require 'rubygems'
+require 'rake'
+
+
+require 'simpleconsole'
+
+begin
+  require 'rbbt'
+rescue Rbbt::NoConfig
+  $noconfig = true
+end
+
+
+$USAGE =<<EOT
+#{__FILE__} <action> [<subaction>] [--force] [--organism <org>]
+  actions:
+    * configure:   Set paths for data, cache, and tmp directories
+
+    * install:
+      * basic:     Third party software
+      * databases: Entrez and Biocreative
+      * models:    Gene Mention and Classification
+      * organisms: Rules to gather data for organisms
+      * all:       3party wordlists entrez biocreative go ner norm classifier organisms polysearch
+
+    * update:
+      * organisms: Gather data for organisms
+      * ner:       Build Named Entity Recognition Models for Gene Mention
+      * classification: 
+                   Build Function/Process Classifiers
+
+    * purge_cache: Clean the non-persistent cache, which holds general things
+        downloaded using Open.read, like organism identifiers downloaded from
+        BioMart. The persistent cache, which hold pubmed articles or entrez gene
+        descriptions, is not cleaned, as these are not likely to change
+                
+                   
+EOT
+
+class Controller < SimpleConsole::Controller
+
+  params :bool => {:f => :force},
+         :string => {:o => :organism}
+
+  def default
+    render :action => :usage
+  end
+
+  def help
+    render :action => :usage
+  end
+
+  def update
+    raise "Run #{__FILE__} configure first to configure rbbt" if $noconfig
+
+    case params[:id]
+    when "organisms"
+      @location = File.join(Rbbt.datadir,'organisms')
+    when "ner"
+      @location = File.join(Rbbt.datadir,'ner')
+    when "classifier"
+      @location = File.join(Rbbt.datadir,'classifier')
+    else
+      redirect_to :action => :help, :id => :update
+    end
+
+    $force = true if params[:force]
+    $org = params[:organism] if params[:organism]
+
+  end
+
+  def install
+    raise "Run #{__FILE__} configure first to configure rbbt" if $noconfig
+    
+    case params[:id]
+    when "basic"
+      @tasks = %w(3party wordlists polysearch)
+    when "databases"
+      @tasks = %w(entrez biocreative go)
+    when "models"
+      @tasks = %w(ner norm classifier)
+    when "organisms"
+      @tasks = %w(organisms)
+    when "all"
+      @tasks = %w(3party wordlists entrez biocreative go ner norm classifier organisms polysearch)
+    when nil
+      redirect_to :action => :help, :id => :install
+    else
+      @tasks = [params[:id]]
+    end
+
+    $force = true if params[:force]
+    $org = params[:organism] if params[:organism]
+
+  end
+
+  def configure
+  end
+
+  def purge_cache
+  end
+
+end
+
+class View < SimpleConsole::View
+  def usage
+    puts $USAGE
+  end
+
+  def install
+    load File.join(Rbbt.rootdir, 'tasks/install.rake')
+
+    @tasks.each{|t|
+      puts "Invoking #{ t }"
+      Rake::Task[t].invoke
+    }
+  end
+
+  def update
+
+    puts "Changing directory to #{@location}"
+    chdir @location
+
+    load "./Rakefile"
+
+    Rake::Task['default'].invoke
+  end
+
+
+  def configure
+
+    defaultdir = File.join(ENV['HOME'],'rbbt')
+
+    cachedir   = File.join(defaultdir, 'cache')
+    tmpdir   = File.join(defaultdir, 'tmp')
+    datadir   = File.join(defaultdir, 'data')
+
+    puts "Please indicate where you wish to place the data directories"
+    puts
+    
+    puts
+    puts "* Cache Directory: This directory will hold downloads, from PubMed, 
+  Entrez and other, for local store. It might grow considerably."
+    print "[#{ cachedir }]? "
+    input = STDIN.gets
+    cachedir = input if input =~ /\w/
+
+    puts
+    puts "* Tmp Directory: Temporary files." 
+    print "[#{ tmpdir }]? "
+    input = STDIN.gets
+    tmpdir = input if input =~ /\w/
+
+    puts
+    puts "* Data Directory: Holds data from organisms, databases, third party software, etc."
+    print "[#{ datadir }]? "
+    input = STDIN.gets
+    datadir = input if input =~ /\w/
+
+
+
+    fout = File.open(File.join(ENV['HOME'], '.rbbt'),'w')
+    fout.puts "cachedir: #{cachedir}" 
+    fout.puts "tmpdir: #{tmpdir}" 
+    fout.puts "datadir: #{datadir}" 
+    fout.close
+
+  end
+
+  def purge_cache
+    FileUtils.rm Dir.glob(File.join(Rbbt.cachedir,'open-remote','*'))
+  end
+
+end
+
+SimpleConsole::Application.run(ARGV, Controller, View)
+
+

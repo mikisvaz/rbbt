@@ -1,0 +1,25 @@
+$org = [$org, ENV['organism'],nil].reject{|e| e.nil? }.first
+
+task 'default' do
+  if $org
+    orgs = [$org]
+  else
+
+    orgs = Dir.glob('*').
+      select{|t| 
+      File.directory?(t ) &&
+        File.exist?(t + '/Rakefile') 
+    }
+  end
+
+  orgs.each{|org|
+    puts "Updating #{ org }"
+    pid = Process.fork{
+      Dir.chdir(org)
+      load 'Rakefile'
+      Rake::Task['update'].invoke
+    }
+    Process.waitpid pid
+  }
+end
+
