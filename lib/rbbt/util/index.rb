@@ -53,7 +53,8 @@ if __FILE__ == $0
   }.to_s
 
 
-  ids = Open.read('/home/miki/git/MARQ/test/GDS1375_malignant_vs_normal_up.genes').collect{|l| l.chomp.strip.upcase}
+  ids = []
+  Open.read('/home/miki/git/MARQ/test/GDS1375_malignant_vs_normal_up.genes').each_line{|l| ids << l.chomp.strip.upcase}
 
   new = nil
 

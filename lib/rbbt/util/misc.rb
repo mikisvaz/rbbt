@@ -1,8 +1,12 @@
 require 'rbbt'
 require 'rbbt/util/open'
 
-$consonants = Open.read(File.join(Rbbt.datadir, 'wordlists/consonants')).collect{|l| l.chomp}.uniq
 class String
+  CONSONANTS = []
+  if File.exists? File.join(Rbbt.datadir, 'wordlists/consonants')
+    Open.read(File.join(Rbbt.datadir, 'wordlists/consonants')).each_line{|l| CONSONANTS << l.chomp}
+  end
+
   # Uses heuristics to checks if a string seems like a special word, like a gene name.
   def is_special?
     # Only consonants
@@ -22,7 +26,7 @@ class String
     # Dashed word
     return true if self =~ /(^\w-|-\w$)/
     # To many consonants (very heuristic)
-    if self =~ /([^aeiouy]{3,})/i && !$consonants.include?($1.downcase)
+    if self =~ /([^aeiouy]{3,})/i && !CONSONANTS.include?($1.downcase)
       return true
     end
 
@@ -83,7 +87,8 @@ $greek = {
 
 $inverse_greek = Hash.new
 $greek.each{|l,s| $inverse_greek[s] = l }
-$stopwords = Open.read(File.join(Rbbt.datadir, 'wordlists/stopwords')).scan(/\w+/)
+
+$stopwords = Open.read(File.join(Rbbt.datadir, 'wordlists/stopwords')).scan(/\w+/) if File.exists? File.join(Rbbt.datadir, 'wordlists/stopwords')
 
 class Array
 

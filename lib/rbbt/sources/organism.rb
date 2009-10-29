@@ -30,7 +30,13 @@ module Organism
     id_types = {}
     formats = supported_ids(org)
 
-    lines = Open.read(File.join(Rbbt.datadir,"organisms/#{ org }/identifiers")).collect
+    text = Open.read(File.join(Rbbt.datadir,"organisms/#{ org }/identifiers"))
+    
+    if text.respond_to? :collect
+      lines = text.collect
+    else
+      lines = text.lines
+    end
 
     lines.each{|l|
       ids_per_type = l.split(/\t/)
@@ -109,7 +115,7 @@ module Organism
 
   def self.goterms(org)
     goterms = {}
-    Open.read(File.join(Rbbt.datadir,"organisms/#{ org }/gene.go")).each{|l|
+    Open.read(File.join(Rbbt.datadir,"organisms/#{ org }/gene.go")).each_line{|l|
       gene, go = l.chomp.split(/\t/)
       goterms[gene.strip] ||= []
       goterms[gene.strip] << go.strip
@@ -118,7 +124,7 @@ module Organism
   end
 
   def self.literature(org)
-    Open.read(File.join(Rbbt.datadir,"organisms/#{ org }/all.pmid")).collect{|l| l.chomp.scan(/\d+/)}.flatten
+    Open.read(File.join(Rbbt.datadir,"organisms/#{ org }/all.pmid")).scan(/\d+/)
   end
 
   def self.gene_literature(org)
@@ -133,7 +139,7 @@ module Organism
     formats  = []
     examples = [] if options[:examples]
     i= 0
-    Open.read(File.join(Rbbt.datadir,"organisms/#{ org }/identifiers")).each{|l|
+    Open.read(File.join(Rbbt.datadir,"organisms/#{ org }/identifiers")).each_line{|l|
       if i == 0
         i += 1
         next unless l=~/^\s*#/

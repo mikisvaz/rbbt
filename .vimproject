@@ -1,5 +1,4 @@
 rbbt=/$PWD filter="*.rb *.rake *.sh *Rakefile" {
- setup.rb
  Rakefile
  bin=bin{
   rbbt_config

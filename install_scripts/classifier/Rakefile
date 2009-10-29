@@ -85,7 +85,12 @@ rule (/results\/(.*)/) => lambda{|n| n.sub(/results/,'model')} do |t|
 
   ndocs    = 100
 
-  used = Open.read(features).collect{|l| l.chomp.split(/\t/).first}[1..-1]
+  used = []
+  if "".respond_to? :collect
+    used = Open.read(features).collect{|l| l.chomp.split(/\t/).first}[1..-1]
+  else
+    used = Open.read(features).lines.collect{|l| l.chomp.split(/\t/).first}[1..-1]
+  end
 
   classifier = Classifier.new(model)
   go  = Organism.gene_literature_go(org).collect{|gene, pmids| pmids}.flatten.uniq - used

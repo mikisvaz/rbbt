@@ -37,7 +37,7 @@ def BC2GN_features(dataset, outfile)
     data[code] = {}
     data[code][:text] = Open.read(f)
   }
-  Open.read(File.join(Rbbt.datadir,'biocreative','BC2GN',dataset,'genelist')).each{|l|
+  Open.read(File.join(Rbbt.datadir,'biocreative','BC2GN',dataset,'genelist')).each_line{|l|
    code, gene, mention = l.chomp.split(/\t/)
    data[code][:mentions] ||= []
    data[code][:mentions] << mention

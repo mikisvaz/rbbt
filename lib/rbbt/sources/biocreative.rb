@@ -12,12 +12,12 @@ module Biocreative
 
     data = {}
 
-    Open.read(File.join(Rbbt.datadir,"biocreative/BC2GM/#{dataset}/#{dataset}.in")).each{|l|
+    Open.read(File.join(Rbbt.datadir,"biocreative/BC2GM/#{dataset}/#{dataset}.in")).each_line{|l|
       code, text = l.chomp.match(/(.*?) (.*)/).values_at(1,2)
       data[code] ={ :text => text }
     }
 
-    Open.read(File.join(Rbbt.datadir,"biocreative/BC2GM/#{dataset}/GENE.eval")).each{|l|
+    Open.read(File.join(Rbbt.datadir,"biocreative/BC2GM/#{dataset}/GENE.eval")).each_line{|l|
       code, pos, mention = l.chomp.split(/\|/)
       data[code] ||= {}
       data[code][:mentions] ||= []

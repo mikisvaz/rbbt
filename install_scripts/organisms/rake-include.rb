@@ -88,7 +88,7 @@ file 'lexicon' do
       "#{ code }\t" + name_lists.flatten.select{|n| n.to_s != ""}.uniq.join("\t")
     }.join("\n"))
 
-rescue Entrez::NoFile
+rescue Entrez::NoFileError
   puts "Lexicon not produced for #{$name}, install the entrez gene_info file (rbbt_config install entrez)."
 end
 end
@@ -185,7 +185,7 @@ file 'identifiers' do
     }
     fout.close
 
-  rescue Entrez::NoFile
+  rescue Entrez::NoFileError
     puts "Identifiers not produced for #{$name}, install the entrez gene_info file (rbbt_config install entrez)."
   end
 end
@@ -237,7 +237,7 @@ file 'gene.pmid' do
       }.compact.join("\n")
     }.compact.join("\n")
               )
-  rescue Entrez::NoFile
+  rescue Entrez::NoFileError
     puts "Gene article associations from entrez not produced, install the gene2pumbed file (rbbt_config install entrez)."
   end
 

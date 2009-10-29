@@ -161,7 +161,7 @@ module Open
     extra = [extra] if extra && ! extra.is_a?( Array)
 
     data = {}
-    Open.read(filename).each{|l|
+    Open.read(filename).each_line{|l|
       l = fix.call(l) if fix
       next if exclude and exclude.call(l)
 
