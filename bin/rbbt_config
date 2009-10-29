@@ -35,6 +35,8 @@ $USAGE =<<EOT
         downloaded using Open.read, like organism identifiers downloaded from
         BioMart. The persistent cache, which hold pubmed articles or entrez gene
         descriptions, is not cleaned, as these are not likely to change
+
+    * organisms: Show a list of all installed organisms along with their identifier in the system
                 
                    
 EOT
@@ -43,6 +45,10 @@ class Controller < SimpleConsole::Controller
 
   params :bool => {:f => :force},
          :string => {:o => :organism}
+
+  def organisms
+  end
+
 
   def default
     render :action => :usage
@@ -108,6 +114,13 @@ class View < SimpleConsole::View
   def usage
     puts $USAGE
   end
+  def organisms
+      require 'rbbt/sources/organism'
+      Organism.all.each{|org|
+          puts "#{Organism.name(org)}: #{org}"
+      }
+  end
+
 
   def install
     load File.join(Rbbt.rootdir, 'tasks/install.rake')
