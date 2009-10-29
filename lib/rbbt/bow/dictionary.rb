@@ -191,7 +191,7 @@ if __FILE__ == $0
   require 'benchmark'
   require 'rbbt/sources/pubmed'
   require 'rbbt/bow/bow'
-  require 'progress-meter'
+  require 'progress-monitor'
 
   max = 10000
 

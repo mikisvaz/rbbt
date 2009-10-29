@@ -4,7 +4,7 @@ require 'rbbt/util/open'
 require 'rbbt/ner/rner'
 
 
-require 'progress-meter'
+require 'progress-monitor'
 
 $type = ENV['ner'] || :rner 
 $debug = !ENV['debug'].nil?
