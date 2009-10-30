@@ -64,7 +64,7 @@ class SimpleDSL
   def initialize(method = nil, file = nil, &block)
     @config = {}
     if file
-      raise ConfigFileMissingError.new "File '#{ file }' is missing. Have you installed the config files? (rbbt_config install norm)." unless File.exists? file
+      raise ConfigFileMissingError.new "File '#{ file }' is missing. Have you installed the config files? (use rbbt_config)." unless File.exists? file
       parse(method, file)
     end
 
