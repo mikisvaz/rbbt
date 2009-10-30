@@ -1,6 +1,6 @@
 require __FILE__.sub(/[^\/]*$/,'') + '../rake-include'
 
-$name = "Caenorhabditis elegans "
+$name = "Caenorhabditis elegans"
 
 
 $native_id = "WormBase ID"
