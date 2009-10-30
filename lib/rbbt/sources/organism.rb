@@ -1,6 +1,4 @@
-
 require 'rbbt'
-require 'rbbt/ner/rnorm'
 require 'rbbt/util/open'
 
 module Organism
@@ -74,7 +72,7 @@ module Organism
     format_count.select{|k,v| v > (query.length / 10)}.sort{|a,b| b[1] <=> a[1]}.first
   end
 
-  def self.ner(org, type=:abner, options = {})
+  def self.ner(org, type=:rner, options = {})
 
     case type.to_sym
     when :abner
@@ -96,6 +94,7 @@ module Organism
   end
 
   def self.norm(org, to_entrez = nil)
+    require 'rbbt/ner/rnorm'
     if to_entrez.nil?
       to_entrez = id_index(org, :native => 'Entrez Gene ID', :other => [supported_ids(org).first])
     end
@@ -168,6 +167,7 @@ module Organism
   end
 
   def self.id_index(org, option = {})
+    require 'rbbt/util/index'
     native = option[:native]
     other  = option[:other]
     option[:case_sensitive] = false if option[:case_sensitive].nil?
