@@ -1,5 +1,23 @@
 $org = [$org, ENV['organism'],nil].reject{|e| e.nil? }.first
 
+task 'names' do
+  orgs = Dir.glob('*').
+    select{|t| 
+    File.directory?(t ) &&
+      File.exist?(t + '/Rakefile') 
+  }
+
+  orgs.each{|org|
+    pid = Process.fork{
+      Dir.chdir(org)
+      load 'Rakefile'
+      Rake::Task['name'].invoke
+    }
+    Process.waitpid pid
+  }
+
+end
+
 task 'default' do
   if $org
     orgs = [$org]

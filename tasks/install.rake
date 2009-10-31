@@ -85,6 +85,7 @@ task 'organisms' do
     end
     FileUtils.cp f , File.join(directory, "#{ org }/Rakefile")
   }
+  `cd #{directory}; rake names`
 end
 
 task 'ner' do

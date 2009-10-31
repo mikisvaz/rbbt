@@ -5,12 +5,17 @@ module Organism
 
   class OrganismNotProcessedError < StandardError; end
 
-  def self.all
-    Dir.glob(File.join(Rbbt.datadir,'/organisms/') + '/*/name').collect{|f| File.basename(File.dirname(f))}
+  def self.all(installed = true)
+    if installed
+      Dir.glob(File.join(Rbbt.datadir,'/organisms/') + '/*/identifiers').collect{|f| File.basename(File.dirname(f))}
+    else
+      Dir.glob(File.join(Rbbt.datadir,'/organisms/') + '/*').select{|f| File.directory? f}.collect{|f| File.basename(f)}
+    end
   end
 
 
   def self.name(org)
+    raise OrganismNotProcessedError, "Missing 'name' file" if ! File.exists? File.join(Rbbt.datadir,"organisms/#{ org }/name")
     Open.read(File.join(Rbbt.datadir,"organisms/#{ org }/name"))
   end
 

@@ -12,31 +12,62 @@ rescue Rbbt::NoConfig
   $noconfig = true
 end
 
+TASKS= %w(organisms ner norm classifier biocreative entrez go wordlists polysearch abner banner crf++)
 
 $USAGE =<<EOT
 #{__FILE__} <action> [<subaction>] [--force] [--organism <org>]
+
   actions:
+
     * configure:   Set paths for data, cache, and tmp directories
 
     * install:
-      * basic:     Third party software
-      * databases: Entrez and Biocreative
-      * models:    Gene Mention and Classification
-      * organisms: Rules to gather data for organisms
-      * all:       3party wordlists entrez biocreative go ner norm classifier organisms polysearch
+      
+      Basic subactions:
+      
+      * organisms:     Install processing scripts to process organisms
+      * ner:           Install processing scripts for Named Entity Recognition
+      * norm:          Install processing scripts for Gene Mention Normalization
+      * classifier:    Install processing scripts for Classification
+      
+      * biocreative:   Download and train and test data from BioCreative
+      * entrez:        Download and install data from Entrez
+      * go:            Download and install data from The Gene Ontology
+      * wordlists:     Install word lists
+      * polysearch:    Download and install Polysearch dictionaries
 
-    * update:
-      * organisms: Gather data for organisms
-      * ner:       Build Named Entity Recognition Models for Gene Mention
-      * classification: 
-                   Build Function/Process Classifiers
+      * abner:         Download and install Abner NER system:      http://pages.cs.wisc.edu/~bsettles/abner/
+      * banner:        Download and install Banner NER system:     http://sourceforge.net/projects/banner/
+      * crf++:         Download and install CRF++ a CRF framework: http://crfpp.sourceforge.net/
+
+      Subactions grouped by task:
+
+      * identifiers:  entrez, organisms
+      * rner:         entrez, organisms, biocreative, ner, crf++
+      * java_ner:     entrez, organisms, abner, banner
+      * norm: entrez  organisms, biocreative, crf++, norm, polysearch
+      * bow:          organisms, wordlists
+      * classifier:   organisms, wordlists, classifier, go
+      * all:          #{TASKS.join(", ")}
+
+    * update: 
+      * organisms:      Gather organisms data
+      * ner:            Build Named Entity Recognition Models. Mention Normalization needs no training.
+      * classification: Build Function/Process Classifiers
+
+      --force:          Rebuild models or reprocess organism data even if present. You may want to purge the cache 
+                        to be up to date with the data in the internet.
+
+      --organism:       Gather data only for that particular organism. The organism must be specified by the 
+                        keyword. Use '#{__FILE__} organisms' to see find the keywords.
 
     * purge_cache: Clean the non-persistent cache, which holds general things
         downloaded using Open.read, like organism identifiers downloaded from
         BioMart. The persistent cache, which hold pubmed articles or entrez gene
         descriptions, is not cleaned, as these are not likely to change
 
-    * organisms: Show a list of all installed organisms along with their identifier in the system
+    * organisms: Show a list of all organisms along with their identifier in the system
+
                 
                    
 EOT
@@ -79,21 +110,39 @@ class Controller < SimpleConsole::Controller
 
   def install
     raise "Run #{__FILE__} configure first to configure rbbt" if $noconfig
-    
     case params[:id]
-    when "basic"
-      @tasks = %w(3party wordlists polysearch)
-    when "databases"
-      @tasks = %w(entrez biocreative go)
-    when "models"
-      @tasks = %w(ner norm classifier)
-    when "organisms"
-      @tasks = %w(organisms)
+    when "identifiers"
+      require 'rbbt/sources/organism'
+      require 'rbbt/sources/entrez'
+      @tasks = %w(entrez organisms)
+    when "rner"
+      require 'rbbt/ner/rner'
+      require 'rbbt/sources/entrez'
+      @tasks = %w(entrez organisms biocreative ner crf++)
+    when "java_ner"
+      require 'rjb'
+      @tasks = %w(entrez organisms abner banner)
+    when "norm"
+      require 'rbbt/ner/rner'
+      require 'rbbt/ner/rnorm'
+      require 'rbbt/sources/entrez'
+      require 'rbbt/sources/regexpNER'
+      @tasks = %w(entrez organisms biocreative crf++ norm polysearch)
+    when "bow"
+      require 'rbbt/bow/bow'
+      require 'rbbt/bow/dictionary'
+      @tasks = %w(organisms wordlists)
+    when "classifier"
+      require 'rbbt/bow/bow'
+      require 'rbbt/bow/dictionary'
+      require 'rbbt/bow/classifier'
+      @tasks = %w(organisms wordlists classifier go)
     when "all"
-      @tasks = %w(3party wordlists entrez biocreative go ner norm classifier organisms polysearch)
+      @tasks = TASKS
     when nil
       redirect_to :action => :help, :id => :install
     else
+      redirect_to :action => :help, :id => :install if ! TASKS.include? params[:id]
       @tasks = [params[:id]]
     end
 
@@ -114,10 +163,14 @@ class View < SimpleConsole::View
   def usage
     puts $USAGE
   end
+
   def organisms
       require 'rbbt/sources/organism'
-      Organism.all.each{|org|
-          puts "#{Organism.name(org)}: #{org}"
+      all = Organism.all(false)
+      installed = Organism.all
+
+      all.each{|org|
+          puts "#{Organism.name(org)}: #{org} #{installed.include?(org) ? "(installed)" : ""}"
       }
   end
 

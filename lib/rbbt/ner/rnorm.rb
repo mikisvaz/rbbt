@@ -4,6 +4,7 @@ require 'rbbt/ner/rnorm/tokens'
 require 'rbbt/util/index'
 require 'rbbt/util/open'
 require 'rbbt/sources/entrez'
+require 'rbbt/bow/bow.rb'
 
 class Normalizer
 
