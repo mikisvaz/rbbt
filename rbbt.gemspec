@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Miguel Vazquez"]
-  s.date = %q{2009-10-31}
+  s.date = %q{2009-11-01}
   s.default_executable = %q{rbbt_config}
   s.description = %q{This toolbox includes modules for text-mining, like Named Entity Recognition and Normalization and document
     classification, as well as data integration modules that interface with PubMed, Entrez Gene, BioMart.}
@@ -73,7 +73,6 @@ Gem::Specification.new do |s|
      "lib/rbbt/util/open.rb",
      "lib/rbbt/util/simpleDSL.rb",
      "lib/rbbt/util/tmpfile.rb",
-     "lib/rbbt/version.rb",
      "tasks/install.rake"
   ]
   s.homepage = %q{http://github.com/mikisvaz/rbbt}
@@ -89,12 +88,21 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<rake>, [">= 0.8.4"])
       s.add_runtime_dependency(%q<simpleconsole>, [">= 0"])
+      s.add_runtime_dependency(%q<stemmer>, [">= 0"])
+      s.add_runtime_dependency(%q<progress-monitor>, [">= 0"])
+      s.add_runtime_dependency(%q<simpleconsole>, [">= 0"])
     else
       s.add_dependency(%q<rake>, [">= 0.8.4"])
+      s.add_dependency(%q<simpleconsole>, [">= 0"])
+      s.add_dependency(%q<stemmer>, [">= 0"])
+      s.add_dependency(%q<progress-monitor>, [">= 0"])
       s.add_dependency(%q<simpleconsole>, [">= 0"])
     end
   else
     s.add_dependency(%q<rake>, [">= 0.8.4"])
+    s.add_dependency(%q<simpleconsole>, [">= 0"])
+    s.add_dependency(%q<stemmer>, [">= 0"])
+    s.add_dependency(%q<progress-monitor>, [">= 0"])
     s.add_dependency(%q<simpleconsole>, [">= 0"])
   end
 end

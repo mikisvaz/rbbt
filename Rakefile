@@ -16,6 +16,9 @@ begin
 
     gem.add_dependency('rake', ' >= 0.8.4')
     gem.add_dependency('simpleconsole')
+    gem.add_dependency('stemmer')
+    gem.add_dependency('progress-monitor')
+    gem.add_dependency('simpleconsole')
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
 rescue LoadError

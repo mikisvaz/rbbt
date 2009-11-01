@@ -1,5 +1,7 @@
 require 'rbbt'
 require 'rbbt/util/open'
+require 'rbbt/util/index'
+
 
 module Organism
 
@@ -77,6 +79,9 @@ module Organism
     format_count.select{|k,v| v > (query.length / 10)}.sort{|a,b| b[1] <=> a[1]}.first
   end
 
+  # FIXME: The NER related stuff is harder to install, thats why we hide the
+  # requires next to where they are needed, next to options
+  
   def self.ner(org, type=:rner, options = {})
 
     case type.to_sym
@@ -172,7 +177,6 @@ module Organism
   end
 
   def self.id_index(org, option = {})
-    require 'rbbt/util/index'
     native = option[:native]
     other  = option[:other]
     option[:case_sensitive] = false if option[:case_sensitive].nil?

@@ -113,6 +113,4 @@ class Classifier
 
   end
 
-
-
 end

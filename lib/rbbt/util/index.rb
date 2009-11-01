@@ -42,29 +42,3 @@ module Index
     index
   end
 end
-
-if __FILE__ == $0
-
-  require 'benchmark'
-
-  normal = nil
-  puts "Normal " + Benchmark.measure{
-    normal = Index.index('/home/miki/rbbt/data/organisms/human/identifiers',:trie => false, :case_sensitive => false)
-  }.to_s
-
-
-  ids = []
-  Open.read('/home/miki/git/MARQ/test/GDS1375_malignant_vs_normal_up.genes').each_line{|l| ids << l.chomp.strip.upcase}
-
-  new = nil
-
-  puts ids.inspect
-  puts "normal " + Benchmark.measure{
-    100.times{
-      new = ids.collect{|id| normal[id]}
-    }
-  }.to_s
-
-  puts new.inspect
-
-end

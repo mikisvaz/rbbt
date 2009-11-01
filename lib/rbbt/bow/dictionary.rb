@@ -185,34 +185,3 @@ class Dictionary::KL
    
     
 end
-
-if __FILE__ == $0
-
-  require 'benchmark'
-  require 'rbbt/sources/pubmed'
-  require 'rbbt/bow/bow'
-  require 'progress-monitor'
-
-  max = 10000
-
-  pmids = PubMed.query("Homo Sapiens", max)
-  Progress.monitor "Get pimds"
-  docs = PubMed.get_article(pmids).values.collect{|article| BagOfWords.terms(article.text)}
-
-  dict = Dictionary::TF_IDF.new()
-
-  puts "Starting Benchmark"
-  puts Benchmark.measure{
-    docs.each{|doc|
-      dict.add doc
-    }
-  }
-  puts Benchmark.measure{
-    dict.weights
-  }
-
-  puts dict.terms.length
-
-
-end
-

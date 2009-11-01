@@ -1,8 +1,8 @@
-
 require 'rbbt'
 require 'rbbt/util/open'
 require 'rbbt/util/tmpfile'
 require 'rbbt/util/filecache'
+require 'rbbt/bow/bow.rb'
 require 'set'
 
 
@@ -189,7 +189,6 @@ module Entrez
   # found in Entrez Gene for that particular gene. The +gene+ may be a
   # gene identifier or a Gene class instance.
   def self.gene_text_similarity(gene, text)
-    require 'rbbt/bow/bow.rb'
 
     case
     when Entrez::Gene === gene
