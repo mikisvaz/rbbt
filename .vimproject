@@ -7,7 +7,6 @@ rbbt=/$PWD filter="*.rb *.rake *.sh *Rakefile" {
  lib=lib {
   rbbt.rb
   rbbt=rbbt {
-   version.rb
    bow=bow{
     bow.rb
     dictionary.rb
