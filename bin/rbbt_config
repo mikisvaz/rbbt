@@ -125,8 +125,8 @@ class Controller < SimpleConsole::Controller
     when "norm"
       require 'rbbt/ner/rner'
       require 'rbbt/ner/rnorm'
+      require 'rbbt/ner/regexpNER'
       require 'rbbt/sources/entrez'
-      require 'rbbt/sources/regexpNER'
       @tasks = %w(entrez organisms biocreative crf++ norm polysearch)
     when "bow"
       require 'rbbt/bow/bow'
