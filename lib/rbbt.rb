@@ -59,7 +59,7 @@ module Rbbt
 
     # For some reason banner.jar must be loaded before abner.jar
     ENV['CLASSPATH'] ||= ""
-    ENV['CLASSPATH'] += ":" + %w(banner abner).collect{|pkg| File.join(datadir, "third_party/#{pkg}/#{ pkg }.jar")}.join(":")
+    ENV['CLASSPATH'] += ":" + %w(banner abner).collect{|pkg| File.join(datadir, "third_party", pkg, "#{ pkg }.jar")}.join(":")
   end
 
   def self.rootdir
