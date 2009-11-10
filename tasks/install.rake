@@ -103,10 +103,10 @@ end
 task 'norm' do
   directory = "#{$datadir}/norm"
   FileUtils.mkdir_p directory
-  %w(Rakefile config).each{|f|
+  %w(Rakefile config functions.sh).each{|f|
     FileUtils.cp_r File.join($scriptdir, "norm/#{ f }"), directory 
   }
- %w(results).each{|d|
+ %w(results models).each{|d|
   FileUtils.mkdir_p File.join(directory, d)
   }
 end
