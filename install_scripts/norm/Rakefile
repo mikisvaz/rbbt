@@ -2,6 +2,7 @@ require 'rbbt'
 require 'rbbt/sources/organism'
 require 'rbbt/util/open'
 require 'rbbt/ner/rner'
+require 'rbbt/ner/rnorm'
 
 
 require 'progress-monitor'
