@@ -85,9 +85,6 @@ rbbt=/$PWD filter="*.rb *.rake *.sh *Rakefile" {
    }
  }
  tasks=tasks {
-  deployment.rake
-  environment.rake
-  website.rake
   install.rake
  }
  test=test {
