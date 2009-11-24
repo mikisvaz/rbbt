@@ -96,7 +96,7 @@ module Open
                   else
                     [id, name, extra].join("\t") + "\n"
                   end
-                }
+                }.join("\n")
       elsif url =~ /gene_ids/
         return content.gsub(/,/,"\t")
       else
