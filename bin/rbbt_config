@@ -15,13 +15,13 @@ end
 TASKS= %w(organisms ner norm classifier biocreative entrez go wordlists polysearch abner banner crf++)
 
 $USAGE =<<EOT
-#{__FILE__} <action> [<subaction>] [--force] [--organism <org>]
+#{__FILE__} <action> [<subaction>] [--update] [--organism <org>]
 
   actions:
 
     * configure:   Set paths for data, cache, and tmp directories
 
-    * install:
+    * prepare:
       
       Basic subactions:
       
@@ -50,12 +50,12 @@ $USAGE =<<EOT
       * classifier:   organisms, wordlists, classifier, go
       * all:          #{TASKS.join(", ")}
 
-    * update: 
+    * install: 
       * organisms:      Gather organisms data
       * ner:            Build Named Entity Recognition Models. Mention Normalization needs no training.
       * classification: Build Function/Process Classifiers
 
-      --force:          Rebuild models or reprocess organism data even if present. You may want to purge the cache 
+      --update:         Rebuild models or reprocess organism data even if present. You may want to purge the cache 
                         to be up to date with the data in the internet.
 
       --organism:       Gather data only for that particular organism. The organism must be specified by the 
@@ -74,7 +74,7 @@ EOT
 
 class Controller < SimpleConsole::Controller
 
-  params :bool => {:f => :force},
+  params :bool => {:u => :update},
          :string => {:o => :organism}
 
   def organisms
@@ -89,7 +89,7 @@ class Controller < SimpleConsole::Controller
     render :action => :usage
   end
 
-  def update
+  def install
     raise "Run #{__FILE__} configure first to configure rbbt" if $noconfig
 
     case params[:id]
@@ -103,12 +103,12 @@ class Controller < SimpleConsole::Controller
       redirect_to :action => :help, :id => :update
     end
 
-    $force = true if params[:force]
+    $force = true if params[:update]
     $org = params[:organism] if params[:organism]
 
   end
 
-  def install
+  def prepare
     raise "Run #{__FILE__} configure first to configure rbbt" if $noconfig
     case params[:id]
     when "identifiers"
@@ -146,7 +146,7 @@ class Controller < SimpleConsole::Controller
       @tasks = [params[:id]]
     end
 
-    $force = true if params[:force]
+    $force = true if params[:update]
     $org = params[:organism] if params[:organism]
 
   end
@@ -175,7 +175,7 @@ class View < SimpleConsole::View
   end
 
 
-  def install
+  def prepare
     load File.join(Rbbt.rootdir, 'tasks/install.rake')
 
     @tasks.each{|t|
@@ -184,7 +184,7 @@ class View < SimpleConsole::View
     }
   end
 
-  def update
+  def install
 
     puts "Changing directory to #{@location}"
     chdir @location
