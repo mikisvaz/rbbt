@@ -79,8 +79,8 @@ Install the gem normally <tt>gem install rbbt</tt>. The gem includes a configura
 
 === Using rbbt to translate identifiers
 
-1. Do <tt>rbbt_config install identifiers</tt> to do deploy the configuration files and download entrez data, this needs to be done just once.
-3. Now you may do <tt>rbbt_config update organisms</tt> toprocess all the organisms, or <tt>rbbt_config update organisms -o sgd</tt> to process only yeast (sgd).
+1. Do <tt>rbbt_config prepare identifiers</tt> to do deploy the configuration files and download entrez data, this needs to be done just once.
+3. Now you may do <tt>rbbt_config install organisms</tt> toprocess all the organisms, or <tt>rbbt_config install organisms -o sgd</tt> to process only yeast (sgd).
 4. You may now use a script like this to translate gene identifiers from yeast feed from the standard input
   require 'rbbt/sources/organism'
 
@@ -92,12 +92,12 @@ Install the gem normally <tt>gem install rbbt</tt>. The gem includes a configura
 
 First prepare the organisms as you did in the previous section. Next, if you want to use the default NER module:
 
-1. Install the Biocreative data used to train the model and compile the CRF++ plugin, <tt>rbbt_config install rner</tt>. You may need at this point to install ParseTree and ruby2ruby
-2. Build the module for a particular organism <tt>rbbt_config update ner -o sgd</tt>. You need to have the gems ParseTree and ruby2ruby for this to work. This process can take a long time.
+1. Install the Biocreative data used to train the model and compile the CRF++ plugin, <tt>rbbt_config prepare rner</tt>. You may need at this point to install ParseTree and ruby2ruby
+2. Build the module for a particular organism <tt>rbbt_config install ner -o sgd</tt>. You need to have the gems ParseTree and ruby2ruby for this to work. This process can take a long time.
 
 Or, if you wan to use Abner or Banner:
 
-1. Download and install the packages <tt>rbbt_config install java_ner</tt> 
+1. Download and install the packages <tt>rbbt_config prepare java_ner</tt> 
 
 You may now, for example, find mentions to genes in articles from a PubMed query using this script
 
@@ -123,7 +123,7 @@ You may now, for example, find mentions to genes in articles from a PubMed query
 
 This is the complete list of gem requirements: <tt>ParseTree ruby2ruby simpleconsole rjb rsruby stemmer rand rake progress-monitor</tt>. Some of these gems to not work with ruby 1.9 at the time, or may be a bit more complicated to install, for that reason *they are not reported as dependencies and are only required when they are about to be used*. Note that some of these gems are in the gemcutter repository, you may need to install the <tt>gemcutter</tt> gem and do <tt>gem tumble</tt>
 
-Some of the API requires to have some data processed using rbbt_config. This command is used to install third party software, download data from the internet, or build models. The command <tt>rbbt_config install all</tt> will install and process everything, this will take a long time, specially building the NER models. So you might want to start with the basic install and include more things as they are needed. 
+Some of the API requires to have some data processed using rbbt_config. This command is used to install third party software, download data from the internet, or build models. The command <tt>rbbt_config prepare all</tt> will install and process everything, this will take a long time, specially building the NER models. So you might want to start with the basic install and include more things as they are needed. 
 
 
 = Note on Patches/Pull Requests
