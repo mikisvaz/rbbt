@@ -1,6 +1,7 @@
 require 'rbbt'
 require 'rbbt/util/open'
 require 'rbbt/ner/regexpNER'
+require 'rbbt/ner/dictionaryNER'
 
 # Find terms in the Polysearch thesauri using simple regular expression
 # matching. Note that the first time the methods are used the correspondent
@@ -18,6 +19,7 @@ module Polysearch
   @@indexes = {}
   def self.type_index(type) #:nodoc:
     @@indexes[type] ||= RegExpNER.new(File.join(Rbbt.datadir,'dbs','polysearch',type + '.txt'))
+    #@@indexes[type] ||= DictionaryNER.new(File.join(Rbbt.datadir,'dbs','polysearch',type + '.txt'))
   end
 
   # Find matches in a string of text, the types array specifies which thesauri
@@ -32,7 +34,7 @@ module Polysearch
 
     matches = {}
     types.collect{|type|
-      matches.merge!(type_index(type).match_hash(text))
+      matches.merge!(type_index(type).match(text))
     }
 
     matches
@@ -45,18 +47,17 @@ module Polysearch
 
 end
 
-if __FILE__ == $0 
-
+if __FILE__ == $0
     text =<<-EOT
 
      Background  Microorganisms adapt their transcriptome by integrating
      multiple chemical and physical signals from their environment. Shake-flask
-    cultivation does not allow precise manipulation of individual culture
-    parameters and therefore precludes a quantitative analysis of the
-    (combinatorial) influence of these parameters on transcriptional
-    regulation. Steady-state chemostat cultures, which do enable accurate
-    control, measurement and manipulation of individual cultivation parameters
-    (e.g. specific growth rate, temperature, identity of the growth-limiting
+     cultivation does not allow precise manipulation of individual culture
+     parameters and therefore precludes a quantitative analysis of the
+     (combinatorial) influence of these parameters on transcriptional
+     regulation. Steady-state chemostat cultures, which do enable accurate
+     control, measurement and manipulation of individual cultivation parameters
+     (e.g. specific growth rate, temperature, identity of the growth-limiting
      nutrient) appear to provide a promising experimental platform for such a
      combinatorial analysis. Results  A microarray compendium of 170
      steady-state chemostat cultures of the yeast Saccharomyces cerevisiae is
@@ -76,13 +77,31 @@ if __FILE__ == $0
      combinatorial effects of environmental parameters on the transcriptome is
      crucial for understanding transcriptional regulation. Chemostat
      cultivation offers a powerful tool for such an approach. Keywords:
-       chemostat steady state samples 
-    Cerebellar 
-    stroke syndrome
+     chemostat steady state samples Cerebellar stroke syndrome
        
     
     EOT
 
-    p Polysearch.match(text,'disease').values.flatten
+    require 'benchmark'
+    require 'ruby-prof'
+
+    puts Benchmark.measure{
+      p Polysearch.match(text,'disease')
+    }
+
+
+    RubyProf.start
+
+    Polysearch.match(text,'disease')
+
+    result = RubyProf.stop
+
+    # Print a flat profile to text
+    printer = RubyProf::FlatPrinter.new(result)
+    printer.print(STDOUT, 0)
+
+    puts Benchmark.measure{
+      10.times{ p Polysearch.match(text,'disease') }
+    }
  
 end
