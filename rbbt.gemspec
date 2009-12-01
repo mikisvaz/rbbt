@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rbbt}
-  s.version = "1.0.3"
+  s.version = "1.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Miguel Vazquez"]
-  s.date = %q{2009-11-10}
+  s.date = %q{2009-12-02}
   s.default_executable = %q{rbbt_config}
   s.description = %q{This toolbox includes modules for text-mining, like Named Entity Recognition and Normalization and document
     classification, as well as data integration modules that interface with PubMed, Entrez Gene, BioMart.}
@@ -45,7 +45,6 @@ Gem::Specification.new do |s|
      "install_scripts/organisms/sgd.Rakefile",
      "install_scripts/organisms/tair.Rakefile",
      "install_scripts/organisms/worm.Rakefile",
-     "install_scripts/stopwords",
      "install_scripts/wordlists/consonants",
      "install_scripts/wordlists/stopwords",
      "lib/rbbt.rb",
@@ -54,6 +53,7 @@ Gem::Specification.new do |s|
      "lib/rbbt/bow/dictionary.rb",
      "lib/rbbt/ner/abner.rb",
      "lib/rbbt/ner/banner.rb",
+     "lib/rbbt/ner/dictionaryNER.rb",
      "lib/rbbt/ner/regexpNER.rb",
      "lib/rbbt/ner/rner.rb",
      "lib/rbbt/ner/rnorm.rb",
