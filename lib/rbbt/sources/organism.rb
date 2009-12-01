@@ -44,8 +44,9 @@ module Organism
     end
 
     lines.each{|l|
-      ids_per_type = l.split(/\t/)
+      ids_per_type = l.chomp.split(/\t/)
       formats.zip(ids_per_type).each{|p|
+        next if p[1].nil?
         format = p[0]
         ids = p[1].split(/\|/)
         ids.each{|id|
