@@ -7,27 +7,33 @@ class RegExpNER
     res = [res] unless Array === res
 
     res.collect{|re|
-      if text.match(re)
-        $1
-      else
-        nil
-      end
-    }.compact
+      text.scan(re) 
+    }.flatten
   end
 
-  def self.build_re(names, ignorecase=true)
+  def self.build_re_old(names, ignorecase=true)
     names.compact.select{|n| n != ""}.
       sort{|a,b| b.length <=> a.length}.
       collect{|n| 
         re = Regexp.quote(n).gsub(/\\?\s/,'\s+')
-        /(?:^|[^\w])(#{ re })(?:$|[^\w])/i
       }
   end
 
+  def self.build_re(names, ignorecase=true)
+    res = names.compact.select{|n| n != ""}.
+      sort{|a,b| b.length <=> a.length}.
+      collect{|n| 
+        Regexp.quote(n)
+      }
+
+    /\b(#{ res.join("|").gsub(/\\?\s/,'\s+') })\b/
+  end
+
+
   def initialize(lexicon, options = {})
-    options[:flatten] = true
+    options[:flatten]    = true
     options[:ignorecase] = true if options[:ignorecase].nil?
-    options[:stopwords] = true if options[:stopwords].nil?
+    options[:stopwords]  = true if options[:stopwords].nil?
 
     data = Open.to_hash(lexicon, options)
 
@@ -55,7 +61,7 @@ class RegExpNER
   end
 
   def match(text)
-    match_hash(text).values.flatten
+    match_hash(text)
   end
 
 end
