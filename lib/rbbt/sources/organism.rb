@@ -150,7 +150,9 @@ module Organism
   # Creates a hash where each possible id is associated with the names of the
   # formats (its potentially possible for different formats to have the same
   # id). This is used in the guessIdFormat method. 
-  def self.id_formats(org) id_types = {} formats = supported_ids(org)
+  def self.id_formats(org) 
+    id_types = {} 
+    formats = supported_ids(org)
 
     text = Open.read(File.join(Rbbt.datadir,"organisms/#{ org }/identifiers"))
     
