@@ -20,7 +20,7 @@ module FileCache
       raise FileCache::BadPathError, "Character / not allowed in name: #{ filename }"
     end
     if filename !~ /.+\..+/
-      raise FileCache::BadPathError, "Filename must have name and extension: name.ext"
+      raise FileCache::BadPathError, "Filename '#{filename}' must have name and extension: name.ext"
     end
   end
 
