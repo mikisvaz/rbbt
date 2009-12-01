@@ -34,6 +34,7 @@ rbbt=/$PWD filter="*.rb *.rake *.sh *Rakefile" {
     abner.rb
     banner.rb
     regexpNER.rb
+    dictionaryNER.rb
     rner.rb
     rnorm.rb
     rnorm=rnorm{
