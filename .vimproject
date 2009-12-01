@@ -1,4 +1,4 @@
-rbbt=/$PWD filter="*.rb *.rake *.sh *Rakefile" {
+rbbt=/$PWD filter="*.rb *.rake *.sh *Rakefile README*" {
  README.rdoc
  Rakefile
  bin=bin{
@@ -125,6 +125,22 @@ rbbt=/$PWD filter="*.rb *.rake *.sh *Rakefile" {
      test_cue_index.rb
      test_tokens.rb
      }
+   }
+  }
+ }
+ samples=samples {
+  scripts=scripts{
+   ner.rb
+   ner_norm.rb
+   translate.rb
+   README
+  }
+  soap=soap{
+   gene_diseases=gene_diseases{
+    gene_diseases.rb
+    gene_diseases_client.rb
+    Rakefile
+    README
    }
   }
  }
