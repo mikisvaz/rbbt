@@ -1,0 +1,25 @@
+This directory contains an example of a Rake pipeline that performs a
+particular functionality, finding names of diseases related to a list of
+genes. The idea is borrowed from Polysearch, as well as the disease thesaurus,
+which is included in the standard Rbbt distribution. The pipeline is exported
+using a SOAP web server using the simplews support for Rake pipelines.
+
+Genes must be human and in Entrez Gene id format. To translate ids to Entrez
+format see the samples/scripts/translate.rb file. Automatic translation could
+be trivially added and is left as an exercise to the reader.
+
+To execute the pipeline by hand do:
+
+# cat gene_ids.txt | rake work/diseases/test
+
+Note that once the file work/diseases/test is produce it will refuse to
+produce it again. To try a different list of genes change 'test' for something
+more meaningful, or remove the files with '# rm work/*/test'
+
+To try the SOAP web server do:
+
+# ruby gene_diseases.rb &
+# cat gene_ids.txt | ruby gene_diseases_client.rb
+
+
+
