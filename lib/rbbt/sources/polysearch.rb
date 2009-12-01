@@ -11,13 +11,13 @@ module Polysearch
   
   @@names = {}
   def self.type_names(type) #:nodoc:
-    @@names[type] ||= Open.to_hash(File.join(Rbbt.datadir,'dbs','polysearch',type + '.txt'), :single => true)
+    @@names[type] ||= Open.to_hash(File.join(Rbbt.datadir,'dbs','polysearch',type.to_s + '.txt'), :single => true)
   end
 
 
   @@indexes = {}
   def self.type_index(type) #:nodoc:
-    @@indexes[type] ||= RegExpNER.new(File.join(Rbbt.datadir,'dbs','polysearch',type + '.txt'))
+    @@indexes[type] ||= RegExpNER.new(File.join(Rbbt.datadir,'dbs','polysearch',type.to_s + '.txt'))
   end
 
   # Find matches in a string of text, the types array specifies which thesauri
