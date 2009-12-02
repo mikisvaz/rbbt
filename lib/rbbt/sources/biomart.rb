@@ -37,12 +37,12 @@ module BioMart
     query.sub!(/<!--MAIN-->/,"<Attribute name = \"#{main}\" />")
     query.sub!(/<!--ATTRIBUTES-->/, attrs.collect{|name| "<Attribute name = \"#{ name }\"/>"}.join("\n") )
 
-    rows = Open.read('http://www.biomart.org/biomart/martservice?query=' + query.gsub(/\n/,' '))
-    if rows =~ /Query ERROR:/
-      raise BioMart::QueryError, rows
+    response = Open.read('http://www.biomart.org/biomart/martservice?query=' + query.gsub(/\n/,' '))
+    if response =~ /Query ERROR:/
+      raise BioMart::QueryError, response
     end
 
-    rows.each{|l|
+    response.each_line{|l|
       parts = l.chomp.split(/\t/)
       main = parts.shift
       next if main.nil? || main.empty?
