@@ -25,7 +25,7 @@ rule (/metadoc\//) => lambda{|name| name.sub(/metadoc/, 'pmids') } do |t|
   articles = PubMed.get_article(pmids)
 
   metadoc = articles.collect{|pmid, article|
-    text = article.text
+    article.text
   }.join("\n")
  
   Open.write(t.name, metadoc)
