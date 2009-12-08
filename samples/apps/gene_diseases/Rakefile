@@ -5,11 +5,11 @@ require 'rbbt/sources/polysearch'
 require 'rbbt/sources/pubmed'
 require 'rbbt/sources/organism'
 
-# Find pmids for the genes. Gene list is passed as global variable $genes. If
-# not present, they are read from STDIN
+# Gene list is passed as global variable $genes. If not present, they are read from STDIN
+
+desc "Load Pubmed IDs for genes in the list"
 step(:pmids) do |t|
 
-  # Read genes from STDIN if not in $genes
   if $genes.nil? 
     $genes = []
     STDIN.each_line{|l| $genes << l.chomp.strip}
@@ -20,8 +20,8 @@ step(:pmids) do |t|
   Open.write(t.name, pmids.join("\n"))
 end
 
-# Download the abstracts and join them in one meta-document
-step(:metadocs, :pmids) do |t|
+desc "Download article abstracts and merge into a meta-document"
+step(:metadoc, :pmids) do |t|
   pmids = Open.read(t.prerequisites.first).split
 
   articles = PubMed.get_article(pmids)
@@ -33,8 +33,8 @@ step(:metadocs, :pmids) do |t|
   Open.write(t.name, metadoc)
 end
 
-# Parse the meta-document for disease names
-step(:diseases, :metadocs) do |t|
+desc "Find disease names in meta-document"
+step(:diseases, :metadoc) do |t|
   metadoc = Open.read(t.prerequisites.first)
 
   disease_count = {}

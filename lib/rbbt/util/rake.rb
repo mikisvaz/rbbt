@@ -1,15 +1,18 @@
 def step(name, previous = nil, &block)
-  previous ||= []
-  previous = [previous] unless Array === previous
+  re = Regexp.new(/(?:^|\/)#{name}\/.*$/)
 
-  rule(/#{name}\/*/) do |task|
-    previous.each{|prev|
-      filename = task.name.sub(name.to_s, prev.to_s)
-      Rake::Task[filename].invoke
-      task.enhance([filename])
-    }
-    block.call(task)
+  $step_descriptions ||= {}
+  if Rake.application.last_description 
+    $step_descriptions[re] = {:step => name, :message => Rake.application.last_description}
+    Rake.application.last_description = nil
   end
-end
 
+  if previous.nil?
+    deps = []
+  else
+    deps = lambda{|filename| filename.sub(name.to_s, previous.to_s)}
+  end
+
+  Rake.application.create_rule(re => deps, &block) 
+end
 
