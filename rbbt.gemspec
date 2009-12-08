@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rbbt}
-  s.version = "1.1.0"
+  s.version = "1.1.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Miguel Vazquez"]
-  s.date = %q{2009-12-02}
+  s.date = %q{2009-12-08}
   s.default_executable = %q{rbbt_config}
   s.description = %q{This toolbox includes modules for text-mining, like Named Entity Recognition and Normalization and document
     classification, as well as data integration modules that interface with PubMed, Entrez Gene, BioMart.}
@@ -71,6 +71,7 @@ Gem::Specification.new do |s|
      "lib/rbbt/util/index.rb",
      "lib/rbbt/util/misc.rb",
      "lib/rbbt/util/open.rb",
+     "lib/rbbt/util/rake.rb",
      "lib/rbbt/util/simpleDSL.rb",
      "lib/rbbt/util/tmpfile.rb",
      "tasks/install.rake"
