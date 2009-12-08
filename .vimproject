@@ -136,7 +136,7 @@ rbbt=/$PWD filter="*.rb *.rake *.sh *Rakefile README*" {
    translate.rb
    README
   }
-  soap=soap{
+  apps=apps{
    gene_diseases=gene_diseases{
     SOAP_client.rb
     SOAP_server.rb
