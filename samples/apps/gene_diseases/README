@@ -1,7 +1,7 @@
 This directory contains an example of a Rake pipeline that performs a
 particular functionality, finding names of diseases related to a list of
 genes. The idea is borrowed from Polysearch
-(http://wishart.biology.ualberta.ca/polysearch/), as well as the disease
+(http://wishart.biology.ualberta.ca/polysearch/ ), as well as the disease
 thesaurus, which is included in the standard Rbbt distribution. The pipeline
 is exported using a SOAP web server using the simplews support for Rake
 pipelines.
