@@ -31,18 +31,19 @@ class RegExpNER
 
 
   def initialize(lexicon, options = {})
-    options[:flatten]    = true
-    options[:ignorecase] = true if options[:ignorecase].nil?
-    options[:stopwords]  = true if options[:stopwords].nil?
+    options = {:flatten => true, :ignorecase => true, :stopwords => nil}.merge options
+
+    options[:stopwords] = $stopwords if $stopwords && (options[:stopwords].nil? || options[:stopwords] == true)
+    options[:stopwords] ||= []
 
     data = Open.to_hash(lexicon, options)
 
     @index = {}
     data.collect{|code, names|
       next if code.nil? || code == ""
-      if options[:stopwords]
+      if options[:stopwords].any?
         names = names.select{|n| 
-          ! $stopwords.include?(options[:ignorecase] ? n.downcase : n)
+          ! options[:stopwords].include?(options[:ignorecase] ? n.downcase : n)
         } 
       end
       @index[code] = RegExpNER.build_re(names, options[:ignorecase])
