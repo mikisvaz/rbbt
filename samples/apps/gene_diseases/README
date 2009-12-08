@@ -1,8 +1,10 @@
 This directory contains an example of a Rake pipeline that performs a
 particular functionality, finding names of diseases related to a list of
-genes. The idea is borrowed from Polysearch, as well as the disease thesaurus,
-which is included in the standard Rbbt distribution. The pipeline is exported
-using a SOAP web server using the simplews support for Rake pipelines.
+genes. The idea is borrowed from Polysearch
+(http://wishart.biology.ualberta.ca/polysearch/), as well as the disease
+thesaurus, which is included in the standard Rbbt distribution. The pipeline
+is exported using a SOAP web server using the simplews support for Rake
+pipelines.
 
 Genes must be human and in Entrez Gene id format. To translate ids to Entrez
 format see the samples/scripts/translate.rb file. Automatic translation could
@@ -27,6 +29,13 @@ To launch the WWW interface do:
 # ruby WWW_server.rb
 
 a http server should be listening at http://localhost:4567/
+
+For this example to work, you will need the entrez gene_info file, the human
+organism information, and the polysearch dictionaries.
+
+# rbbt_config prepare identifiers
+# rbbt_config prepare polysearch
+# rbbt_config install organisms -o human
 
 
 
