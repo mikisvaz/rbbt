@@ -12,7 +12,8 @@ end
 
 post '/' do
   genes = params[:list].scan(/\d+/)
-  job = $driver.diseases(genes, '')
+  name  = params[:name]
+  job = $driver.diseases(genes, name)
 
   redirect "/" + job
 end
@@ -54,8 +55,10 @@ __END__
 
 @@ index
 %form(action='/'  method='post')
-  %h1 Paste Human Entrez Gene Ids
+  %h3 Paste Human Entrez Gene Ids
   %textarea(name='list' cols=30 rows=20)
+  %h3 Name your job (optional)
+  %input(name='name')
   %input(type='submit')
 
 @@ error
