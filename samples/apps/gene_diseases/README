@@ -37,6 +37,10 @@ organism information, and the polysearch dictionaries.
 # rbbt_config prepare polysearch
 # rbbt_config install organisms -o human
 
+Also, you will need to create the directories disease, metadocs, and pmids
+that you wish to use.
+
+# mkdir work/diseases work/metadocs work/pmids
 
 
 
