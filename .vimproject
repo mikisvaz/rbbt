@@ -29,6 +29,7 @@ rbbt=/$PWD filter="*.rb *.rake *.sh *Rakefile README*" {
     misc.rb
     simpleDSL.rb
     arrayHash.rb
+    rake.rb
    }
    ner=ner{
     abner.rb
@@ -137,8 +138,9 @@ rbbt=/$PWD filter="*.rb *.rake *.sh *Rakefile README*" {
   }
   soap=soap{
    gene_diseases=gene_diseases{
-    gene_diseases.rb
-    gene_diseases_client.rb
+    SOAP_client.rb
+    SOAP_server.rb
+    WWW_server.rb
     Rakefile
     README
    }
