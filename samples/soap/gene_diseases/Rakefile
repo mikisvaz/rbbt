@@ -1,11 +1,13 @@
+require 'rubygems'
 require 'rbbt/util/open'
+require 'rbbt/util/rake'
 require 'rbbt/sources/polysearch'
 require 'rbbt/sources/pubmed'
 require 'rbbt/sources/organism'
 
 # Find pmids for the genes. Gene list is passed as global variable $genes. If
 # not present, they are read from STDIN
-rule (/pmids\//) do |t|
+step(:pmids) do |t|
 
   # Read genes from STDIN if not in $genes
   if $genes.nil? 
@@ -19,7 +21,7 @@ rule (/pmids\//) do |t|
 end
 
 # Download the abstracts and join them in one meta-document
-rule (/metadoc\//) => lambda{|name| name.sub(/metadoc/, 'pmids') } do |t|
+step(:metadocs, :pmids) do |t|
   pmids = Open.read(t.prerequisites.first).split
 
   articles = PubMed.get_article(pmids)
@@ -32,7 +34,7 @@ rule (/metadoc\//) => lambda{|name| name.sub(/metadoc/, 'pmids') } do |t|
 end
 
 # Parse the meta-document for disease names
-rule (/diseases\//) => lambda{|name| name.sub(/diseases/, 'metadoc') } do |t|
+step(:diseases, :metadocs) do |t|
   metadoc = Open.read(t.prerequisites.first)
 
   disease_count = {}
