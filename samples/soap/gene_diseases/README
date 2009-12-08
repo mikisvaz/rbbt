@@ -18,8 +18,16 @@ more meaningful, or remove the files with '# rm work/*/test'
 
 To try the SOAP web server do:
 
-# ruby gene_diseases.rb &
-# cat gene_ids.txt | ruby gene_diseases_client.rb
+# ruby SOAP_server.rb &
+# cat gene_ids.txt | ruby SOAP_client.rb
+
+To launch the WWW interface do:
+
+# ruby SOAP_server.rb &   # if you haven't before
+# ruby WWW_server.rb
+
+a http server should be listening at http://localhost:4567/
+
 
 
 
