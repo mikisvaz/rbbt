@@ -11,7 +11,7 @@ get '/' do
 end
 
 post '/' do
-  genes = params[:list].scan(/\d+/)
+  genes = params[:list].split(/[,\s]+/)
   name  = params[:name]
   job = $driver.diseases(genes, name)
 

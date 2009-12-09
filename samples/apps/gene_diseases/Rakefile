@@ -1,48 +1,69 @@
 require 'rubygems'
-require 'rbbt/util/open'
 require 'rbbt/util/rake'
 require 'rbbt/sources/polysearch'
 require 'rbbt/sources/pubmed'
 require 'rbbt/sources/organism'
 
-# Gene list is passed as global variable $genes. If not present, they are read from STDIN
+# Include the step_def method to simplify Pipelines
+include Rake::Pipeline
 
-desc "Load Pubmed IDs for genes in the list"
-step(:pmids) do |t|
-
-  if $genes.nil? 
-    $genes = []
-    STDIN.each_line{|l| $genes << l.chomp.strip}
-  end
-
-  pmids = Organism.gene_literature('human').values_at(*$genes).compact.flatten.uniq
+desc "Translate gene ids to Entrez"
+rule step_def(:entrez) do |t|
+  genes  = STDIN.read.split("\n").collect{|l| l.chomp.strip }
+  index  = Organism.id_index('human')
   
-  Open.write(t.name, pmids.join("\n"))
+  entrez = index.values_at(*genes).compact.flatten.uniq
+
+  outfile(t) do |file|
+    file.write entrez.join("\n")
+  end
 end
 
-desc "Download article abstracts and merge into a meta-document"
-step(:metadoc, :pmids) do |t|
-  pmids = Open.read(t.prerequisites.first).split
+desc "Load Pubmed IDs for genes in the list"
+rule step_def(:pmids, :entrez) do |t|
+  genes = infile(t) do |file|
+    file.read.split
+  end
+
+  pmids = Organism.gene_literature('human').values_at(*genes).compact.flatten.uniq
+  
+  outfile(t) do |file|
+    file.write pmids.join("\n")
+  end
+end
+
+desc "Download article abstracts and merge them into a meta-document"
+rule step_def(:metadoc, :pmids) do |t|
+  pmids = infile(t) do |file|
+    file.read.split
+  end
 
   articles = PubMed.get_article(pmids)
 
   metadoc = articles.collect{|pmid, article|
     article.text
   }.join("\n")
- 
-  Open.write(t.name, metadoc)
+  
+  outfile(t) do |file|
+    file.write metadoc
+  end
 end
 
 desc "Find disease names in meta-document"
-step(:diseases, :metadoc) do |t|
-  metadoc = Open.read(t.prerequisites.first)
+rule step_def(:diseases, :metadoc) do |t|
+  metadoc = infile(t) do |file|
+    file.read
+  end
 
   disease_count = {}
   Polysearch.match(metadoc, ['disease']).values.flatten.each{|disease|
     disease_count[disease] ||= 0
     disease_count[disease] += 1
   }
-  
-  Open.write(t.name, disease_count.collect{|disease, count| "#{ disease }\t#{count}"}.join("\n"))
-end
 
+  outfile(t) do |file|
+    disease_count.each{|disease, count| 
+      file.puts "#{ disease }\t#{count}"
+    }
+  end
+end
