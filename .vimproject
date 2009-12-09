@@ -138,11 +138,11 @@ rbbt=/$PWD filter="*.rb *.rake *.sh *Rakefile README*" {
   }
   apps=apps{
    gene_diseases=gene_diseases{
-    SOAP_client.rb
+    README
+    Rakefile
     SOAP_server.rb
     WWW_server.rb
-    Rakefile
-    README
+    SOAP_client.rb
    }
   }
  }
