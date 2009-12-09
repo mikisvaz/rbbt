@@ -51,6 +51,7 @@ class RegExpNER
   end
 
   def match_hash(text)
+    return {} if text.nil? || text == ""
     matches = {}
     @index.each{|code, re|
       RegExpNER.match_re(text, re).each{|match|
