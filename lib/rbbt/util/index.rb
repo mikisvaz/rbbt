@@ -36,6 +36,9 @@ module Index
       class << index; self; end.instance_eval{
         alias_method :old_get, :[]
         define_method(:[], proc{|key| old_get(key.to_s.downcase)})
+
+        alias_method :old_values_at, :values_at
+        define_method(:values_at, proc{|*keys| old_values_at(*keys.collect{|key| key.to_s.downcase }) })
       }
     end
 
