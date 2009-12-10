@@ -9,7 +9,7 @@ driver = SimpleWS.get_driver('http://localhost:8081', 'GeneDiseasesWS')
 job = driver.diseases(genes, 'test_client')
 
 while ! driver.done job
-  puts "Status: #{driver.status job}"
+  puts "Status: #{driver.status job} [#{driver.messages(job).last}]"
   sleep 5
 end
 
