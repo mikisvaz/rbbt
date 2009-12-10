@@ -18,8 +18,18 @@ module Polysearch
 
   @@indexes = {}
   def self.type_index(type) #:nodoc:
-    @@indexes[type] ||= RegExpNER.new(File.join(Rbbt.datadir,'dbs','polysearch',type.to_s + '.txt'))
-    #@@indexes[type] ||= DictionaryNER.new(File.join(Rbbt.datadir,'dbs','polysearch',type + '.txt'))
+    if $stopwords
+      stopwords = $stopwords
+    else
+      stopwords = []
+    end
+
+    case type.to_sym
+    when :disease
+      stopwords << 'use'
+    end
+
+    @@indexes[type] ||= RegExpNER.new(File.join(Rbbt.datadir,'dbs','polysearch',type.to_s + '.txt'), :stopwords => stopwords)
   end
 
   # Find matches in a string of text, the types array specifies which thesauri
