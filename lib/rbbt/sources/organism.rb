@@ -163,7 +163,7 @@ module Organism
     end
 
     lines.each{|l|
-      ids_per_type = l.split(/\t/)
+      ids_per_type = l.split(/(\t)/).select{|chunk| chunk != "\t" }
       formats.zip(ids_per_type).each{|p|
         format = p[0]
         ids = p[1].split(/\|/)

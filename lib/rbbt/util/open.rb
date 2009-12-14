@@ -165,7 +165,7 @@ module Open
       l = fix.call(l) if fix
       next if exclude and exclude.call(l)
 
-      parts = l.chomp.split(/#{sep}/)
+      parts = l.chomp.split(/(#{sep})/).select{|chunk| chunk !~ /^#{sep}$/ }
       id = parts[native]
       next if id.nil? || id == ""
 
