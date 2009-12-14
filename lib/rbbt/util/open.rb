@@ -1,10 +1,18 @@
-require 'rbbt/util/tmpfile'
 require 'rbbt'
+require 'rbbt/util/tmpfile'
 
 
 # Provides with a few helper functions to read and write files, as well # as
 # for accessing remote files. It supports caching the files.
 module Open
+
+  def self.fields(line, sep = "\t")
+    chunks = line.chomp.split(/(#{sep})/).select{|c| c !~ /^#{sep}$/ }
+    if line =~ /#{sep}$/
+      chunks << ""
+    end
+    chunks
+  end
 
   class DirectoryNotFoundError < StandardError; end
 
@@ -165,19 +173,19 @@ module Open
       l = fix.call(l) if fix
       next if exclude and exclude.call(l)
 
-      parts = l.chomp.split(/(#{sep})/).select{|chunk| chunk !~ /^#{sep}$/ }
-      id = parts[native]
+      row_fields = self.fields(l, sep)
+      id = row_fields[native]
       next if id.nil? || id == ""
 
       data[id] ||= []
       if extra
         fields = extra
       else
-        fields = (0..(parts.length - 1)).to_a - [native] 
+        fields = (0..(row_fields.length - 1)).to_a - [native] 
       end
       fields.each_with_index{|pos,i|
         data[id][i] ||= []
-        data[id][i] << parts[pos]
+        data[id][i] << row_fields[pos]
       }
     }
 

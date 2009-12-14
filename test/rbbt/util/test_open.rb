@@ -64,7 +64,7 @@ row2 a d e r
     EOD
     Open.write(tmp,data)
 
-    data = Open.to_hash(tmp,:native => 1,:extra => [2,3],:sep => " ")
+    data = Open.to_hash(tmp, :native => 1,:extra => [2,3],:sep => " ")
     assert(data['a'][0].include?('b') && data['a'][0].include?('d'))
     
     data = Open.to_hash(tmp,:native => 1, :sep => " ")
@@ -77,7 +77,14 @@ row2 a d e r
     assert_equal({"aa"=>"row1", "a"=>"row1"}, data)
     
     FileUtils.rm tmp
- end
+  end
+
+  def test_fields
+    assert_equal(["1","2"] , Open.fields("1\t2") )
+    assert_equal(["1","2",""] , Open.fields("1\t2\t") )
+    assert_equal(["","",""] , Open.fields("\t\t") )
+  end
+
 
 
 

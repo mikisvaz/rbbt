@@ -4,7 +4,7 @@ require 'rbbt/util/open'
 class String
   CONSONANTS = []
   if File.exists? File.join(Rbbt.datadir, 'wordlists/consonants')
-    Open.read(File.join(Rbbt.datadir, 'wordlists/consonants')).each_line{|l| CONSONANTS << l.chomp}
+    Object::Open.read(File.join(Rbbt.datadir, 'wordlists/consonants')).each_line{|l| CONSONANTS << l.chomp}
   end
 
   # Uses heuristics to checks if a string seems like a special word, like a gene name.

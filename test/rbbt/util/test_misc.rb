@@ -14,7 +14,6 @@ class TestIndex < Test::Unit::TestCase
     assert !"bindings".is_special?
   end
 
-
 end
 
 
