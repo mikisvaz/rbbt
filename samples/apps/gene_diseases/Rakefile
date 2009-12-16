@@ -1,44 +1,32 @@
-require 'rubygems'
 require 'rbbt/util/rake'
 require 'rbbt/sources/polysearch'
 require 'rbbt/sources/pubmed'
 require 'rbbt/sources/organism'
 
-# Include the step_def method to simplify Pipelines
 include Rake::Pipeline
 
 desc "Translate gene ids to Entrez"
-rule step_def(:entrez) do |t|
+step :entrez do
   genes  = STDIN.read.split("\n").collect{|l| l.chomp.strip }
  
-  # index  = Organism.id_index('human')  
-  #entrez = index.values_at(*genes).compact.flatten.uniq
-  entrez = genes
+  index  = Organism.id_index('human')  
+  entrez = index.values_at(*genes).compact.flatten.uniq
 
-
-  outfile(t) do |file|
-    file.write entrez.join("\n")
-  end
+  entrez.join("\n")
 end
 
 desc "Load Pubmed IDs for genes in the list"
-rule step_def(:pmids) do |t|
-  genes = infile(t) do |file|
-    file.read.split
-  end
+step :pmids do |t|
+  entrez = input.split("\n")
 
-  pmids = Organism.gene_literature('human').values_at(*genes).compact.flatten.uniq
+  pmids = Organism.gene_literature('human').values_at(*entrez).compact.flatten.uniq
   
-  outfile(t) do |file|
-    file.write pmids.join("\n")
-  end
+  pmids.join("\n")
 end
 
 desc "Download article abstracts and merge them into a meta-document"
-rule step_def(:metadoc) do |t|
-  pmids = infile(t) do |file|
-    file.read.split
-  end
+step :metadoc do |t|
+  pmids = input.split("\n")
 
   articles = PubMed.get_article(pmids)
 
@@ -46,16 +34,12 @@ rule step_def(:metadoc) do |t|
     article.text
   }.join("\n")
   
-  outfile(t) do |file|
-    file.write metadoc
-  end
+  metadoc
 end
 
 desc "Find disease names in meta-document"
-rule step_def(:diseases) do |t|
-  metadoc = infile(t) do |file|
-    file.read
-  end
+step :diseases do |t|
+  metadoc = input
 
   disease_count = {}
   Polysearch.match(metadoc, ['disease']).values.flatten.each{|disease|
@@ -63,9 +47,7 @@ rule step_def(:diseases) do |t|
     disease_count[disease] += 1
   }
 
-  outfile(t) do |file|
-    disease_count.each{|disease, count| 
-      file.puts "#{ disease }\t#{count}"
-    }
-  end
+  disease_count.collect{|disease, count| 
+    "#{ disease }\t#{count}"
+  }.join("\n")
 end

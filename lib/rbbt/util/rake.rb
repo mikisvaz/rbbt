@@ -1,10 +1,27 @@
 require 'rake'
 
+# Include the step_def and step methods to simplify Pipelines. Steps depend on
+# the step strictly above by default. The output of the step is save marshaled,
+# except for Strings which are save as text. The input of the step, the output
+# of the previous step if availabe is accessed with the input method
+#
+# Example::
+#
+#     step :text do 
+#       "Text to revert"
+#     end
+#
+#     step :revert do
+#       text = input
+#       text.reverse
+#     end
+#
 module Rake::Pipeline
 
   module Rake::Pipeline::Step
 
     class << self
+
       @@step_descriptions = {}
       def step_descriptions
         @@step_descriptions
@@ -14,25 +31,10 @@ module Rake::Pipeline
         @@step_descriptions[re] = "#{ step }: #{ message }"                       
       end
 
-      def input(t)
-        infile(t) do |f| 
-          case 
-          when t =~ /.yaml$/
-            YAML.load(f)
-          when t =~ /.marshal$/
-            Marshal.load(f)
-          else
-            f.read
-          end
-        end
-      end
-
-
       @@last_step = nil
       def step_def(name, dependencies = nil)
 
         re = Regexp.new(/(?:^|\/)#{name}\/.*$/)
-        re = Regexp.new(/#{name}\/.*/)
 
         # Take the last_description and associate it with the name
         if Rake.application.last_description
@@ -55,13 +57,19 @@ module Rake::Pipeline
         when Proc === dependencies
           {re => dependencies}
         end
+
       end
 
     end
-
   end
 
 
+  NON_ASCII_PRINTABLE = /[^\x20-\x7e\s]/
+  def is_binary?(file)
+    binary = file.read(1024) =~ NON_ASCII_PRINTABLE
+    file.rewind
+    binary
+  end
 
   def step_descriptions
     Rake::Pipeline::Step.step_descriptions
@@ -84,19 +92,50 @@ module Rake::Pipeline
     end
   end
 
-  def input
-    @input[t.nane] ||= input(t)
+  def load_input(t)
+    return nil if t.prerequisites.first.nil?
+    infile(t){|f| 
+      if is_binary?(f)
+        Marshal.load(f) 
+      else
+        f.read
+      end
+    }
   end
 
-  def step(name, dependencies = nil, &block)
-    new_block = proc do |t|
-      input = input(t)
-      output = block.call(t)
-
-
+  def save_output(t, output)
+    case 
+    when output.nil?
+      nil
+    when String === output
+      outfile(t){|f| f.write output } 
+    else
+      outfile(t){|f| f.write Marshal.dump(output) } 
     end
 
   end
 
+  # We cannot load the input variable before the block.call, so we need another method
+
+  # Load the input data from the previous step
+  def input
+    load_input(@@current_task) if @@current_task
+  end
+
+  # Define a new step, it depends on the previously defined by default. It
+  # saves the output of the block so it can be loaded by the input method of
+  # the next step
+  def step(name, dependencies = nil, &block)
+    rule step_def(name, dependencies) do |t| 
+
+      # Save the task object to be able to load the input
+      @@current_task = t
+      
+      output = block.call(t)
+      
+      save_output(t, output)
+    end
+
+  end
 end
 
