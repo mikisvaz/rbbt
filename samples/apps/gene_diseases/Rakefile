@@ -10,9 +10,11 @@ include Rake::Pipeline
 desc "Translate gene ids to Entrez"
 rule step_def(:entrez) do |t|
   genes  = STDIN.read.split("\n").collect{|l| l.chomp.strip }
-  index  = Organism.id_index('human')
-  
-  entrez = index.values_at(*genes).compact.flatten.uniq
+ 
+  # index  = Organism.id_index('human')  
+  #entrez = index.values_at(*genes).compact.flatten.uniq
+  entrez = genes
+
 
   outfile(t) do |file|
     file.write entrez.join("\n")
@@ -20,7 +22,7 @@ rule step_def(:entrez) do |t|
 end
 
 desc "Load Pubmed IDs for genes in the list"
-rule step_def(:pmids, :entrez) do |t|
+rule step_def(:pmids) do |t|
   genes = infile(t) do |file|
     file.read.split
   end
@@ -33,7 +35,7 @@ rule step_def(:pmids, :entrez) do |t|
 end
 
 desc "Download article abstracts and merge them into a meta-document"
-rule step_def(:metadoc, :pmids) do |t|
+rule step_def(:metadoc) do |t|
   pmids = infile(t) do |file|
     file.read.split
   end
@@ -50,7 +52,7 @@ rule step_def(:metadoc, :pmids) do |t|
 end
 
 desc "Find disease names in meta-document"
-rule step_def(:diseases, :metadoc) do |t|
+rule step_def(:diseases) do |t|
   metadoc = infile(t) do |file|
     file.read
   end
