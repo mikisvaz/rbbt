@@ -15,6 +15,7 @@ module Open
   end
 
   class DirectoryNotFoundError < StandardError; end
+  class OpenURLError < StandardError; end
 
   private 
 
@@ -42,13 +43,13 @@ module Open
       end
     end
   end
- 
+
   # Checks if +url+ is a remote file.
   def self.remote(url)
     url =~ /^(?:http|ssh|https|ftp):\/\//
   end
 
-   
+
   # Checks if +url+ is a gzip file.
   def self.gziped(url)
     if remote(url)
@@ -58,14 +59,27 @@ module Open
     end
   end
 
+
+  @@last_time = Time.now   
+  def self.wait(lag = 0)
+    time = Time.now   
+
+    if time < @@last_time + lag
+      sleep @@last_time + lag - time
+    end
+
+    @@last_time = Time.now   
+  end
+
   public
   # Reads the file specified by url. If the url es local it just opens
   # the file, if it is remote if checks the cache first. In any case, it
   # unzips gzip files automatically.
   #
   # Options: 
-  # * :quiet => Do not print the progress of downloads
+  # * :quiet    => Do not print the progress of downloads
   # * :nocache  => do not use the cache.
+  # * :nice     => secconds to wait between online queries
   #
   def self.read(url, options = {})
 
@@ -75,18 +89,24 @@ module Open
         return data
       end
 
+      wait(options[:nice]) if options[:nice]
       tmp = TmpFile.tmp_file("open-")
       `wget -O #{tmp} '#{url}' #{options[:quiet] ? '-q' : '' }`
-      if gziped(url)
+
+      if $!.success?
+        if gziped(url)
         `mv #{tmp} #{tmp}.gz; gunzip #{tmp}`
+        end
+
+        cache(url, File.open(tmp){|file| file.read}) unless options[:nocache]
+
+        data = File.open(tmp){|file| file.read}
+        FileUtils.rm tmp
+        return data
+      else
+        raise OpenURLError, "Error reading remote url: #{ url }"
       end
-
-
-      cache(url, File.open(tmp){|file| file.read}) unless options[:nocache]
-
-      data = File.open(tmp){|file| file.read}
-      FileUtils.rm tmp
-      return data
+    
     when IO === url
       url.read
     else
