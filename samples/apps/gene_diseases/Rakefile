@@ -9,8 +9,13 @@ desc "Translate gene ids to Entrez"
 step :entrez do
   genes  = STDIN.read.split("\n").collect{|l| l.chomp.strip }
  
-  index  = Organism.id_index('human')  
-  entrez = index.values_at(*genes).compact.flatten.uniq
+  info :genes => genes
+
+  # index  = Organism.id_index('human')  
+  # entrez = index.values_at(*genes).flatten.compact.uniq
+  entrez= genes
+
+  info :entrez => entrez
 
   entrez.join("\n")
 end
@@ -19,8 +24,11 @@ desc "Load Pubmed IDs for genes in the list"
 step :pmids do |t|
   entrez = input.split("\n")
 
-  pmids = Organism.gene_literature('human').values_at(*entrez).compact.flatten.uniq
+
+  pmids = Organism.gene_literature('human').values_at(*entrez).flatten.compact.uniq
   
+  info :pmids => pmids
+
   pmids.join("\n")
 end
 

@@ -63,6 +63,35 @@ module Rake::Pipeline
     end
   end
 
+  module Rake::Pipeline::Info
+
+    def self.info_file(filename)
+      filename.sub(/^(.*?)(?:[^\/]*)\/([^\/]*)$/, '\1.info/\2.yaml')
+    end
+
+    def self.load_info(t)
+      filename = t.name
+      info_filename = info_file(filename)
+
+      if File.exists? info_filename
+        YAML.load(File.open(info_filename))
+      else
+        {}
+      end
+    end
+
+    def self.save_info(t, info = {})
+      filename = t.name
+      info_filename = info_file(filename)
+
+      FileUtils.mkdir_p File.dirname(info_filename) unless File.exists? File.dirname(info_filename)
+      File.open(info_filename,'w'){|file|
+        file.write YAML.dump info
+      }
+    end
+
+  end
+
 
   NON_ASCII_PRINTABLE = /[^\x20-\x7e\s]/
   def is_binary?(file)
@@ -122,6 +151,15 @@ module Rake::Pipeline
     load_input(@@current_task) if @@current_task
   end
 
+  # Add values to the info file
+  def info(values = {})
+    info = Rake::Pipeline::Info.load_info(@@current_task)
+    info = info.merge values
+    Rake::Pipeline::Info.save_info(@@current_task, info)
+    info
+  end
+  
+  
   # Define a new step, it depends on the previously defined by default. It
   # saves the output of the block so it can be loaded by the input method of
   # the next step
@@ -139,3 +177,7 @@ module Rake::Pipeline
   end
 end
 
+if __FILE__ == $0
+
+  p Rake::Pipeline::Info.info_file('work/diseases/t')
+end
