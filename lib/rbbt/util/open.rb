@@ -93,7 +93,7 @@ module Open
       tmp = TmpFile.tmp_file("open-")
       `wget -O #{tmp} '#{url}' #{options[:quiet] ? '-q' : '' }`
 
-      if $!.success?
+      if $?.success?
         if gziped(url)
         `mv #{tmp} #{tmp}.gz; gunzip #{tmp}`
         end
