@@ -76,7 +76,14 @@ module PubMed
       }
 
       return list unless missing.any?
-      articles = get_online(missing)
+      chunk_size = [100, missing.length].min
+      chunks = (missing.length.to_f / chunk_size).ceil
+      
+      articles = {}
+      chunks.times do |chunk|
+        pmids = missing[(chunk * chunk_size)..((chunk + 1) *chunk_size)]
+        articles.merge!(get_online(pmids))
+      end
 
       articles.each{|p, xml|
         filename = p + '.xml'
