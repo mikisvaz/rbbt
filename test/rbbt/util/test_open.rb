@@ -1,3 +1,4 @@
+require File.dirname(__FILE__) + '/../../test_helper'
 require 'rbbt/util/open'
 require 'test/unit'
 
@@ -65,7 +66,7 @@ row2 a d e r
     Open.write(tmp,data)
 
     data = Open.to_hash(tmp, :native => 1,:extra => [2,3],:sep => " ")
-    assert(data['a'][0].include?('b') && data['a'][0].include?('d'))
+    assert(data['a'][1].include?('b') && data['a'][0].include?('d'))
     
     data = Open.to_hash(tmp,:native => 1, :sep => " ")
     assert(data['a'][1].include?('b') && data['a'][1].include?('d'))

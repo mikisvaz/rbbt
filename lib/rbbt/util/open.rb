@@ -175,7 +175,7 @@ module Open
   # * :single => for each key select only the first of the values, instead of the complete array.
   # * :fix  => A Proc that is called to pre-process the line
   # * :exclude => A Proc that is called to check if the line must be excluded from the process.
-  def self.to_hash(filename, options = {})
+  def self.to_hash(input, options = {})
     native  = options[:native]  || 0
     extra   = options[:extra]
     exclude = options[:exclude]
@@ -188,8 +188,14 @@ module Open
 
     extra = [extra] if extra && ! extra.is_a?( Array)
 
+    if StringIO === input
+      content = input
+    else
+      content = Open.read(input)
+    end
+
     data = {}
-    Open.read(filename).each_line{|l|
+    content.each_line{|l|
       l = fix.call(l) if fix
       next if exclude and exclude.call(l)
 
