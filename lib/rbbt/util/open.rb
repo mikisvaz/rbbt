@@ -171,6 +171,7 @@ module Open
   # * :native => position of the elements that will constitute the keys. By default 0.
   # * :extra => positions of the rest of elements. By default all but :native. It can be an array of positions or a single position.
   # * :sep =>  pattern to use in splitting the lines into elements, by default "\t"
+  # * :sep2 =>  pattern to use in splitting the elements into subelements, by default "|"
   # * :flatten => flatten the array of arrays that hold the values for each key into a simple array.
   # * :single => for each key select only the first of the values, instead of the complete array.
   # * :fix  => A Proc that is called to pre-process the line
@@ -181,6 +182,7 @@ module Open
     exclude = options[:exclude]
     fix     = options[:fix]
     sep     = options[:sep]     || "\t"
+    sep2     = options[:sep2]   || "|"
     single  = options[:single]  
     single  = false if single.nil?
     flatten = options[:flatten] || single
@@ -211,7 +213,7 @@ module Open
       end
       fields.each_with_index{|pos,i|
         data[id][i] ||= []
-        data[id][i] << row_fields[pos]
+        data[id][i] += row_fields[pos].split(sep2)
       }
     }
 

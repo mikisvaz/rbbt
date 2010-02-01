@@ -209,33 +209,34 @@ module Organism
     pos
   end
 
-  def self.id_index(org, option = {})
-    native = option[:native]
-    other  = option[:other]
-    option[:case_sensitive] = false if option[:case_sensitive].nil?
+  def self.id_index(org, options = {})
+    native = options[:native]
+    other  = options[:other]
+    options[:case_sensitive] = false if options[:case_sensitive].nil?
 
     if native.nil? and other.nil?
-      Index.index(File.join(Rbbt.datadir,"organisms/#{ org }/identifiers"), option)
+      Index.index(File.join(Rbbt.datadir,"organisms/#{ org }/identifiers"), options)
     else
       supported = Organism.supported_ids(org)
 
       first = nil
       if native
-        first = id_position(supported,native,option)
+        first = id_position(supported,native,options)
       else
         first = 0
       end
 
       rest = nil
       if other
-        rest = other.collect{|name| id_position(supported,name, option)}
+        rest = other.collect{|name| id_position(supported,name, options)}
       else
         rest = (0..supported.length - 1).to_a - [first]
       end
 
-      option[:native] = first
-      option[:extra] = rest
-      index = Index.index(File.join(Rbbt.datadir,"organisms/#{ org }/identifiers"), option)
+      options[:native] = first
+      options[:extra] = rest
+      options[:sep] = "\t"
+      index = Index.index(File.join(Rbbt.datadir,"organisms/#{ org }/identifiers"), options)
 
       index
     end
