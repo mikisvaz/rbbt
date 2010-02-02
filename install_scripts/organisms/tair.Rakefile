@@ -21,9 +21,10 @@ $lexicon = {
 
 $identifiers = {
   :file => {
-    :url => "ftp://ftp.arabidopsis.org/home/tair/Genes/gene_aliases.20090313",
-    :native => 0,
-    :extra => [],
+    :url => "ftp://ftp.arabidopsis.org/home/tair/Microarrays/Affymetrix/affy_ATH1_array_elements-2009-7-29.txt",
+    :native => 4,
+    :extra => [0],
+    :fields => ["Affymetrix"],
   },
   :biomart => {
     :database => 'athaliana_eg_gene',
