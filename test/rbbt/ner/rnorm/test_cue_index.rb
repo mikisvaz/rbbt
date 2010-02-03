@@ -1,3 +1,4 @@
+require File.dirname(__FILE__) + '/../../test_helper'
 require 'rbbt/ner/rnorm/cue_index'
 require 'rbbt/util/misc'
 require 'rbbt/util/tmpfile'

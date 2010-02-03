@@ -1,3 +1,4 @@
+require File.dirname(__FILE__) + '/../../test_helper'
 require 'rbbt'
 require 'rbbt/util/tmpfile'
 require 'rbbt/ner/regexpNER'

@@ -1,3 +1,4 @@
+require File.dirname(__FILE__) + '/../../test_helper'
 require 'rbbt/sources/pubmed'
 require 'test/unit'
 

@@ -1,2 +1,4 @@
 require 'test/unit'
-require File.dirname(__FILE__) + '/../lib/rbbt'
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+$LOAD_PATH.unshift(File.dirname(__FILE__))
+

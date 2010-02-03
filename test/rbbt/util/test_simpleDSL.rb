@@ -1,3 +1,4 @@
+require File.dirname(__FILE__) + '/../../test_helper'
 require 'rbbt/util/simpleDSL'
 require 'test/unit'
 
