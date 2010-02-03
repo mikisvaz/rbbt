@@ -6,15 +6,15 @@ require 'rbbt/sources/pubmed'
 usage =<<-EOT
   Usage: #{$0} organism query [type] [max]
   
-  organism = sgd, rgd, mgi, etc. See 'rbbt_config organisms'
+  organism = Sc, Rn, Mm, etc. See 'rbbt_config organisms'
   type     = rner, abner, or banner. Defaults to rner
   max_docs = maximum number of articles to process. Defaults to 500
 
-  You will need to have the organism installed. Example: 'rbbt_config prepare organism -o sgd'. Depending on
+  You will need to have the organism installed. Example: 'rbbt_config prepare organism -o Sc'. Depending on
   the type of ner you will need to do 'rbbt_config prepare java_ner' or 'rbbt_config prepare rner; rbbt_config install ner'.
   
   Example: 
-  #{$0} sgd "'saccharomyces cerevisiae' sexual reproduction" rner 500
+  #{$0} Sc "'saccharomyces cerevisiae' sexual reproduction" rner 500
 EOT
 
 organism = ARGV[0] 

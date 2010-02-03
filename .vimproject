@@ -75,15 +75,15 @@ rbbt=/$PWD filter="*.rb *.rake *.sh *Rakefile README*" {
   }
   organisms=organisms{
    rake-include.rb
+   At.Rakefile
+   Ca.Rakefile
+   Ce.Rakefile
+   Hs.Rakefile
+   Mm.Rakefile
    Rakefile
-   cgd.Rakefile
-   human.Rakefile
-   mgi.Rakefile
-   pombe.Rakefile
-   rgd.Rakefile
-   sgd.Rakefile
-   tair.Rakefile
-   worm.Rakefile
+   Rn.Rakefile
+   Sc.Rakefile
+   Sp.Rakefile
    }
  }
  tasks=tasks {
