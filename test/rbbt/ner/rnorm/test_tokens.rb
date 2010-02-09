@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../test_helper'
+require File.dirname(__FILE__) + '/../../../test_helper'
 require 'rbbt/ner/rnorm/tokens'
 require 'rbbt/util/misc'
 require 'rbbt/util/tmpfile'

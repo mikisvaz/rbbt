@@ -182,7 +182,7 @@ module Open
     exclude = options[:exclude]
     fix     = options[:fix]
     sep     = options[:sep]     || "\t"
-    sep2     = options[:sep2]   || "|"
+    sep2    = options[:sep2]    || "|"
     single  = options[:single]  
     single  = false if single.nil?
     flatten = options[:flatten] || single
@@ -206,37 +206,29 @@ module Open
       next if id.nil? || id == ""
 
       data[id] ||= []
+
       if extra
-        fields = extra
+        row_fields = row_fields.values_at(*extra)
       else
-        fields = (0..(row_fields.length - 1)).to_a - [native] 
+        row_fields.delete_at(native)
       end
-      fields.each_with_index{|pos,i|
-        data[id][i] ||= []
-        data[id][i] += row_fields[pos].split(sep2)
-      }
+
+
+      if flatten
+        data[id] += row_fields.compact.collect{|v| 
+          v.split(sep2)
+        }.flatten
+      else
+        row_fields.each_with_index{|value, i|
+          next if value.nil?
+          data[id][i] ||= []
+          data[id][i] += value.split(sep2)
+        }
+      end
     }
 
-    if flatten
-      data.each{|key, values| 
-        if values 
-          values.flatten!
-          values.collect!{|v| 
-            if v != ""
-              v 
-            else 
-              nil 
-            end
-          }
-          values.compact! 
-        else 
-          nil 
-        end
-      } 
-    end
-
     data = Hash[*(data.collect{|key,values| [key, values.first]}).flatten] if single
-    
+
     data
   end
 

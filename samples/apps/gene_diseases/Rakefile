@@ -11,7 +11,7 @@ step :entrez do
  
   info :genes => genes
 
-  # index  = Organism.id_index('human')  
+  # index  = Organism.id_index('Hsa')  
   # entrez = index.values_at(*genes).flatten.compact.uniq
   entrez= genes
 
@@ -25,7 +25,7 @@ step :pmids do |t|
   entrez = input.split("\n")
 
 
-  pmids = Organism.gene_literature('human').values_at(*entrez).flatten.compact.uniq
+  pmids = Organism.gene_literature('Hsa').values_at(*entrez).flatten.compact.uniq
   
   info :pmids => pmids
 

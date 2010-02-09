@@ -192,23 +192,18 @@ end
 
 
 file 'gene.go' do
-  data = Open.to_hash($go[:url], :native => $go[:code], :extra => $go[:go], :exclude => $go[:exclude], :fix => $go[:fix])
+  data = Open.to_hash($go[:url], :native => $go[:code], :extra => $go[:go], :exclude => $go[:exclude], :fix => $go[:fix], :flatten => true)
 
-  data = data.collect{|code, value_lists|
-    [code, value_lists.flatten.select{|ref| ref =~ /GO:\d+/}.collect{|ref| ref.match(/(GO:\d+)/)[1]}]
-  }.select{|p|  p[1].any?}
+  Open.write('gene.go', data.collect { |gene, values| 
+    goterms = values.select{|v| v =~ /GO:/}.collect{|v| v.match(/(GO:\d+)/)[1]} 
+    goterms.empty? ? nil : "%s\t%s" % [gene, values.uniq.join("|")]
+  }.compact.join("\n"))
 
-  Open.write('gene.go', 
-              data.collect{|p| 
-                p[1].uniq.collect{|go|
-                  "#{p[0]}\t#{go}"
-                }.join("\n")
-              }.join("\n")
-            )
 end
 
+
 file 'gene_go.pmid' do
-  data = Open.to_hash($go[:url], :native => $go[:code], :extra => $go[:pmid], :exclude => $go[:exclude], :fix => $go[:fix])
+  data = Open.to_hash($go[:url], :native => $go[:code], :extra => $go[:pmid], :exclude => $go[:exclude], :fix => $go[:fix], :flatten => true)
 
   data = data.collect{|code, value_lists|
     [code, value_lists.flatten.select{|ref| ref =~ /PMID:\d+/}.collect{|ref| ref.match(/PMID:(\d+)/)[1]}]
@@ -216,8 +211,9 @@ file 'gene_go.pmid' do
 
   Open.write('gene_go.pmid', 
               data.collect{|p| 
-                p[1].uniq.collect{|pmid| "#{p[0]}\t#{pmid}" }.join("\n")
-              }.join("\n")
+                next if p[1].empty?
+                "#{p[0]}\t#{p[1].uniq.join("|")}"
+              }.compact.join("\n")
             )
 end
 
@@ -230,11 +226,9 @@ file 'gene.pmid' do
 
     Open.write('gene.pmid',
                data.collect{|code,pmids|
-      next if translations && ! translations[code]
-      code = translations[code].first if translations 
-      pmids.collect{|pmid|
-                 "#{ code }\t#{pmid}"
-      }.compact.join("\n")
+                 next if translations && ! translations[code]
+                 code = translations[code].first if translations 
+                 "#{code}\t#{pmids.uniq.join("|")}"
     }.compact.join("\n")
               )
   rescue Entrez::NoFileError
@@ -255,4 +249,6 @@ task 'update' do
   Rake::Task['clean'].invoke if $force
   Rake::Task['all'].invoke
 end
+
+task 'default' => 'all'
 

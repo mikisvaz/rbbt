@@ -4,7 +4,7 @@ require 'rbbt/sources/organism'
 class GeneDiseasesWS < SimpleWS::Jobs
 
   # Load the index before hand to share it between tasks
-  @index = Organism.id_index('human')
+  @index = Organism.id_index('Hsa')
   def self.translate(genes)
     @index.values_at(*genes).compact.flatten.uniq
   end

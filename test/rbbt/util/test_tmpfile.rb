@@ -8,6 +8,13 @@ class TestTmpFile < Test::Unit::TestCase
     assert(TmpFile.tmp_file("test") =~ /tmp\/test\d+$/)
   end
 
+  def test_do_tmp_file
+    content = "Hello World!"
+    TmpFile.with_file(content) do |file|
+      assert_equal content, File.open(file).read
+    end
+  end
+
 
 end
 

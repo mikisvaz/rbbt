@@ -1,7 +1,7 @@
 require 'rbbt'
 
 $datadir = Rbbt.datadir
-$scriptdir = File.join(Rbbt.rootdir, '/install_scripts')
+$scriptdir = File.join(File.expand_path(Rbbt.rootdir), '/install_scripts')
 
 
 task 'abner' do

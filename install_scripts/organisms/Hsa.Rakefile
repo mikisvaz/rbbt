@@ -86,7 +86,7 @@ Rake::Task['gene.go'].clear
 file 'gene.go' => ['identifiers'] do 
   if File.exists? 'identifiers'
     require 'rbbt/sources/organism'
-    index = Organism.id_index('human', :other => ['Associated Gene Name'])
+    index = Organism.id_index('Hsa', :other => ['Associated Gene Name'])
     data = Open.to_hash($go[:url], :native => $go[:code], :extra => $go[:go], :exclude => $go[:exclude])
 
     data = data.collect{|code, value_lists|
@@ -96,9 +96,7 @@ file 'gene.go' => ['identifiers'] do
 
     Open.write('gene.go', 
                data.collect{|p| 
-                 p[1].uniq.collect{|go|
-                   "#{p[0]}\t#{go}"
-                 }.join("\n")
+                 "#{p[0]}\t#{p[1].uniq.join("|")}"
                }.join("\n")
               )
   end
@@ -117,9 +115,7 @@ file 'gene_go.pmid' => ['identifiers'] do
 
     Open.write('gene_go.pmid', 
                data.collect{|p| 
-                 p[1].uniq.collect{|pmid|
-                   "#{p[0]}\t#{pmid}"
-                 }.join("\n")
+                 "#{p[0]}\t#{p[1].uniq.join("|")}"
                }.join("\n")
               )
   end
@@ -132,7 +128,7 @@ file 'lexicon' => ['identifiers'] do
     require 'rbbt/sources/organism'
     HGNC_URL = 'http://www.genenames.org/cgi-bin/hgnc_downloads.cgi?title=HGNC+output+data&hgnc_dbtag=on&col=gd_hgnc_id&col=gd_app_sym&col=gd_app_name&col=gd_prev_sym&col=gd_prev_name&col=gd_aliases&col=gd_name_aliases&col=gd_pub_acc_ids&status=Approved&status_opt=2&level=pri&=on&where=&order_by=gd_app_sym_sort&limit=&format=text&submit=submit&.cgifields=&.cgifields=level&.cgifields=chr&.cgifields=status&.cgifields=hgnc_dbtag'
     names = Open.to_hash(HGNC_URL, :exclude => proc{|l| l.match(/^HGNC ID/)}, :flatten => true)
-    translations = Organism.id_index('human', :native => 'Entrez Gene ID', :other => ['HGNC ID'])
+    translations = Organism.id_index('Hsa', :native => 'Entrez Gene ID', :other => ['HGNC ID'])
 
     Open.write('lexicon',
                names.collect{|code, names|

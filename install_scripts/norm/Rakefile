@@ -14,10 +14,10 @@ $docs  = ENV['docs']
 
 
 $org2rbbt = {
-  'yeast' => 'Sc',
-  'mouse' => 'Mm',
-  'fly' => 'Sc',
-  'bc2gn' => 'Hs',
+  'yeast' => 'Sce',
+  'mouse' => 'Mmu',
+  'fly' => 'Sce',
+  'bc2gn' => 'Hsa',
 }
 
 def match(org, filedir, goldstandard,outfile)

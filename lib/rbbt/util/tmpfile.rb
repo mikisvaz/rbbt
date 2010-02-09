@@ -16,4 +16,20 @@ module TmpFile
   def self.tmp_file(s = "",max=10000000)
     File.join(Rbbt.tmpdir,random_name(s,max))
   end
+
+  def self.with_file(content = nil)
+    tmpfile = tmp_file
+
+    File.open(tmpfile, 'w') do |f| f.write content end if content != nil
+
+    result = yield(tmpfile)
+
+    FileUtils.rm tmpfile if File.exists? tmpfile
+
+    result
+  end
+
+  class << self
+    alias :new :tmp_file
+  end
 end

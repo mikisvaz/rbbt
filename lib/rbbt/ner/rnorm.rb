@@ -60,9 +60,9 @@ class Normalizer
       }
 
       # Get all at once, better performance
-
       genes = Entrez.get_gene(code2entrez.values)
-      code2entrez_genes = code2entrez.collect{|p| [p[0], genes[p[1]]]}
+
+      code2entrez_genes = code2entrez.collect{|key, value| [key, genes[value]]}
 
       code2entrez_genes.collect{|p|
         [p[0], Entrez.gene_text_similarity(p[1], text)]

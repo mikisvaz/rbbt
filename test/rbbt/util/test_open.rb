@@ -67,13 +67,15 @@ row2 a d e r
     Open.write(tmp,data)
 
     data = Open.to_hash(tmp, :native => 1,:extra => [2,3],:sep => " ")
-    assert(data['a'][1].include?('b') && data['a'][0].include?('d'))
+    assert(data['a'][0].include?('b')) 
+    assert(data['a'][0].include?('d'))
     
     data = Open.to_hash(tmp,:native => 1, :sep => " ")
     assert(data['a'][1].include?('b') && data['a'][1].include?('d'))
 
     data = Open.to_hash(tmp,:native => 1, :sep => " ", :flatten => true)
-    assert_equal({"aa"=>["row1", "bb", "33"], "a"=>["row1", "row2", "b", "d", "3", "e", "r"]}, data)
+    assert(["row1", "bb", "33"].sort, data["aa"].sort)
+    assert(["row1", "row2", "b", "d", "3", "e", "r"].sort, data["a"].sort)
     
     data = Open.to_hash(tmp,:native => 1, :sep => " ", :single => true)
     assert_equal({"aa"=>"row1", "a"=>"row1"}, data)

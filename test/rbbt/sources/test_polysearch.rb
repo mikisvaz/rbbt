@@ -16,7 +16,7 @@ class TestPolysearch < Test::Unit::TestCase
 
     EOT
 
-    assert_equal(["B cells", "T cells", "blood", "immune dysfunction", "lymphocytes", "melanoma", "peripheral blood", "peripheral blood lymphocytes"].sort, Polysearch.match(text,nil).values.flatten.sort) 
+    assert_equal(["B cells", "T cells", "blood", "lymphocytes",  "peripheral blood", "peripheral blood lymphocytes"].sort, Polysearch.match(text,nil).values.flatten.uniq.sort) 
   end
 
   def test_name

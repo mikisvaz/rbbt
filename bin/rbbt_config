@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+
 require 'rubygems'
 require 'rake'
 
@@ -68,9 +69,6 @@ $USAGE =<<EOT
         descriptions, is not cleaned, as these are not likely to change
 
     * organisms: Show a list of all organisms along with their identifier in the system
-
-                
-                   
 EOT
 
 class Controller < SimpleConsole::Controller
