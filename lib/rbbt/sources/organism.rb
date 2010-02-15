@@ -93,13 +93,7 @@ module Organism
   # Returns a hash with the list of go terms for each gene id. Gene ids are in
   # Rbbt native format for that organism.
   def self.goterms(org)
-    goterms = {}
-    Open.read(File.join(Rbbt.datadir,"organisms/#{ org }/gene.go")).each_line{|l|
-      gene, go = l.chomp.split(/\t/)
-      goterms[gene.strip] ||= []
-      goterms[gene.strip] << go.strip
-    }
-    goterms
+    Open.to_hash(File.join(Rbbt.datadir,"organisms/#{ org }/gene.go"), :flatten => true)
   end
 
   # Return list of PubMed ids associated to the organism. Determined using a
