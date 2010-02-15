@@ -11,8 +11,8 @@ begin
     gem.email = "miguel.vazquez@fdi.ucm.es"
     gem.homepage = "http://github.com/mikisvaz/rbbt"
     gem.authors = ["Miguel Vazquez"]
-    gem.files = Dir['lib/**/*.rb','bin/rbbt.rb','tasks/install.rake', 'install_scripts/**/*']
-    gem.test_files = Dir['lib/**/test_*.rb']
+    gem.files = Dir['lib/**/*.rb','bin/rbbt_config','tasks/install.rake', 'install_scripts/**/*']
+    gem.test_files = Dir['test/**/test_*.rb']
 
     gem.add_dependency('rake', ' >= 0.8.4')
     gem.add_dependency('simpleconsole')
