@@ -127,12 +127,12 @@ module Organism
       if i == 0
         i += 1
         next unless l=~/^\s*#/
-          formats  = Open.fields(l.sub(/^[\s#]+/,'')).collect{|n| n.strip}
+        formats  = Open.fields(l.sub(/^[\s#]+/,'')).collect{|n| n.strip}
         return formats unless examples
         next
       end
 
-      if Open.fields(l).select{|name| name && name =~ /\w/}.length > examples.length
+      if Open.fields(l).select{|name| name && name =~ /\w/}.length > examples.compact.length
         examples = Open.fields(l).collect{|name| name.split(/\|/).first}
       end
       i += 1
