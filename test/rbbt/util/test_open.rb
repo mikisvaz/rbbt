@@ -89,6 +89,19 @@ row2 a d e r
     assert_equal(["","",""] , Open.fields("\t\t") )
   end
 
+  def test_select_field
+    data =<<-EOD
+row1 a b 3
+row1 aa bb 33
+row2 a d e r
+    EOD
+ 
+    TmpFile.with_file(data) do |file|
+      data = Open.to_hash(file, :select => Open.func_match_field(%w(row1), :sep => " "), :sep => " ")
+      assert ! data.include?('row2')
+      assert data.include?('row1')
+    end
+  end
 
 
 

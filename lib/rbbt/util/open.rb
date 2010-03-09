@@ -6,6 +6,16 @@ require 'rbbt/util/tmpfile'
 # for accessing remote files. It supports caching the files.
 module Open
 
+  # Return a Proc to use in the :select parameter of the Open.to_hash method.
+  # It selects those lines with the content of the first field present on the
+  # entities array. The field can be chosen to be a different one in the
+  # options hash, also the separation string or regexp to determine fields.
+  def self.func_match_field(entities, options = {})
+    field, sep = {:field => 0, :sep => "\t"}.merge(options).values_at(:field, :sep)
+
+    Proc.new {|line| entities.include? line.split(sep)[field] }
+  end
+
   def self.fields(line, sep = "\t")
     chunks = line.chomp.split(/(#{sep})/).select{|c| c !~ /^#{sep}$/ }
     if line =~ /#{sep}$/
@@ -176,10 +186,12 @@ module Open
   # * :single => for each key select only the first of the values, instead of the complete array.
   # * :fix  => A Proc that is called to pre-process the line
   # * :exclude => A Proc that is called to check if the line must be excluded from the process.
+  # * :select => A Proc that is called to check if the line must be selected to process.
   def self.to_hash(input, options = {})
     native  = options[:native]  || 0
     extra   = options[:extra]
     exclude = options[:exclude]
+    select  = options[:select]
     fix     = options[:fix]
     sep     = options[:sep]     || "\t"
     sep2    = options[:sep2]    || "|"
@@ -200,6 +212,7 @@ module Open
     content.each_line{|l|
       l = fix.call(l) if fix
       next if exclude and exclude.call(l)
+      next if select  and ! select.call(l)
 
       row_fields = self.fields(l, sep)
       id = row_fields[native]
