@@ -216,6 +216,7 @@ module Organism
       first = nil
       if native
         first = id_position(supported,native,options)
+        raise "No match for native format '#{ native }'"
       else
         first = 0
       end
