@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rbbt}
-  s.version = "1.2.1"
+  s.version = "1.2.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Miguel Vazquez"]
-  s.date = %q{2010-02-15}
+  s.date = %q{2010-05-27}
   s.default_executable = %q{rbbt_config}
   s.description = %q{This toolbox includes modules for text-mining, like Named Entity Recognition and Normalization and document
     classification, as well as data integration modules that interface with PubMed, Entrez Gene, BioMart.}
@@ -64,6 +64,7 @@ Gem::Specification.new do |s|
      "lib/rbbt/sources/biomart.rb",
      "lib/rbbt/sources/entrez.rb",
      "lib/rbbt/sources/go.rb",
+     "lib/rbbt/sources/gscholar.rb",
      "lib/rbbt/sources/organism.rb",
      "lib/rbbt/sources/polysearch.rb",
      "lib/rbbt/sources/pubmed.rb",
@@ -80,7 +81,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/mikisvaz/rbbt}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.3.6}
   s.summary = %q{Bioinformatics and text mining toolbox}
   s.test_files = [
     "test/test_rbbt.rb",
