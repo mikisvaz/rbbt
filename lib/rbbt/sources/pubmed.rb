@@ -1,6 +1,8 @@
 require 'rbbt/util/filecache'
 require 'rbbt/util/open'
+require 'rbbt/sources/gscholar'
 require 'rbbt'
+require 'libxml'
 
 # This module offers an interface with PubMed, to perform queries, and
 # retrieve simple information from articles. It uses the caching
@@ -42,17 +44,115 @@ module PubMed
   # Processes the xml with an articles as served by MedLine and extracts
   # the abstract, title and journal information
   class Article
-    attr_reader :title, :abstract, :journal
+
+
+    XML_KEYS = [
+      [:title    , "ArticleTitle"],
+      [:journal  , "Journal/Title"],
+      [:issue    , "Journal/JournalIssue/Issue"],
+      [:volume   , "Journal/JournalIssue/Volume"],
+      [:issn     , "Journal/ISSN"],
+      [:year     , "Journal/JournalIssue/PubDate/Year"],
+      [:pages    , "Pagination/MedlinePgn"],
+      [:abstract , "Abstract/AbstractText"],
+    ]
+
+    PMC_PDF_URL = "http://www.ncbi.nlm.nih.gov/pmc/articles/PMCID/pdf/"
+
+    def self.escape_title(title)
+      title.gsub(/(\w*[A-Z][A-Z]+\w*)/, '{\1}')
+    end
+
+    def self.parse_xml(xml)
+      parser  = LibXML::XML::Parser.string(xml)
+      pubmed  = parser.parse.find("/PubmedArticle").first
+      medline = pubmed.find("MedlineCitation").first
+      article = medline.find("Article").first
+
+      info = {}
+
+      info[:pmid] = medline.find("PMID").first.content
+
+      XML_KEYS.each do |p|
+        name, key = p
+        node = article.find(key).first
+
+        next if node.nil?
+
+        info[name] = node.content
+      end
+
+      bibentry = nil
+      info[:author] = article.find("AuthorList/Author").collect do |author|
+        lastname = author.find("LastName").first.content
+        if author.find("ForeName").first.nil?
+          forename = nil
+        else
+          forename = author.find("ForeName").first.content.split(/\s/).collect{|word| if word.length == 1; then word + '.'; else word; end} * " "
+        end
+        bibentry ||= [lastname, (info[:year] || "NOYEAR"), info[:title].scan(/\w+/)[0]] * ""
+        [lastname, forename] * ", "
+      end * " and "
+
+      info[:bibentry] = bibentry.downcase
+
+      info[:pmc_pdf] = pubmed.find("PubmedData/ArticleIdList/ArticleId").select{|id| id[:IdType] == "pmc"}.first
+
+      if info[:pmc_pdf]
+        info[:pmc_pdf] = PMC_PDF_URL.sub(/PMCID/, info[:pmc_pdf].content)
+      end
+
+      info
+    end
+
+    attr_accessor :title, :abstract, :journal, :author, :pmid, :bibentry, :pmc_pdf, :gscholar_pdf, :pdf_url
+    attr_accessor *XML_KEYS.collect{|p| p.first }
+
     def initialize(xml)
-      xml ||= ""
-      @abstract = $1 if xml.match(/<AbstractText>(.*)<\/AbstractText>/sm)
-      @title    = $1 if xml.match(/<ArticleTitle>(.*)<\/ArticleTitle>/sm)
-      @journal  = $1 if xml.match(/<Title>(.*)<\/Title>/sm)
+      if xml && ! xml.empty?
+        info = PubMed::Article.parse_xml xml
+        info.each do |key, value|
+          self.send("#{ key }=", value)
+        end
+      end
+    end
+
+    def pdf_url
+      return pmc_pdf if pmc_pdf
+      @gscholar_pdf ||= GoogleScholar::full_text_url title
+    end
+
+    def bibtex
+      keys = [:author] + XML_KEYS.collect{|p| p.first } - [:bibentry]
+      bibtex = "@article{#{bibentry},\n"
+
+      keys.each do |key|
+        next if self.send(key).nil?
+
+        case key
+
+        when :title
+          bibtex += "  title = { #{ PubMed::Article.escape_title title } },\n"
+
+        when :issue
+          bibtex += "  number = { #{ issue } },\n"
+
+        else
+          bibtex += "  #{ key } = { #{ self.send(key) } },\n"
+        end
+
+      end
+
+      bibtex += "  fulltext = { #{ pdf_url } },\n" if pdf_url
+      bibtex += "  pmid = { #{ pmid } }\n}"
+
+
+      bibtex
     end
 
     # Join the text from title and abstract
     def text
-      [@title, @abstract].join("\n")
+      [title, abstract].join("\n")
     end
   end
 
@@ -78,7 +178,7 @@ module PubMed
       return list unless missing.any?
       chunk_size = [100, missing.length].min
       chunks = (missing.length.to_f / chunk_size).ceil
-      
+
       articles = {}
       chunks.times do |chunk|
         pmids = missing[(chunk * chunk_size)..((chunk + 1) *chunk_size)]

@@ -13,13 +13,14 @@ rbbt=/$PWD filter="*.rb *.rake *.sh *Rakefile README*" {
     classifier.rb
    }
    sources=sources{
-    go.rb
     biocreative.rb
     biomart.rb
     entrez.rb
+    go.rb
+    gscholar.rb
     organism.rb
-    pubmed.rb
     polysearch.rb
+    pubmed.rb
    }
    util=util{
     filecache.rb
