@@ -101,7 +101,7 @@ module Open
 
       wait(options[:nice]) if options[:nice]
       tmp = TmpFile.tmp_file("open-")
-      `wget -O #{tmp} '#{url}' #{options[:quiet] ? '-q' : '' }`
+      `wget --user-agent=firefox -O #{tmp} '#{url}' #{options[:quiet] ? '-q' : '' }`
 
       if $?.success?
         if gziped(url)

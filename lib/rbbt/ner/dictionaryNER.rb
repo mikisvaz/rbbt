@@ -3,7 +3,7 @@
 class DictionaryNER
 
   A_INT   = "a"[0]
-  DOWNCASE_OFFSET = "A"[0] - "a"[0]
+  DOWNCASE_OFFSET = "A"[0].bytes.first - "a"[0].bytes.first
 
   require 'rbbt/bow/bow'
   # Divides a string of text into words. A slash separates words, only if the

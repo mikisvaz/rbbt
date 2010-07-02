@@ -72,7 +72,7 @@ module Organism
   def self.norm(org, to_entrez = nil)
     require 'rbbt/ner/rnorm'
     if to_entrez.nil?
-      to_entrez = id_index(org, :native => 'Entrez Gene ID', :other => [supported_ids(org).first])
+      to_entrez = id_index(org, :native => 'Entrez Gene Id', :other => [supported_ids(org).first])
     end
     
     token_file = File.join(Rbbt.datadir, 'norm','config',org.to_s + '.config')
@@ -216,7 +216,7 @@ module Organism
       first = nil
       if native
         first = id_position(supported,native,options)
-        raise "No match for native format '#{ native }'"
+        raise "No match for native format '#{ native }'" if first.nil?
       else
         first = 0
       end
