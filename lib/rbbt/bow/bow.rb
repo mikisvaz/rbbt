@@ -17,7 +17,7 @@ module BagOfWords
   # 'rbbt/util/misc'.
   def self.words(text)
     return [] if text.nil?
-    raise "Stopword list not loaded. Have you installed the wordlists? (rbbt_config install wordlists)" if $stopwords.nil?
+    raise "Stopword list not loaded. Have you installed the wordlists? (rbbt_config prepare wordlists)" if $stopwords.nil?
     text.scan(/\w+/).
       collect{|word| word.downcase.stem}.
       select{|word|  
