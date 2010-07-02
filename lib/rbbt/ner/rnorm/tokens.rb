@@ -102,7 +102,11 @@ class Tokenizer < SimpleDSL
     end
     def method_missing(name, *args, &block)
       @token = name.to_sym
-      @block = block
+      if block_given?
+        @block = block
+      else
+        @block = args.first
+      end
       self
     end
 

@@ -1,4 +1,8 @@
 require 'rbbt/util/misc'
+
+
+plural = Proc.new do |t| t.sub(/s$/,'') end
+
 tokens do
 
   # Some (possible) single letters first
@@ -69,6 +73,9 @@ comparisons do
   same.special    4
   miss.special    -3 
   extr.special    -3 
+
+  transform.receptor plural
+  transform.protein plural
 
   transform.roman do |t| [t.arabic, :number] end
   transform.greek_letter do |t| [$inverse_greek[t.downcase], :greek] end
