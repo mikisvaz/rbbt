@@ -84,17 +84,20 @@ module PubMed
 
       bibentry = nil
       info[:author] = article.find("AuthorList/Author").collect do |author|
-        lastname = author.find("LastName").first.content
-        if author.find("ForeName").first.nil?
-          forename = nil
-        else
-          forename = author.find("ForeName").first.content.split(/\s/).collect{|word| if word.length == 1; then word + '.'; else word; end} * " "
+        begin
+          lastname = author.find("LastName").first.content
+          if author.find("ForeName").first.nil?
+            forename = nil
+          else
+            forename = author.find("ForeName").first.content.split(/\s/).collect{|word| if word.length == 1; then word + '.'; else word; end} * " "
+          end
+          bibentry ||= [lastname, (info[:year] || "NOYEAR"), info[:title].scan(/\w+/)[0]] * ""
+        rescue
         end
-        bibentry ||= [lastname, (info[:year] || "NOYEAR"), info[:title].scan(/\w+/)[0]] * ""
         [lastname, forename] * ", "
       end * " and "
 
-      info[:bibentry] = bibentry.downcase
+      info[:bibentry] = bibentry.downcase if bibentry
 
       info[:pmc_pdf] = pubmed.find("PubmedData/ArticleIdList/ArticleId").select{|id| id[:IdType] == "pmc"}.first
 
@@ -120,6 +123,23 @@ module PubMed
     def pdf_url
       return pmc_pdf if pmc_pdf
       @gscholar_pdf ||= GoogleScholar::full_text_url title
+    end
+
+    def full_text
+      return nil if pdf_url.nil?
+
+      text = nil
+      TmpFile.with_file do |pdf|
+
+        # Change user-agent, oh well...
+        `wget --user-agent=firefox #{ pdf_url } -O #{ pdf }`
+        TmpFile.with_file do |txt|
+          `pdftotext #{ pdf } #{ txt }`
+          text = Open.read(txt) if File.exists? txt
+        end
+      end
+
+      text
     end
 
     def bibtex
