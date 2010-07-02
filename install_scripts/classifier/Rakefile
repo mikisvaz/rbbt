@@ -9,12 +9,12 @@ require 'rbbt/util/misc'
 require 'progress-monitor'
 require 'rand'
 
-$hi      = ENV['hi']  || 0.8
-$low     = ENV['low'] || 0.01
-$max     = ENV['max'] || 3000
-$bigrams = ENV['bigrams'] == 'true' || false
+$hi      ||= ENV['hi']  || 0.8
+$low     ||= ENV['low'] || 0.01
+$max     ||= ENV['max'] || 3000
+$bigrams ||= ENV['bigrams'] == 'true' 
 
-$ndocs   = ENV['ndocs'] || 5000
+$ndocs   ||= ENV['ndocs'] || 5000
 
 desc "Bilds Dictionary and Features for an organism"
 rule(/data\/(.*)/) do |t|
@@ -34,7 +34,7 @@ rule(/data\/(.*)/) do |t|
  
 
   chunks = all.chunk(50)
-  Progress.monitor("Building Dictionary for #{ org }: -",1000)
+  Progress.monitor("Building Dictionary for #{ org }: -")
   chunks.each{|chunk|
     PubMed.get_article(chunk).each{|pmid, article|
       words = BagOfWords.terms(article.text,$bigrams)
@@ -43,7 +43,7 @@ rule(/data\/(.*)/) do |t|
   }
 
   chunks = go.chunk(50)
-  Progress.monitor("Building Dictionary for #{ org }: +",1000)
+  Progress.monitor("Building Dictionary for #{ org }: +")
   chunks.each{|chunk|
     PubMed.get_article(chunk).each{|pmid, article|
       words = BagOfWords.terms(article.text,$bigrams)
@@ -59,7 +59,7 @@ rule(/data\/(.*)/) do |t|
   fout = File.open(t.name, 'w')
   fout.puts((['Name','Class'] + terms).join("\t"))
   
-  Progress.monitor("Building Features for #{ org }", 1000)
+  Progress.monitor("Building Features for #{ org }")
   all.each{|pmid|
     text = PubMed.get_article(pmid).text
     fout.puts(([pmid, :-] + BagOfWords.features(text, terms)).join("\t"))
@@ -83,14 +83,9 @@ rule (/results\/(.*)/) => lambda{|n| n.sub(/results/,'model')} do |t|
   features    = t.name.sub(/results/,'data')
   org = File.basename(t.name)
 
-  ndocs    = 100
+  ndocs    = 1000
 
-  used = []
-  if "".respond_to? :collect
-    used = Open.read(features).collect{|l| l.chomp.split(/\t/).first}[1..-1]
-  else
-    used = Open.read(features).lines.collect{|l| l.chomp.split(/\t/).first}[1..-1]
-  end
+  used = Open.read(features).read.split(/\n/).collect{|l| l.chomp.split(/\t/).first}[1..-1]
 
   classifier = Classifier.new(model)
   go  = Organism.gene_literature_go(org).collect{|gene, pmids| pmids}.flatten.uniq - used
@@ -104,12 +99,12 @@ rule (/results\/(.*)/) => lambda{|n| n.sub(/results/,'model')} do |t|
   raise "Not enogh unused articles to evaluate" if  go.empty? || all.empty?
 
   features_go = PubMed.get_article(go).collect{|pmid, article|
-    article = article.text
+    article.text
   }
   pos = classifier.classify(features_go).select{|v| v == '+'}.length
 
   features_all = PubMed.get_article(all).collect{|pmid, article|
-    article = article.text
+    article.text
   }
   neg = classifier.classify(features_all).select{|v| v == '-'}.length
 
