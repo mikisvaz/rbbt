@@ -13,7 +13,7 @@ $entrez2native = {
 
 $lexicon = {
   :file => {
-    :url => "ftp://ftp.arabidopsis.org/home/tair/Genes/gene_aliases.20090313",
+    :url => "ftp://ftp.arabidopsis.org/home/tair/Genes/gene_aliases.20100413",
     :native => 0,
     :extra => [1,2],
   },
