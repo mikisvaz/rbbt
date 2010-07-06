@@ -107,18 +107,18 @@ file 'identifiers' do
     if $entrez2native
       translations = {}
       Entrez.entrez2native(*$entrez2native.values_at(:tax,:native,:fix,:check)).
-        each{|k,v|
-          translations[k] = [v.join("|")]
-      }
+        each{|k,v| translations[k] = [v.join("|")] }
+
       if translations.keys.any?
         translations_data = ArrayHash.new(translations,'Entrez Gene ID', [$native_id])
         if data
-          data.merge(translations_data)
+          data.merge(translations_data, $native_id)
         else
           data = translations_data
         end
+      else
+        puts "No translations from Entrez to #{ $native_id }"
       end
-
     end
 
 
@@ -173,8 +173,6 @@ file 'identifiers' do
         end
       end
     end
-
-
 
     # Write ids to file
     fout = File.open('identifiers', 'w')
