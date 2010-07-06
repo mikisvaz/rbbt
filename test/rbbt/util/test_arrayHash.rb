@@ -89,7 +89,7 @@ class TestArrayHash < Test::Unit::TestCase
   end
 
   def test_case_insensitive
-     hash1 = {
+    hash1 = {
       'c' => ['A','B'],
       'd' => ['a','b'],
     }

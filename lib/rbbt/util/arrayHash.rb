@@ -1,6 +1,20 @@
 
 class ArrayHash
 
+  def self.make_case_insensitive(hash)
+    new = {}
+    hash.each{|k,v|
+      new[k.to_s.downcase] = v
+    }
+
+    class << new; self; end.instance_eval{
+      alias_method :old_get, :[]
+      define_method(:[], proc{|key| old_get(key.to_s.downcase)})
+    }
+
+    new
+  end
+
   # Take two strings of elements separated by the character sep_char and join them
   # into one, removing repetitions.
   def self.merge_values_string(list1, list2, sep_char ='|')
@@ -33,8 +47,8 @@ class ArrayHash
 
   
   # Take an hash of arrays and a position and use the value at that position
-  # of the arrays and build a new hash with that value as key, and the original
-  # key prepended to the arrays. The options hash appcepts the following keys
+  # of the arrays to build a new hash with that value as key, and the original
+  # key prepended to the arrays. The options hash accepts the following keys
   # :case_insensitive, which defaults to true, and :index, which indicates that
   # the original key should be the value of the hash entry, instead of the
   # complete array of values.
@@ -60,69 +74,63 @@ class ArrayHash
       }
     }
 
-    if case_insensitive
-      class << new; self; end.instance_eval{
-        alias_method :old_get, :[]
-        define_method(:[], proc{|key| old_get(key.to_s.downcase)})
-      }
-    end
+    new = make_case_insensitive new if case_insensitive
 
     new
   end
 
-  # Merge to hashes of arrays. Each hash contains a number of fields for each
+  # Merge one hash of arrays into another. Each hash contains a number of fields for each
   # entry. The pos1 and pos2 indicate what fields should be used to match
   # entries, the values for pos1 and pos2 can be an integer indicating the
   # position in the array or the symbol :main to refer to the key of the hash.
   # The options hash accepts the key :case_insensitive, which defaults to true.
   def self.merge(hash1, hash2, pos1 = :main, pos2 = :main, options = {})
-
     case_insensitive = options[:case_insensitive]; case_insensitive = true if case_insensitive.nil?
+
+    raise "Key #{ pos1 } should be an Interger or :main" unless Fixnum === pos1 || pos1.to_s.downcase == 'main'
+    raise "Key #{ pos2 } should be an Interger or :main" unless Fixnum === pos2 || pos2.to_s.downcase == 'main'
+
+
+    # Pullout if pos2 is not :main
+    hash2 = pullout(hash2, pos2) unless pos2.to_s.downcase == 'main'
+
+    # Translate if pos1 is not :main
     if pos1.to_s.downcase != 'main'
-      index1 = pullout(hash1, pos1, options.merge(:index => true))
-    elsif options[:case_insensitive]
+      index = pullout(hash1, pos1, options.merge(:index => true))
       new = {}
-      hash1.each{|k,v|
-        new[k.to_s.downcase] = v
-      }
-      class << new; self; end.instance_eval{
-        alias_method :old_get, :[]
-        define_method(:[], proc{|key| old_get(key.to_s.downcase)})
-      }
-      hash1 = new
+      hash2.each do |key, list|
+        next unless index[key]
+        new[index[key]] = list
+      end
+      hash2 = new
     end
 
+    # Get the lengths of the arrays on each hash (they should
+    # be the same for every entry)
     length1 = hash1.values.first.length
     length2 = hash2.values.first.length
+    
+    if case_insensitive
+      hash1 = make_case_insensitive hash1
+      hash2 = make_case_insensitive hash2
+    end
 
     new = {}
-    hash2.each{|key, values|
-      case
-      when pos2.to_s.downcase == 'main'
-        k = key
-        v = values
-      when Fixnum === pos2
-        k = values[pos2]
-        v = values
-        v.delete_at(pos2)
-        v.unshift(key)
+    (hash1.keys + hash2.keys).uniq.each do |key|
+      if hash2[key].nil?
+        list2 = [''] * length2
       else
-        raise "Format of second index not understood"
+        list2 = hash2[key]
       end
 
-      code = (index1.nil? ? k : index1[k])
-      if code
-        code.split('|').each{|c|
-          c = c.to_s.downcase if options[:case_insensitive]
-          new[c] = hash1[c] || [''] * length1
-          new[c] += v
-        }
+      if hash1[key].nil?
+        list1 = [''] * length1
+      else
+        list1 = hash1[key]
       end
-    }
 
-    hash1.each{|key, values|
-      new[key] ||= values + [''] * length2 
-    }
+      new[key] = list1 + list2
+    end
 
     new
   end
@@ -139,7 +147,7 @@ class ArrayHash
     new
   end
 
-  # Clean structure for repeated values. If the same value apear two times use
+  # Clean structure for repeated values. If the same value appears two times 
   # eliminate the one that appears latter on the values list (columns of the
   # ArrayHash are assumed to be sorted for importance) if the appear on the
   # same position, remove the one with the smaller vale of the code after
@@ -188,7 +196,7 @@ class ArrayHash
     @data = hash
     @main = main.to_s
     
-    if fields.nil?
+    if fields.nil? || fields.empty?
       l = hash.values.first.length
       fields = []
       l.times{|i| fields << "F#{i}"}
@@ -207,10 +215,10 @@ class ArrayHash
   # Returns the position of a given field in the value arrays
   def field_pos(field)
     return :main if field == :main
-    if field.downcase == self.main.downcase
+    if field.to_s.downcase == self.main.to_s.downcase
       return :main
     else
-      @fields.collect{|f| f.downcase}.index(field.to_s.downcase)
+      @fields.collect{|f| f.downcase }.index(field.to_s.downcase)
     end
   end
 
@@ -221,6 +229,9 @@ class ArrayHash
 
     pos1 = self.field_pos(field)
     pos2 = other.field_pos(field)
+
+    raise "Field #{ field } not found in target hash" if pos1.nil?
+    raise "Field #{ field } not found in added hash" if pos2.nil?
 
     new = ArrayHash.merge(self.data, other.data, pos1, pos2, options)
     @data = new
