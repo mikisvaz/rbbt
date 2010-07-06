@@ -6,7 +6,7 @@ $name = "Saccharomyces cerevisiae"
 $native_id = "SGD DB Id"
 
 $entrez2native = {
-  :tax =>  4932,
+  :tax => 559292,
   :fix => proc{|code| code.sub(/SGD:S0/,'S0') },
   :check => proc{|code| code.match(/^S0/)},
 }
