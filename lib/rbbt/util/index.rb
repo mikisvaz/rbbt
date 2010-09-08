@@ -8,7 +8,7 @@ module Index
   # where each element points to the first element in the row. +lexicon+
   # is the file containing the data.
   def self.index(lexicon, options = {}) 
-    options = {:sep => "\t|\\|", :case_sensitive => true}.merge(options)
+    options = {:sep => "\t", :sep2 => '\|', :case_sensitive => true}.merge(options)
 
 
     data = Open.to_hash(lexicon, options)

@@ -17,10 +17,13 @@ module Open
   end
 
   def self.fields(line, sep = "\t")
-    chunks = line.chomp.split(/(#{sep})/).select{|c| c !~ /^#{sep}$/ }
+    line << sep
+    line << "PLACEHOLDER"
+    chunks = line.split(/(#{sep})/).select{|c| c !~ /^#{sep}$/ }
     if line =~ /#{sep}$/
       chunks << ""
     end
+    chunks.pop
     chunks
   end
 
@@ -197,7 +200,7 @@ module Open
     sep2    = options[:sep2]    || "|"
     single  = options[:single]  
     single  = false if single.nil?
-    flatten = options[:flatten] || single
+    flatten = options[:flatten]
     flatten = single if flatten.nil?
 
     extra = [extra] if extra && ! extra.is_a?( Array)
@@ -214,7 +217,7 @@ module Open
       next if exclude and exclude.call(l)
       next if select  and ! select.call(l)
 
-      row_fields = self.fields(l, sep)
+      row_fields = self.fields(l.chomp, sep)
       id = row_fields[native]
       next if id.nil? || id == ""
 
