@@ -24,7 +24,7 @@ module PubMed
     
     @@last = Time.now
 
-    articles = xml.scan(/(<PubmedArticle>.*?<\/PubmedArticle>)/sm).flatten
+    articles = xml.scan(/(<PubmedArticle>.*?<\/PubmedArticle>)/smu).flatten
 
     if pmids.is_a? Array
       list = {}
@@ -53,6 +53,7 @@ module PubMed
       [:volume   , "Journal/JournalIssue/Volume"],
       [:issn     , "Journal/ISSN"],
       [:year     , "Journal/JournalIssue/PubDate/Year"],
+      [:month    , "Journal/JournalIssue/PubDate/Month"],
       [:pages    , "Pagination/MedlinePgn"],
       [:abstract , "Abstract/AbstractText"],
     ]
@@ -63,6 +64,15 @@ module PubMed
       title.gsub(/(\w*[A-Z][A-Z]+\w*)/, '{\1}')
     end
 
+    def self.make_bibentry(lastname, year, title)
+      words = title.downcase.scan(/\w+/)
+      if words.first.length > 3
+        abrev = words.first
+      else
+        abrev = words[0..2].collect{|w| w.chars.first} * ""
+      end
+      [lastname.gsub(/\s/,'_'), year || "NOYEAR", abrev] * ""
+    end
     def self.parse_xml(xml)
       parser  = LibXML::XML::Parser.string(xml)
       pubmed  = parser.parse.find("/PubmedArticle").first
@@ -91,7 +101,7 @@ module PubMed
           else
             forename = author.find("ForeName").first.content.split(/\s/).collect{|word| if word.length == 1; then word + '.'; else word; end} * " "
           end
-          bibentry ||= [lastname, (info[:year] || "NOYEAR"), info[:title].scan(/\w+/)[0]] * ""
+          bibentry ||= make_bibentry lastname, info[:year], info[:title]
         rescue
         end
         [lastname, forename] * ", "
