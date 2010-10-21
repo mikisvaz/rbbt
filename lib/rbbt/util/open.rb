@@ -202,6 +202,7 @@ module Open
     single  = false if single.nil?
     flatten = options[:flatten]
     flatten = single if flatten.nil?
+    keep_empty     = options[:keep_empty]
 
     extra = [extra] if extra && ! extra.is_a?( Array)
 
@@ -236,7 +237,7 @@ module Open
         }.flatten
       else
         row_fields.each_with_index{|value, i|
-          next if value.nil?
+          next if value.nil? && ! keep_empty
           data[id][i] ||= []
           data[id][i] += value.split(sep2)
         }
