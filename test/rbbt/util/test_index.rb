@@ -16,9 +16,9 @@ S000001262 856629 YHR219W YHR219W NP_012091 YH19_YEAST P38900 AAB69742 YHR219W
     EOD
     Open.write(tmp,data)
 
-    index = Index.index(tmp,:sep => " |\\|")
-    assert(index['AAB69742'] == 'S000001262' )
-    assert(index['Q12038'] == 'S000006236' )
+    index = Index.index(tmp,:sep => " ", :sep2 => "|")
+    assert_equal('S000001262', index['AAB69742'] )
+    assert_equal('S000006236', index['Q12038']  )
 
     FileUtils.rm tmp
     
