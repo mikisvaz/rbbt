@@ -10,6 +10,10 @@ module Organism
   # prepared already.
   class OrganismNotProcessedError < StandardError; end
 
+  def self.datadir(org)
+    File.join(Rbbt.datadir, 'organisms', org)
+  end 
+
   # Return the list of all supported organisms. The prepared flag is used to
   # show only those that have been prepared.
   def self.all(prepared = true)
