@@ -19,8 +19,9 @@ module Open
   def self.fields(line, sep = "\t")
     line << sep
     line << "PLACEHOLDER"
-    chunks = line.split(/(#{sep})/).select{|c| c !~ /^#{sep}$/ }
-    if line =~ /#{sep}$/
+    sep_reg = Regexp.quote(sep)
+    chunks = line.split(/(#{sep_reg})/, -1).select{|c| c !~ /^#{sep_reg}$/ }
+    if line =~ /#{sep_reg}$/
       chunks << ""
     end
     chunks.pop
@@ -190,6 +191,7 @@ module Open
   # * :fix  => A Proc that is called to pre-process the line
   # * :exclude => A Proc that is called to check if the line must be excluded from the process.
   # * :select => A Proc that is called to check if the line must be selected to process.
+  # * :keep_empty => Condense values with 'sep2' even if their are empty
   def self.to_hash(input, options = {})
     native  = options[:native]  || 0
     extra   = options[:extra]
@@ -230,16 +232,21 @@ module Open
         row_fields.delete_at(native)
       end
 
-
       if flatten
         data[id] += row_fields.compact.collect{|v| 
           v.split(sep2)
         }.flatten
       else
         row_fields.each_with_index{|value, i|
-          next if value.nil? && ! keep_empty
+          if value.nil? || value.empty?
+            next unless keep_empty
+            values = [""]
+          else
+            values = self.fields(value, sep2)
+            values.delete_if{|v| v.nil? || v.empty?} unless keep_empty
+          end
           data[id][i] ||= []
-          data[id][i] += value.split(sep2)
+          data[id][i] += values
         }
       end
     }
