@@ -1,4 +1,4 @@
-This is the meta-package for the Rbbt. It produces a gem that install rbbt-util, rbbt-rest, and rbbt-entities.
+This is the meta-package for the Rbbt. It produces a gem that installs rbbt-util, rbbt-rest, and rbbt-entities.
 
 = Install
 
