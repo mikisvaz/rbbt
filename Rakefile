@@ -5,20 +5,18 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "rbbt"
-    gem.summary = %Q{Bioinformatics and text mining toolbox}
-    gem.description = %Q{This toolbox includes modules for text-mining, like Named Entity Recognition and Normalization and document
-    classification, as well as data integration modules that interface with PubMed, Entrez Gene, BioMart.}
-    gem.email = "miguel.vazquez@fdi.ucm.es"
+    gem.summary = %Q{Ruby bioinformatics toolbox. Meta package}
+    gem.description = %Q{Meta package for a gem that requires the basic Rbbt packages}
+    gem.email = "miguel.vazquez@cnio.es"
     gem.homepage = "http://github.com/mikisvaz/rbbt"
     gem.authors = ["Miguel Vazquez"]
-    gem.files = Dir['lib/**/*.rb','bin/rbbt_config','tasks/install.rake', 'install_scripts/**/*']
-    gem.test_files = Dir['test/**/test_*.rb']
+    gem.files = []
+    gem.test_files = []
+    gem.executables = []
 
-    gem.add_dependency('rake', ' >= 0.8.4')
-    gem.add_dependency('simpleconsole')
-    gem.add_dependency('stemmer')
-    gem.add_dependency('progress-monitor')
-    gem.add_dependency('simpleconsole')
+    gem.add_dependency('rbbt-util')
+    gem.add_dependency('rbbt-rest')
+    gem.add_dependency('rbbt-entities')
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
 rescue LoadError
@@ -49,7 +47,7 @@ task :test => :check_dependencies
 
 task :default => :test
 
-require 'rake/rdoctask'
+require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
