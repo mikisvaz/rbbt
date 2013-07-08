@@ -16,7 +16,6 @@ begin
 
     gem.add_dependency('rbbt-util')
     gem.add_dependency('rbbt-rest')
-    gem.add_dependency('rbbt-entities')
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
 rescue LoadError
