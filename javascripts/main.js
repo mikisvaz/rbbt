@@ -1,1 +1,7 @@
-console.log('This would be the main JS file.');
+$(function(){
+ $('dl.result > dt').click(function(){
+  console.log(1)
+  var dt = $(this);
+  dt.next('dd').toggleClass('active')
+ })
+})
