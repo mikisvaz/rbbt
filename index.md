@@ -68,12 +68,12 @@ or even by using the framework as it is supposed to be used.
 
 Examples and tutorials
 ----------------------
-* [Introduction](/tutorial/introduction)
-* [Install](/tutorial/install)
-* [TSV](/tutorial/TSV)
-* [Resource](/tutorial/Resource)
-* [Workflow](/tutorial/Workflow)
-* [Knowledge Base](/tutorial/knowledge_base)
+* [Introduction](tutorial/introduction)
+* [Install](tutorial/install)
+* [TSV](tutorial/TSV)
+* [Resource](tutorial/Resource)
+* [Workflow](tutorial/Workflow)
+* [Knowledge Base](tutorial/knowledge_base)
 
 What is up?
 -----------
