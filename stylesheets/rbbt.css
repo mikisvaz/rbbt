@@ -1,0 +1,20 @@
+dl.result{
+ margin-top: -30px;
+ padding-bottom: 30px;
+ position: relative;
+}
+dl.result > dd{
+ font-family: monospace !important;
+}
+dl.result > dd > pre{
+ margin-bottom: 0px
+}
+dl.result > dd:not(.active){
+ display: none;
+}
+dl.result > dt{
+ font-weight: bold;
+ position: absolute;
+ right: 0
+}
+
