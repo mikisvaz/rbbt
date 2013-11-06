@@ -1,5 +1,8 @@
 This is the meta-package for the Rbbt. It produces a gem that installs rbbt-util, rbbt-rest, and rbbt-entities.
 
+I'm working on a documentation page. It is still very incomplete: http://mikisvaz.github.io/rbbt
+
+
 = Install
 
 To use the Rbbt framework you will need ruby (1.9 preferred), tokyocabinet, and the rbbt-gems.
