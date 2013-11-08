@@ -65,7 +65,7 @@ rvm reload
 rvm autolibs disable
 rvm install ruby-2.0.0
 gem install --no-ri --no-rdoc tokyocabinet uglifier therubyracer kramdown ruby-prof \
-    rbbt-util rbbt-rest rbbt-study rbbt-dm rbbt-text rbbt-sources rbbt-phgx rbbt-GE 
+  rbbt-util rbbt-rest rbbt-study rbbt-dm rbbt-text rbbt-sources rbbt-phgx rbbt-GE 
 
 {% endhighlight %}
 
