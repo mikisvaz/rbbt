@@ -52,3 +52,25 @@ Additionally, particular workflows can be delegated to other servers
 (`remote_workflows`), which can be done as follows `rbbt workflow remote add
 Sequence http://se.bioinfo.cnio.es`.
 
+### Quick recipie
+
+Provided your linux distribution has the right packages, you should be able to
+install the system by running the following script
+
+{% highlihgh bash %}
+
+\curl -L https://get.rvm.io | bash -s stable --auto-dotfiles
+source ~/.profile
+rvm reload
+rvm autolibs disable
+rvm install ruby-2.1.0-head
+gem install --no-ri --no-rdoc \
+    rbbt-util rbbt-rest rbbt-study rbbt-dm rbbt-text rbbt-sources rbbt-phgx rbbt-GE \
+    tokyocabinet \
+    uglifier therubyracer kramdown \
+    ruby-prof
+
+{% endhighlihgh %}
+
+If this fails, do `rvm requirements` and install (or ask someone to install)
+these packages.
