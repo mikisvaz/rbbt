@@ -57,7 +57,7 @@ Sequence http://se.bioinfo.cnio.es`.
 Provided your linux distribution has the right packages, you should be able to
 install the system by running the following script
 
-{% highlihgh bash %}
+{% highlight sh %}
 
 \curl -L https://get.rvm.io | bash -s stable --auto-dotfiles
 source ~/.profile
@@ -70,7 +70,7 @@ gem install --no-ri --no-rdoc \
     uglifier therubyracer kramdown \
     ruby-prof
 
-{% endhighlihgh %}
+{% endhighlight %}
 
 If this fails, do `rvm requirements` and install (or ask someone to install)
 these packages.
