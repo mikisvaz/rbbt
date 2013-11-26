@@ -45,8 +45,8 @@ There are several objectives that the Rbbt framework tries to achieve:
   databases of millions of rows, without sacrificing simplicity
 
 Achieving these objectives in Rbbt took many years and the development of
-several programming paradigms, which use extensively Ruby meta-programming
-capabilities. While the inner workings of the framework are very elaborate, the
+several programming paradigms, which use extensively Ruby meta-programming.
+While the inner workings of the framework are very elaborate, the
 final DSL is very expressive and succinct.
 
 

@@ -52,6 +52,20 @@ Additionally, particular workflows can be delegated to other servers
 (`remote_workflows`), which can be done as follows `rbbt workflow remote add
 Sequence http://se.bioinfo.cnio.es`.
 
+When the system is configured, it is a good idea to bootstrap it. Many
+workflows include a `bootstrap` command, which run a series of dummy jobs to
+ensure all the necesary resources are claimed and indices and caches are made.
+Bootstrapping a workflow is done using the `rbbt` command like in the following
+example:
+
+{% highlight sh %}
+rbbt workflow cmd Enrichment bootstrap 30
+{% endhighlight %}
+
+Where 30 is the number of concurrent jobs to issue (I run this on a 31 core
+machine). Concurrent jobs will organize to produce these results in an orderly
+manner.
+
 ### Quick recipie
 
 Provided your linux distribution has the right packages, you should be able to
@@ -63,8 +77,9 @@ install the system by running the following script
 source ~/.profile
 rvm reload
 rvm autolibs disable
-rvm install ruby-2.0.0
-gem install --no-ri --no-rdoc tokyocabinet uglifier therubyracer kramdown ruby-prof \
+rvm install ruby-1.9.3
+gem install --trust-policy NoSecurity --no-ri --no-rdoc tokyocabinet \
+  uglifier therubyracer kramdown ruby-prof \
   rbbt-util rbbt-rest rbbt-study rbbt-dm rbbt-text rbbt-sources rbbt-phgx rbbt-GE 
 
 {% endhighlight %}
