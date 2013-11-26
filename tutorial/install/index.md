@@ -63,8 +63,8 @@ rbbt workflow cmd Enrichment bootstrap 30
 {% endhighlight %}
 
 Where 30 is the number of concurrent jobs to issue (I run this on a 31 core
-machine). Concurrent jobs will organize to produce these results in an orderly
-manner.
+machine). Concurrent jobs will organize to build the necessary infrastructure
+in an orderly manner.
 
 ### Quick recipie
 
