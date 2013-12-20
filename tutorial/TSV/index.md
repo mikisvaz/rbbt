@@ -44,8 +44,8 @@ require 'rbbt/tsv'
 
 text=<<-EOF
 #ValueA	ValueB
-A	B
-a	b
+A B
+a b
 EOF
 
 text = StringIO.new(text)
@@ -69,8 +69,8 @@ require 'rbbt/tsv'
 
 text=<<-EOF
 #ValueA	ValueB ValueC
-A	B C
-a	b c
+A B C
+a b c
 EOF
 
 text = StringIO.new(text)
@@ -98,8 +98,8 @@ require 'rbbt/tsv'
 
 text=<<-EOF
 #ValueA	ValueB
-A	B|BB|BBB 
-a	b|bb|bbb
+A B|BB|BBB 
+a b|bb|bbb
 EOF
 
 text = StringIO.new(text)
@@ -122,8 +122,8 @@ require 'rbbt/tsv'
 
 text=<<-EOF
 #ValueA	ValueB ValueC
-A	B|BB|BBB C|CC|CCC
-a	b|bb|bbb c|cc|ccc
+A B|BB|BBB C|CC|CCC
+a b|bb|bbb c|cc|ccc
 EOF
 
 text = StringIO.new(text)
