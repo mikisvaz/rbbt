@@ -479,3 +479,4 @@ Gene annotations: {:organism=>"Hsa/jan2013", :format=>"Ensembl Gene ID", :annota
 Note also in the previous examples how we need to specify a `namespace` for the
 TSV file, so that the Entity subsystem can use it as the organism for the
 genes.
+

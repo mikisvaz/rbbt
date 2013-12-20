@@ -67,8 +67,8 @@ or even by using the framework as it is supposed to be used.
 
 Examples and tutorials
 ----------------------
-* [Background](tutorial/background)
 * [Introduction](tutorial/introduction)
+* [Background](tutorial/background)
 * [Install](tutorial/install)
 * [TSV](tutorial/TSV)
 * [Resource](tutorial/Resource)
