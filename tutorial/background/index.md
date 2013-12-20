@@ -281,7 +281,7 @@ as just mere strings, however, they are `enhanced`, just like hashes containing
 TSV files are `enhanced`, by extending them at run time with additional
 properties. 
 
-The first of these `enhancements` are `Annotations`. These are values that are
+The first of these 'enhancements' are `Annotations`. These are values that are
 associated with the entity that further qualify them. Take genes for instance,
 the Ensembl ID "ENSG00000116478" reffers to the gene "HDAC1", that much seem
 clear, however, if we where to query for its chromosomal location we would
@@ -293,9 +293,11 @@ In Rbbt the `String` object containing "ENSG00000116478" is extended with the
 `annotation` `organism`, which specifies the organism and build of the gene,
 for instance "Hsa" for the most current version of the gene in Homo sapiens, or
 "Hsa/may2009" and "Hsa/jan2013" for the version of the gene as it corresponds
-to the hg18 and hg19 builds. In addition to the organism, genes are annotated
-as well with the `format` annotation, which specifies the identifier format
-used, in this case "Ensembl Gene ID".
+to the hg18 and hg19 builds. I recommend always specifiying a build to avoid
+inconsistencies that could come up when resources are requested at different
+points. In addition to the organism, genes are annotated as well with the
+`format` annotation, which specifies the identifier format used, in this case
+"Ensembl Gene ID".
 
 {% highlight ruby %}
 
@@ -304,7 +306,8 @@ require 'rbbt/workflow'
 Workflow.require_workflow "Genomics"
 require 'rbbt/entity/gene'
 
-gene = Gene.setup("ENSG00000116478", :format => "Ensembl Gene ID", :organism => "Hsa/jan2013")
+gene = Gene.setup("ENSG00000116478", 
+  :format => "Ensembl Gene ID", :organism => "Hsa/jan2013")
 
 puts "Gene id: " << gene
 
@@ -332,8 +335,8 @@ used a different name, `MyGene`, to make clear that we are creating a new type
 of entity; however, one can extend entities that already exist, so that several
 pieces of code can define the same entity and each will use the properties and
 annotations it requires without having to be aware of what the other piece
-declared--except ofcourse both define properties with the same name, which is
-why one must use names as precise and descriptive as possible.
+declared--except of course if both define properties with the same name, which
+is why one must use names as precise and descriptive as possible.
 
 {% highlight ruby %}
 require 'rbbt-util'
@@ -378,6 +381,101 @@ moment they are access, as we just saw in the previous example. In that example
 we also see how the `name` property is declared as `array2single` meaninig that
 it will be executed for the complete array, the result saved, and then each
 element will take is value from that collective result, even when the property
-is. This mode of operation can improve performance without adding any further
-considerations to the user. 
+is queried for a/each particular string inside the array. This mode of
+operation can improve performance without adding any further considerations to
+the user. 
 
+To make things even easier for the user, the TSV subsystem has 'hooks' for the
+Entity subsystem, so that it recognizes fields containing entities and sets
+them up automatically.
+
+{% highlight ruby %}
+
+require 'rbbt-util'
+require 'rbbt/entity'
+require 'rbbt/sources/organism'
+
+module MyGene
+  extend Entity
+  annotation :format, :organism
+
+  property :name => :array2single do
+    Organism.identifiers(organism).index(:persist => true, 
+    :target => "Associated Gene Name").values_at *self
+  end
+
+end
+
+text=<<-EOF
+#MyGene\tValue
+ENSG00000163359\t1
+ENSG00000148082\t2
+EOF
+
+tsv = TSV.open(StringIO.new(text), :type => :single, :namespace => "Hsa/jan2013")
+
+tsv.each do |gene, value|
+  puts [gene.name, value] * ": "
+end
+
+puts "Gene annotations: " << tsv.keys.info.inspect
+
+{% endhighlight %}
+<dl class='result'><dt>Result</dt><dd><pre>
+COL6A3: 1
+SHC3: 2
+Gene annotations: {:organism=>"Hsa/jan2013", :format=>"MyGene", :annotation_types=>[MyGene], :annotated_array=>true}
+</pre></dd></dl>
+
+As you can see in this example, the `MyGene` header was recognized in the TSV
+file and associated with the entity type we just defined. This example is not
+very nice, since it incorrectly associated the genes with the format "MyGene",
+which is no real format; note that for that reason in translating genes we do
+not specify the source format (as the `:fields` argument) but use all available
+formats in the file. The following example fixes this by adding specifically a
+some formats to recognize. In the real `Gene` class the recognized headers are all
+possible formats in the `Organism.identifiers({organism})` file.
+
+
+{% highlight ruby %}
+
+require 'rbbt-util'
+require 'rbbt/entity'
+require 'rbbt/sources/organism'
+
+module MyGene
+  extend Entity
+  annotation :format, :organism
+  self.format = ["Ensembl Gene ID", "Associated Gene Name"]
+
+  property :name => :array2single do
+    Organism.identifiers(organism).index(:persist => true, 
+    :target => "Associated Gene Name", :fields => [format]).values_at *self
+  end
+
+end
+
+text=<<-EOF
+#Ensembl Gene ID\tValue
+ENSG00000163359\t1
+ENSG00000148082\t2
+EOF
+
+tsv = TSV.open(StringIO.new(text), :type => :single, :namespace => "Hsa/jan2013")
+
+tsv.each do |gene, value|
+  puts [gene.name, value] * ": "
+end
+
+puts "Gene annotations: " << tsv.keys.info.inspect
+
+{% endhighlight %}
+<dl class='result'><dt>Result</dt><dd><pre>
+COL6A3: 1
+SHC3: 2
+Gene annotations: {:organism=>"Hsa/jan2013", :format=>"Ensembl Gene ID", :annotation_types=>[MyGene], :annotated_array=>true}
+</pre></dd></dl>
+
+Note also in the previous examples how we need to specify a `namespace` for the
+TSV file, so that the Entity subsystem can use it as the organism for the
+genes.
