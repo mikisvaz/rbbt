@@ -139,5 +139,5 @@ puts "a ValueC: " << tsv["a"]["ValueC"] * ", "
 A ValueB: B, BB, BBB
 A ValueC: C, CC, CCC
 a ValueB: b, bb, bbb
-a ValueC: c, cc, CCC
+a ValueC: c, cc, ccc
 </pre></dd></dl>
