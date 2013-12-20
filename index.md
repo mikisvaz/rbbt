@@ -58,7 +58,6 @@ Well, a large number of workflows have been developed:
 * and many [more](https://github.com/Rbbt-Workflows)
 
 
-
 How can I benefit?
 ------------------
 
