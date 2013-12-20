@@ -61,7 +61,7 @@ required to write XML or configuration file, the syntax is clear, since is just
 Ruby code, and furthermore, workflows themselves can be natively defined from
 other code. 
 
-The following example gives us a taste for how workflows look:
+The following simple example gives us a taste for how workflows look:
 
 {% highlight ruby %}
 
@@ -73,13 +73,13 @@ module TestWF
 
   input :name, :string, "Name to praise"
   task :praise => :string do |name|
-    puts "I'm thinking a nice praise for #{name}"
+    puts "I'm thinking a praise for #{name}"
     "#{name} is such a nice fellow"
   end
 
   dep :praise
   input :times, :integer, "How many times to praise"
-  task :insist => :string do |times|
+  task :insist => :array do |times|
     [step(:praise).load] * times
   end
 end
@@ -108,7 +108,11 @@ Luis is such a nice fellow, Luis is such a nice fellow, Luis is such a nice fell
 Note how the praise is only executed once for each name. To ensure that we
 execute these jobs in a clean environment, just for the purposes of this
 example, each time we move the default `workdir` of the workflow to a temporary
-files that get erased at the end.
+files that get erased at the end, otherwise the next time we run it, it would
+not even execute the initial `praise` jobs. The workflow subsystem has support
+for background execution forking new processes, job management and monitoring,
+transparent delegation to remote servers, automatic REST and SOAP web services,
+automatically generated HTML interface, ect.
 
 Most of the time spent in developing a project in bioinformatics is devoted to
 gathering and tidying data, and preparing the infrastructure that will support
@@ -126,7 +130,8 @@ different ways in which you could want to access your functionalities:
 * programmatically from other scripts
 * from the command-line
 * using a user friendly web interface
-* remotely through a REST web server
+* remotely through a REST web server (SOAP web servers are also available but
+  are not mantained anymore).
 
 In fact the remote web server can be configured transparently as a back-end for
 the programmatic and command-line interfaces. 
