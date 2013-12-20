@@ -206,7 +206,7 @@ like a relative path, when it comes down to opening the file the Resource
 subsystem will attempt to locate it in several places:
 
 * relative: ./share/organisms/Hsa/jan2013/identifiers
-* lib: <library-root>/share/organisms/Hsa/jan2013/identifiers
+* lib: {library-root}/share/organisms/Hsa/jan2013/identifiers
 * user: ~/.rbbt/share/organisms/Hsa/jan2013/identifiers
 * local: /usr/local/share/rbbt/organisms/Hsa/jan2013/identifiers
 * global: /usr/share/rbbt/organisms/Hsa/jan2013/identifiers
@@ -215,7 +215,7 @@ Whichever file is found first is openend. This approach allows resources to be
 specified globaly for an entire environment but still allow particular users or
 scripts to redefine them. As we will see in the section on the web interfaces,
 this forms the basis of our modular approach to application development.  The
-'<library-root>' is calculated from the file that has requested the file, the
+'{library-root}' is calculated from the file that has requested the file, the
 path of the file is extracted and then traversed back to the parent directory
 that contains the sub-directory `lib`. Thus, by creating a `lib` directory
 inside a project you 'root' the Resource file system allowing access to all
