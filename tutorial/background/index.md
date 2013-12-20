@@ -16,7 +16,7 @@ source code. Unfortunately bioinformatics protocols are rarely in code
 entirely: data files are downloaded and tidy up manually, tasks are scheduled
 manually, infrastructure results are placed in arbitrary locations. The
 consequence is that the standards in code reusability and reproducibility are
-still quite low. Most difficulties strive for technical issues, which we
+still quite low. Most difficulties strive for technical issues, which I
 set-out to solve in this framework.
 
 My approach is to lay-out a complete approach to software development tailored
@@ -205,11 +205,11 @@ I use the term 'pseudo-path' to refer to the fact that, even though it looks
 like a relative path, when it comes down to opening the file the Resource
 subsystem will attempt to locate it in several places:
 
-* relative: ./share/organisms/Hsa/jan2013/identifiers
-* lib: {library-root}/share/organisms/Hsa/jan2013/identifiers
-* user: ~/.rbbt/share/organisms/Hsa/jan2013/identifiers
-* local: /usr/local/share/rbbt/organisms/Hsa/jan2013/identifiers
-* global: /usr/share/rbbt/organisms/Hsa/jan2013/identifiers
+* relative: `./share/organisms/Hsa/jan2013/identifiers`
+* lib: `{library-root}/share/organisms/Hsa/jan2013/identifiers`
+* user: `~/.rbbt/share/organisms/Hsa/jan2013/identifiers`
+* local: `/usr/local/share/rbbt/organisms/Hsa/jan2013/identifiers`
+* global: `/usr/share/rbbt/organisms/Hsa/jan2013/identifiers`
 
 Whichever file is found first is openend. This approach allows resources to be
 specified globaly for an entire environment but still allow particular users or
@@ -264,4 +264,120 @@ However the `Translation` workflow offers a simpler interface.
 
 ##Entities
 
-Another novelty of the Rbbt is its treatment of entities.
+Another novelty of the Rbbt is its treatment of entities. Programmatically we
+would like to have objects representing, for instance, genes, and be able to
+query their properties, such as `gene.COSMIC_mutations` to retrievel all
+somatic variants annotated in COSMIC. One alternative is to crete a `Class`
+for genes that implements all these properties. However, this forces that all
+scripts agree in the same class hierarchy, and that damages reusability and
+inter-connectivity between functionalities. Our approach avoids this using
+Ruby meta-programming functionalities.
+
+In Rbbt entities are defined as things that can be subject of investigation and
+that can be *unambiguously* identified. This means that all that is required is
+that entities can be identified, so a `String` object containing the identifier
+of the entity should suffice. Functionalities in Rbbt then work with entities
+as just mere strings, however, they are `enhanced`, just like hashes containing
+TSV files are `enhanced`, by extending them at run time with additional
+properties. 
+
+The first of these `enhancements` are `Annotations`. These are values that are
+associated with the entity that further qualify them. Take genes for instance,
+the Ensembl ID "ENSG00000116478" reffers to the gene "HDAC1", that much seem
+clear, however, if we where to query for its chromosomal location we would
+realize that the identifier alone does not suffice. In fact, when it comes down
+to it, the HDAC1 gene as we knew it in May 2009 is different than the same gene
+as we knew it in January 2013, many of its properties have changed. For many
+applications this subtleties have no consequence, but for others it does not.
+In Rbbt the `String` object containing "ENSG00000116478" is extended with the
+`annotation` `organism`, which specifies the organism and build of the gene,
+for instance "Hsa" for the most current version of the gene in Homo sapiens, or
+"Hsa/may2009" and "Hsa/jan2013" for the version of the gene as it corresponds
+to the hg18 and hg19 builds. In addition to the organism, genes are annotated
+as well with the `format` annotation, which specifies the identifier format
+used, in this case "Ensembl Gene ID".
+
+{% highlight ruby %}
+
+require 'rbbt-util'
+require 'rbbt/workflow'
+Workflow.require_workflow "Genomics"
+require 'rbbt/entity/gene'
+
+gene = Gene.setup("ENSG00000116478", :format => "Ensembl Gene ID", :organism => "Hsa/jan2013")
+
+puts "Gene id: " << gene
+
+puts "Gene annotations" << gene.info.inspect
+
+puts "Gene name: " << gene.name
+puts "Gene name annotations" << gene.name.info.inspect
+
+{% endhighlight %}
+<dl class='result'><dt>Result</dt><dd><pre>
+Gene id: ENSG00000116478
+Gene annotations{:format=>"Ensembl Gene ID", :organism=>"Hsa/jan2013", :annotation_types=>[Gene]}
+Gene name: HDAC1
+Gene name annotations{:format=>"Associated Gene Name", :organism=>"Hsa/jan2013", :annotation_types=>[Gene]}
+</pre></dd></dl>
+
+Since annotations are 'added' to strings, then can be passed around without the
+need for different scripts or portions of the code that will process them to
+agree on how the gene entity is defined or even be aware of the Entity
+subsystem at all. 
+
+New entities can be defined easily from at any point. The following example
+illustrates how the `Gene` entity is defined in the `Genomics` workflow. I've
+used a different name, `MyGene`, to make clear that we are creating a new type
+of entity; however, one can extend entities that already exist, so that several
+pieces of code can define the same entity and each will use the properties and
+annotations it requires without having to be aware of what the other piece
+declared--except ofcourse both define properties with the same name, which is
+why one must use names as precise and descriptive as possible.
+
+{% highlight ruby %}
+require 'rbbt-util'
+require 'rbbt/entity'
+require 'rbbt/sources/organism'
+
+module MyGene
+  extend Entity
+  annotation :format, :organism
+
+  property :name => :array2single do
+    puts "Executing property for: #{self.inspect}"
+    Organism.identifiers(organism).index(:persist => true, 
+    :target => "Associated Gene Name", :fields => [format]).values_at *self
+  end
+
+end
+
+genes = %w(ENSG00000163359 ENSG00000148082 ENSG00000168036)
+MyGene.setup(genes, :format => "Ensembl Gene ID", :organism => "Hsa/jan2013")
+
+genes.each do |gene|
+  puts [gene, gene.name] * " => "
+end
+
+puts "All names: " << genes.name * ", "
+
+{% endhighlight %}
+<dl class='result'><dt>Result</dt><dd><pre>
+Executing property for: ["ENSG00000163359", "ENSG00000148082", "ENSG00000168036"]
+ENSG00000163359 => COL6A3
+ENSG00000148082 => SHC3
+ENSG00000168036 => CTNNB1
+Executing property for: ["ENSG00000163359", "ENSG00000148082", "ENSG00000168036"]
+All names: COL6A3, SHC3, CTNNB1
+</pre></dd></dl>
+
+Entities have, in addition to these annotations that further qualify them, a
+number of additional features. An array of strings can have entity annotations,
+which are transfered to the individual strings--the genes themselves-- at the
+moment they are access, as we just saw in the previous example. In that example
+we also see how the `name` property is declared as `array2single` meaninig that
+it will be executed for the complete array, the result saved, and then each
+element will take is value from that collective result, even when the property
+is. This mode of operation can improve performance without adding any further
+considerations to the user. 
+
