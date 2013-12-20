@@ -352,7 +352,6 @@ module MyGene
     Organism.identifiers(organism).index(:persist => true, 
     :target => "Associated Gene Name", :fields => [format]).values_at *self
   end
-
 end
 
 genes = %w(ENSG00000163359 ENSG00000148082 ENSG00000168036)
@@ -403,7 +402,6 @@ module MyGene
     Organism.identifiers(organism).index(:persist => true, 
     :target => "Associated Gene Name").values_at *self
   end
-
 end
 
 text=<<-EOF
@@ -452,7 +450,6 @@ module MyGene
     Organism.identifiers(organism).index(:persist => true, 
     :target => "Associated Gene Name", :fields => [format]).values_at *self
   end
-
 end
 
 text=<<-EOF
