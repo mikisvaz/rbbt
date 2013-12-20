@@ -33,8 +33,10 @@ gets built the first time its needed.
 
 ## Classification of TSV files
 
-Typical TSV files can be classified into four classes:
+Typical TSV files can be classified into four classes.
 
+The following code opens reads a TSV file as a `:single` TSV. Here
+each entry of the resulting hash contains a single value.
 
 {% highlight ruby %}
 
@@ -47,7 +49,7 @@ a	b
 EOF
 
 text = StringIO.new(text)
-tsv = TSV.open(text, :type => :single)
+tsv = TSV.open(text, :type => :single, :sep => " ")
       
 puts "A: " << tsv["A"]
 puts "a: " << tsv["a"]
@@ -58,4 +60,84 @@ A: B
 a: b
 </pre></dd></dl>
 
-Open 
+In this next case the keys are not associated with a single value, but with a
+list of values. This TSV are of type `:list`.
+
+{% highlight ruby %}
+
+require 'rbbt/tsv'
+
+text=<<-EOF
+#ValueA	ValueB ValueC
+A	B C
+a	b c
+EOF
+
+text = StringIO.new(text)
+tsv = TSV.open(text, :type => :list, :sep => " ")
+      
+puts "A ValueB: " << tsv["A"]["ValueB"] 
+puts "A ValueC: " << tsv["A"]["ValueC"] 
+puts "a ValueB: " << tsv["a"]["ValueB"] 
+puts "a ValueC: " << tsv["a"]["ValueC"] 
+
+{% endhighlight %}
+<dl class='result'><dt>Result</dt><dd><pre>
+A ValueB: B
+A ValueC: C
+a ValueB: b
+a ValueC: c
+</pre></dd></dl>
+
+In the following example, the TSV file lists multiple values for a single
+field: type `:flat`.
+
+{% highlight ruby %}
+
+require 'rbbt/tsv'
+
+text=<<-EOF
+#ValueA	ValueB
+A	B|BB|BBB 
+a	b|bb|bbb
+EOF
+
+text = StringIO.new(text)
+tsv = TSV.open(text, :type => :flat, :sep => " ")
+      
+puts "A values: " << tsv["A"] * ", " 
+puts "a values: " << tsv["a"] * ", "
+
+{% endhighlight %}
+<dl class='result'><dt>Result</dt><dd><pre>
+A values: B, BB, BBB
+a values: b, bb, bbb
+</pre></dd></dl>
+
+Finally, `:double` TSV have values which are lists of lists.
+
+{% highlight ruby %}
+
+require 'rbbt/tsv'
+
+text=<<-EOF
+#ValueA	ValueB ValueC
+A	B|BB|BBB C|CC|CCC
+a	b|bb|bbb c|cc|ccc
+EOF
+
+text = StringIO.new(text)
+tsv = TSV.open(text, :type => :double, :sep => " ")
+      
+puts "A ValueB: " << tsv["A"]["ValueB"] * ", "
+puts "A ValueC: " << tsv["A"]["ValueC"] * ", "
+puts "a ValueB: " << tsv["a"]["ValueB"] * ", "
+puts "a ValueC: " << tsv["a"]["ValueC"] * ", "
+
+{% endhighlight %}
+<dl class='result'><dt>Result</dt><dd><pre>
+A ValueB: B, BB, BBB
+A ValueC: C, CC, CCC
+a ValueB: b, bb, bbb
+a ValueC: c, cc, CCC
+</pre></dd></dl>

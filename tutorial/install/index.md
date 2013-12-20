@@ -24,7 +24,7 @@ configuration, all the installation is straight forward.
 
 To ease installation I have prepare a `Vagrant` installation
 [here](https://github.com/mikisvaz/rbbt-vagrant). The `bootstrap.sh` script
-contains all the necessary steps to setup the base system on an Ubuntu box. 
+contains all the necessary steps to setup the base system on an Ubuntu box.
 The step should be easy to adapt for other installations.
 
 In my own work, I like to install ruby locally from my user account through
@@ -78,7 +78,7 @@ source ~/.profile
 rvm reload
 rvm autolibs disable
 rvm install ruby-1.9.3
-gem install --trust-policy NoSecurity --no-ri --no-rdoc tokyocabinet \
+gem install --no-ri --no-rdoc tokyocabinet \
   uglifier therubyracer kramdown ruby-prof \
   rbbt-util rbbt-rest rbbt-study rbbt-dm rbbt-text rbbt-sources rbbt-phgx rbbt-GE 
 
