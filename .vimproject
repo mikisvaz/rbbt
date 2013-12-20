@@ -32,10 +32,10 @@ rbbt-gh-pages=/$PWD filter="*" {
  }
 
  tutorial=tutorial{
-  background=background{
+  introduction=introduction{
    index.md
   }
-  introduction=introduction{
+  background=background{
    index.md
   }
   install=install{

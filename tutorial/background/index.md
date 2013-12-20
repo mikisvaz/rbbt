@@ -61,6 +61,55 @@ required to write XML or configuration file, the syntax is clear, since is just
 Ruby code, and furthermore, workflows themselves can be natively defined from
 other code. 
 
+The following example gives us a taste for how workflows look:
+
+{% highlight ruby %}
+
+require 'rbbt/workflow'
+require 'rbbt/util/tmpfile'
+
+module TestWF
+  extend Workflow
+
+  input :name, :string, "Name to praise"
+  task :praise => :string do |name|
+    puts "I'm thinking a nice praise for #{name}"
+    "#{name} is such a nice fellow"
+  end
+
+  dep :praise
+  input :times, :integer, "How many times to praise"
+  task :insist => :string do |times|
+    [step(:praise).load] * times
+  end
+end
+
+TmpFile.with_file do |workdir|
+  TestWF.workdir = Path.setup(workdir)
+
+  puts TestWF.job(:praise, "Test", :name => "Miguel").run
+
+  puts TestWF.job(:insist, "Test", :name => "Miguel", :times => 2).run * ", " + '...'
+  puts TestWF.job(:insist, "Test", :name => "Miguel", :times => 3).run * ", " + '...'
+
+  puts TestWF.job(:insist, "Test", :name => "Luis", :times => 3).run * ", " + '...'
+end
+
+{% endhighlight %}
+<dl class='result'><dt>Result</dt><dd><pre>
+I'm thinking a nice praise for Miguel
+Miguel is such a nice fellow
+Miguel is such a nice fellow, Miguel is such a nice fellow...
+Miguel is such a nice fellow, Miguel is such a nice fellow, Miguel is such a nice fellow...
+I'm thinking a nice praise for Luis
+Luis is such a nice fellow, Luis is such a nice fellow, Luis is such a nice fellow...
+</pre></dd></dl>
+
+Note how the praise is only executed once for each name. To ensure that we
+execute these jobs in a clean environment, just for the purposes of this
+example, each time we move the default `workdir` of the workflow to a temporary
+files that get erased at the end.
+
 Most of the time spent in developing a project in bioinformatics is devoted to
 gathering and tidying data, and preparing the infrastructure that will support
 the analysis. Each project has its own requirements, but often they are common
