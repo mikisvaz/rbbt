@@ -14,7 +14,7 @@ In bioinformatics we should draw a parallel. Fortunately, in computer science
 the protocols are implicitly described in excruciating detail through the
 source code. Unfortunately bioinformatics protocols are rarely in code
 entirely: data files are downloaded and tidy up manually, tasks are scheduled
-manually, infrastructure results are placed in arbitrary locations. The
+manually, infrastructure results are placed in ad-hoc locations. The
 consequence is that the standards in code reusability and reproducibility are
 still quite low. Most difficulties strive for technical issues, which I
 set-out to solve in this framework.
@@ -30,12 +30,11 @@ first and foremost its current development.
 ## Protocols, recipes and Workflows
 
 A protocol or recipe can be though of a number of tasks that have to be
-performed. These tasks might depend on other being completed first, these
-dependencies stablish a sort of workflow. For bioinformatics we propose the
-following constrains: each task produces a result file, the result file depends
-on the results of previous tasks, and the inputs the task receives.
-Furthermore, the same task, with the same inputs should always produce the same
-results. 
+performed. These tasks might depend on other being completed first, and
+establish a sort of workflow. For bioinformatics we propose the following
+constrains: each task produces a result file, the result file depends on the
+results of previous tasks, and the inputs the task receives.  Furthermore, the
+same task, with the same inputs should always produce the same results. 
 
 Our approach has a number of advantages. First, the idea of tasks producing
 files parallels with a common pattern in computer science dating back to the
@@ -349,7 +348,7 @@ for instance "Hsa" for the most current version of the gene in Homo sapiens, or
 "Hsa/may2009" and "Hsa/jan2013" for the version of the gene as it corresponds
 to the hg18 and hg19 builds. I recommend always specifiying a build to avoid
 inconsistencies that could come up when resources are requested at different
-points. In addition to the organism, genes are annotated as well with the
+times. In addition to the organism, genes are annotated as well with the
 `format` annotation, which specifies the identifier format used, in this case
 "Ensembl Gene ID".
 

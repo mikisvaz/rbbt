@@ -390,12 +390,17 @@ Misc.benchmark(1_000_000) do
   assoc.match("SF3B1") 
 end
 
+Misc.profile do
+Misc.benchmark(1_000) do
+assoc.match("SF3B1") 
+end
+end
 {% endhighlight %}
 <dl class='result'><dt>Result</dt><dd><pre>
 Associations: 
 SF3B1~DO6376, SF3B1~DO6392, SF3B1~DO6426, SF3B1~DO6436, SF3B1~DO6468, SF3B1~DO6494, SF3B1~DO6525, SF3B1~DO6898, SF3B1~DO7000
 Benchmark for 1000000 repeats
- 11.150000   0.000000  11.150000 ( 11.150551)
+ 12.530000   0.000000  12.530000 ( 12.532505)
 </pre></dd></dl>
 
 ## Knowledge Bases
