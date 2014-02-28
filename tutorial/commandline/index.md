@@ -78,5 +78,8 @@ monitor its status, etc.
 Remote workflow can also be interfaced transparently through the rbbt command, but some 
 functionalities may not be available.
 
+A few interesting workflow tasks are:
 
+* `rbbt workflow task Translation translate`: Translate a list of genes ids to another format
+* `rbbt workflow task Genomics names`: Takes a tsv file and translates all identified entities to a their human-friendly names
 
