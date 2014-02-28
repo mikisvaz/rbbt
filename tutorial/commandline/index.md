@@ -25,6 +25,7 @@ Some of the most important commands are the following:
     * rbbt workflow remote
         * rbbt workflow remote {add|list|remove}: Add/list/remove remote workflows
     * rbbt workflow task: Examine, execute and monitor workflow tasks
+    * rbbt workflow server: Start a http server with a REST interface that can be contacted through the browser or as a remote workflow
 * rbbt tsv
     * rbbt tsv info: Display some general information about a tsv file (field names, number of entries, ect)
     * rbbt tsv change_id: Change columns between formats
