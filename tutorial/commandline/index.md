@@ -18,13 +18,13 @@ parameters, such as the --log, which specifies the level of logging to use (0 fo
 
 Some of the most important commands are the following:
 
-    rbbt workflow
-        rbbt workflow list: See all installed workflows
-        rbbt workflow install: Install new workflows from github
-        rbbt workflow remote
-            rbbt workflow remote {add|list|remove}: Add/list/remove remote workflows
-        rbbt workflow task: Examine, execute and monitor workflow tasks
-    rbbt tsv
-        rbbt tsv info: Display some general information about a tsv file (field names, number of entries, ect)
-        rbbt tsv change_id: Change columns between formats
+* rbbt workflow
+    * rbbt workflow list: See all installed workflows
+    * rbbt workflow install: Install new workflows from github
+    * rbbt workflow remote
+        * rbbt workflow remote {add|list|remove}: Add/list/remove remote workflows
+    * rbbt workflow task: Examine, execute and monitor workflow tasks
+* rbbt tsv
+    * rbbt tsv info: Display some general information about a tsv file (field names, number of entries, ect)
+    * rbbt tsv change_id: Change columns between formats
 
