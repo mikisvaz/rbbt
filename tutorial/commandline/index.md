@@ -29,10 +29,9 @@ Some of the most important commands are the following:
     * rbbt tsv info: Display some general information about a tsv file (field names, number of entries, ect)
     * rbbt tsv change_id: Change columns between formats
 
-Each command is free to implement its functionality however it wants, if they are badly documented you can always
-examine the code using the --locate_file to find the path to the actual script file. Unless the command is very
-simple, it usually displays help with the '-h' parameter.
-
+Each command is free to implement its functionality however it wants. Unless the command is very
+simple, it usually displays help with the '-h' parameter.  If they are badly documented you can always
+examine the code using the --locate_file to find the path to the actual script file. 
 ```bash
 rbbt workflow task --locate_file
 ```
