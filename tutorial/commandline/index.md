@@ -49,7 +49,7 @@ for example:
 rbbt alias gene_name workflow task Translation translate -f "Associated Gene Name"
 ```
 
-Which will trasnform:
+Which will transform:
 
 ```bash
 rbbt gene_name -g ensembl.txt
@@ -69,7 +69,7 @@ workflow makes available. Typing `rbbt workflow task <workflowname> <taskname> -
 will display a summary of the task parameters. Each parameter is associated with a 
 task `input`.
 
-Executed tasks are, by default, ran synchrounously, with persistance, and the
+Executed tasks are, by default, ran synchronously, with persistence, and the
 result file is printed to STDOUT. Alternatively, one can list and recover task files
 that where produced during the execution, re-run the job by using `--clean` or 
 `--recursive_clean` to re-run also its dependencies, run the job in the background and
