@@ -38,6 +38,9 @@ rbbt-gh-pages=/$PWD filter="*" {
   background=background{
    index.md
   }
+  commandline=commandline{
+   index.md
+  }
   install=install{
    index.md
   }

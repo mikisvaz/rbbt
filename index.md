@@ -69,6 +69,7 @@ Examples and tutorials
 ----------------------
 * [Introduction](tutorial/introduction)
 * [Background](tutorial/background)
+* [Command-line](tutorial/commandline)
 * [Install](tutorial/install)
 * [TSV](tutorial/TSV)
 * [Resource](tutorial/Resource)
