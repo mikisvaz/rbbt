@@ -30,7 +30,8 @@ Some of the most important commands are the following:
     * rbbt tsv change_id: Change columns between formats
 
 Each command is free to implement its functionality however it wants, if they are badly documented you can always
-examine the code using the --locate_file to find the path to the actual script file.
+examine the code using the --locate_file to find the path to the actual script file. Unless the command is very
+simple, it usually displays help with the '-h' parameter.
 
 ```bash
 rbbt workflow task --locate_file
@@ -59,6 +60,23 @@ into:
 ```bash
 rbbt workflow task Translation translate -f "Associated Gene Name" -g ensembl.txt
 ```
+
+# Practical examples
+
+The most common command you will probably be using will be `rbbt workflow task`. 
+Typing `rbbt workflow task <wofkflowname>` will display all the tasks that this
+workflow makes available. Typing `rbbt workflow task <workflowname> <taskname> -h`
+will display a summary of the task parameters. Each parameter is associated with a 
+task `input`.
+
+Executed tasks are, by default, ran synchrounously, with persistance, and the
+result file is printed to STDOUT. Alternatively, one can list and recover task files
+that where produced during the execution, re-run the job by using `--clean` or 
+`--recursive_clean` to re-run also its dependencies, run the job in the background and
+monitor its status, etc.
+
+Remote workflow can also be interfaced transparently through the rbbt command, but some 
+functionalities may not be available.
 
 
 
