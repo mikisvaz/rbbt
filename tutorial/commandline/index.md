@@ -11,6 +11,7 @@ The rbbt command line tool comes in the rbbt-util gem. To update the basic rbbt-
 ```bash
 gem update rbbt-util
 ```
+
 The rbbt command is basically a wrapper that finds a particular script and executes it. Typing rbbt will show the list of first level
 commands. Some of these are scripts, some of them are directories containing more scripts. You may append subcommands until
 you reach a script; which will execute it with the rest of the parameters. The rbbt command line also consumes a couple of command line
@@ -27,4 +28,37 @@ Some of the most important commands are the following:
 * rbbt tsv
     * rbbt tsv info: Display some general information about a tsv file (field names, number of entries, ect)
     * rbbt tsv change_id: Change columns between formats
+
+Each command is free to implement its functionality however it wants, if they are badly documented you can always
+examine the code using the --locate_file to find the path to the actual script file.
+
+```bash
+rbbt workflow task --locate_file
+```
+
+When commands get to long and are tedious to write, you can make use of aliases. These work as follows
+
+```bash
+rbbt alias <alias_name> <commands_and_parameters>
+```
+
+for example:
+
+```bash
+rbbt alias gene_name workflow task Translation translate -f "Associated Gene Name"
+```
+
+Which will trasnform:
+
+```bash
+rbbt gene_name -g ensembl.txt
+```
+
+into:
+
+```bash
+rbbt workflow task Translation translate -f "Associated Gene Name" -g ensembl.txt
+```
+
+
 
