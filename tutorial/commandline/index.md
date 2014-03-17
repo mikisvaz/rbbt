@@ -8,9 +8,9 @@ tagline: The `rbbt` command line utility
 
 The rbbt command line tool comes in the rbbt-util gem. To update the basic rbbt-util package and the rbbt command do
 
-```bash
+{% highlight bash %}
 gem update rbbt-util
-```
+{% endhighlight %}
 
 The rbbt command is basically a wrapper that finds a particular script and executes it. Typing rbbt will show the list of first level
 commands. Some of these are scripts, some of them are directories containing more scripts. You may append subcommands until
@@ -33,33 +33,34 @@ Some of the most important commands are the following:
 Each command is free to implement its functionality however it wants. Unless the command is very
 simple, it usually displays help with the '-h' parameter.  If they are badly documented you can always
 examine the code using the --locate_file to find the path to the actual script file. 
-```bash
+
+{% highlight bash %}
 rbbt workflow task --locate_file
-```
+{% endhighlight %}
 
 When commands get to long and are tedious to write, you can make use of aliases. These work as follows
 
-```bash
+{% highlight bash %}
 rbbt alias <alias_name> <commands_and_parameters>
-```
+{% endhighlight %}
 
 for example:
 
-```bash
+{% highlight bash %}
 rbbt alias gene_name workflow task Translation translate -f "Associated Gene Name"
-```
+{% endhighlight %}
 
 Which will transform:
 
-```bash
+{% highlight bash %}
 rbbt gene_name -g ensembl.txt
-```
+{% endhighlight %}
 
 into:
 
-```bash
+{% highlight bash %}
 rbbt workflow task Translation translate -f "Associated Gene Name" -g ensembl.txt
-```
+{% endhighlight %}
 
 # Practical examples
 
