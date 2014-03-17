@@ -66,4 +66,18 @@ You may use the organism codes 'Hsa', 'Hsa/may2009' and 'Hsa/jun2011'. Other
 organisms are supported: 'Mmu' and 'Sce'. Any Ensembl archive date can be
 specified, but it will require preparing that infrastructure as well.
 
+## Tips
+
+If you find yourself translating entities often you might want to set up some
+aliases. For instance
+
+```bash
+rbbt alias gene_ensembl workflow task Translation translate -f "Ensembl Gene ID" -o Hsa -g -
+```
+
+so that you can now type
+
+```bash
+cat genes.txt | rbbt gene_ensembl
+```
 
