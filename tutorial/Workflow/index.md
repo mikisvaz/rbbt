@@ -41,7 +41,7 @@ In the cases where the setup of the workflows infrastructure becomes to costly,
 you may also configure a remote workflow. This will forward all work
 transparently to the remote server. This is specially recommended for the
 `MutEval` workflow, which uses the
-(dbSNFP)[https://sites.google.com/site/jpopgen/dbNSFP] resource for protein
+[dbSNFP](https://sites.google.com/site/jpopgen/dbNSFP) resource for protein
 mutation damage predictions, and is over thirty gigabytes in size.
 
 File servers and remote workflows are served from any Rbbt REST server.
