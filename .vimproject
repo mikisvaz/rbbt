@@ -29,7 +29,7 @@ rbbt-gh-pages=/$PWD filter="*" {
  }
 
  _posts=_posts{
-  2014-17-03-Translating ids.md
+  2014-03-17-translating-ids.md
  }
 
  tutorial=tutorial{
