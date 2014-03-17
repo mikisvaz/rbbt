@@ -1,7 +1,7 @@
 ---
 title: Workflow Tutorial
 layout: default
-tagline: Workflow
+tagline: Workflow overview
 ---
 
 # Workflows in Rbbt
