@@ -79,8 +79,6 @@ Examples and tutorials
 What is up?
 -----------
 
-No posts yet.
-
 <ul>
   {% for post in site.posts %}
     <li>
