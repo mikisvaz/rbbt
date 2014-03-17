@@ -80,4 +80,12 @@ so that you can now type
 ```bash
 cat genes.txt | rbbt gene_ensembl
 ```
+Likewise:
 
+```bash
+rbbt alias gene_name workflow task Translation translate -f "Associated Gene Name" -o Hsa -g -
+```
+
+The `Genomics` workflow has a task called `names` that takes a TSV file and
+substitutes all identifiers with human readable genes. The identifiers that it
+identifies include genes, pathways, protein domains and several other entities.
