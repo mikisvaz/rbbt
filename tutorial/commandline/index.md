@@ -12,10 +12,17 @@ The rbbt command line tool comes in the rbbt-util gem. To update the basic rbbt-
 gem update rbbt-util
 {% endhighlight %}
 
-The rbbt command is basically a wrapper that finds a particular script and executes it. Typing rbbt will show the list of first level
-commands. Some of these are scripts, some of them are directories containing more scripts. You may append subcommands until
-you reach a script; which will execute it with the rest of the parameters. The rbbt command line also consumes a couple of command line
-parameters, such as the --log, which specifies the level of logging to use (0 for debug, 4 for default level, 7 or more no logs at all)
+The rbbt command is basically a wrapper that finds a particular script and
+executes it. Typing rbbt will show the list of first level commands. Some of
+these are scripts, some of them are directories containing more scripts. You
+may append subcommands until you reach a script; which will execute it with the
+rest of the parameters. The rbbt command line also consumes a couple of command
+line parameters, such as the --log, which specifies the level of logging to use
+(0 for debug, 4 for default level, 7 or more no logs at all).
+
+Most command-line parameters are assigned a shorthand version. This shorthand
+version is determined automatically for workflow tasks. You may find these in
+the command-line documentation with -h.
 
 Some of the most important commands are the following:
 
@@ -81,6 +88,6 @@ functionalities may not be available.
 
 A few interesting workflow tasks are:
 
-* `rbbt workflow task Translation translate`: Translate a list of genes ids to another format
+* `rbbt workflow task Translation translate`: Translate a list of genes ids to another format (see a post about this)
 * `rbbt workflow task Genomics names`: Takes a tsv file and translates all identified entities to a their human-friendly names
 
