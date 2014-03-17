@@ -20,8 +20,8 @@ This command will download the workflow from http://github.com/Rbbt-Workflows.
 It will also update the workflow to the latest git revision. You can see
 a list of installed workflows doing `rbbt workflow list`.
 
-To use the workflow you can again use the rbbt command: `rbbt workflow task
-<workflow>`. Issuing that command will list the available tasks for the
+To use the workflow you can again use the rbbt command: `rbbt workflow task <workflow>`. 
+Issuing that command will list the available tasks for the
 workflow. You can then do `rbbt workflow task <workflow> <task> -h` to learn
 how to use each particular task.
 
@@ -29,8 +29,8 @@ Workflows may require extensive resources, such a genomics data, fast access
 key-value stores, caches, indices, etc. These get created on demand. In order
 to help the initial process, some workflows include a `bootstrap` script, that
 will issue a number of jobs that will prompt the installation of this
-infrastructure. Workflow commands are issued using the `rbbt` command: `rbbt
-workflow cmd <workflow>` will list the available commands for that workflow.
+infrastructure. Workflow commands are issued using the `rbbt` command: 
+`rbbt workflow cmd <workflow>` will list the available commands for that workflow.
 To issue the bootstrap do `rbbt workflow cmd <workflow> bootstrap`.
 
 To cut down setup time even more, you can configure remote file servers to
