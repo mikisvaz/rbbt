@@ -20,9 +20,12 @@ rest of the parameters. The rbbt command line also consumes a couple of command
 line parameters, such as the --log, which specifies the level of logging to use
 (0 for debug, 4 for default level, 7 or more no logs at all).
 
-Most command-line parameters are assigned a shorthand version. This shorthand
-version is determined automatically for workflow tasks. You may find these in
-the command-line documentation with -h.
+Rbbt does not emforce any particular practice on the comman scripts, it just
+loads them. If a command is anything but trivial, it commonly uses Rbbt's
+`rbbt/util/simpleopt` module. Ammong other things, this means most command-line
+parameters are assigned a shorthand version. This shorthand version is
+determined automatically for workflow tasks. You may find these in the
+command-line documentation with -h.
 
 Some of the most important commands are the following:
 
