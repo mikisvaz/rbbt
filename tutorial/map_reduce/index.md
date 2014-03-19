@@ -39,7 +39,6 @@ require 'rbbt/sources/organism'
 # TSV#traversal currently ignores named arrays and entities except for
 # real TSV traversal; not for streams as in this case. so we need 
 # to find the position like this
-
 uniprot_pos = Organism.identifiers("Hsa").fields.index "UniProt/SwissProt Accession"
 
 has_uniprot = []
@@ -54,10 +53,6 @@ end
 puts "Ensembl Gene IDs with UniProt equivalences: #{has_uniprot.compact.length}"
 
 {% endhighlight %}
-<dl class='result'><dt>Result</dt><dd><pre>
-Ensembl Gene IDs with UniProt equivalences: 20784
-</pre></dd></dl>
-
 <dl class='result'><dt>Result</dt><dd><pre>
 Ensembl Gene IDs with UniProt equivalences: 20784
 </pre></dd></dl>
