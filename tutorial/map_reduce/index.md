@@ -118,9 +118,12 @@ uniprot_pos = Organism.identifiers("Hsa").fields.index "UniProt/SwissProt Access
 uni2ens = TSV.setup({}, :key_field => "UniProt/SwissProt Accession", 
                   :fields => ["Ensembl Gene ID"], :type => :double)
 
-TSV.traverse Organism.identifiers("Hsa"), :cpus => 3, :into => uni2ens do |k,v|
+TSV.traverse Organism.identifiers("Hsa"), 
+  :fields => ["UniProt/SwissProt Accession"], :type => :flat,
+  :cpus => 3, :into => uni2ens do |k,unis|
+
   matches = {}
-  v[uniprot_pos].each do |uni|
+  unis.each do |uni|
     matches[uni] = k
   end
   matches
