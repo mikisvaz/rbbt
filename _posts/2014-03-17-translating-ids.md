@@ -67,7 +67,14 @@ You may use the organism codes 'Hsa', 'Hsa/may2009' and 'Hsa/jun2011'. Other
 organisms are supported: 'Mmu' and 'Sce'. Any Ensembl archive date can be
 specified, but it will require preparing that infrastructure as well.
 
+Genes can be submitted from the STDIN by using the character `-` 
+
+```bash
+cat gene_names.txt | rbbt workflow task Translation tsv_translate --format "Ensembl Gene ID" --genes -
+```
+
 ## Tips
+
 
 If you find yourself translating entities often you might want to set up some
 aliases. For instance
