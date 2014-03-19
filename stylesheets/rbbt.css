@@ -15,6 +15,8 @@ dl.result > dd:not(.active){
 dl.result > dt{
  font-weight: bold;
  position: absolute;
+ cursor: pointer;
+ padding: 1px;
  right: 0
 }
 
