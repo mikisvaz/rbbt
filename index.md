@@ -72,7 +72,7 @@ Examples and tutorials
 * [Command-line](tutorial/commandline)
 * [Install](tutorial/install)
 * [TSV](tutorial/TSV)
-* [TSV#traversal (map-reduce)](tutorial/map-reduce)
+* [TSV#traversal (map-reduce)](tutorial/map_reduce)
 * [Resource](tutorial/Resource)
 * [Workflow](tutorial/Workflow)
 * [Knowledge Base](tutorial/knowledge_base)
