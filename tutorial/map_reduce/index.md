@@ -110,11 +110,6 @@ them.
 require 'rbbt-util'
 require 'rbbt/sources/organism'
 
-# TSV#traversal currently ignores named arrays and entities except for
-# real TSV traversal; not for streams as in this case. so we need 
-# to find the position like this
-uniprot_pos = Organism.identifiers("Hsa").fields.index "UniProt/SwissProt Accession"
-
 uni2ens = TSV.setup({}, :key_field => "UniProt/SwissProt Accession", 
                   :fields => ["Ensembl Gene ID"], :type => :double)
 
@@ -124,7 +119,7 @@ TSV.traverse Organism.identifiers("Hsa"),
 
   matches = {}
   unis.each do |uni|
-    matches[uni] = k
+    matches[uni] = [k]
   end
   matches
 end
