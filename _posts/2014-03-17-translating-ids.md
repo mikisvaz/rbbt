@@ -7,8 +7,9 @@ tagline: Translating IDs
 # Translating IDs
 
 This post will show how to use the Rbbt workflow `Translation` to translate
-between identifier formats.  You will need a working ruby installation, and the
-gems `rbbt-util`, `rbbt-rest` and `rbbt-sources`.
+between identifier formats.  You will need a working ruby installation, and a
+recent version of the gems `rbbt-util`, `rbbt-rest` and `rbbt-sources` (e.g.,
+gem install rbbt-util).
 
 ## Prepare infrastructure
 
