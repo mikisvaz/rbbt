@@ -21,10 +21,12 @@ have been addressed).
 In order to 'reduce' the results from each block into an object, you can
 specify the object with the `into` parameter. The object must be a Hash (or
 TSV), in which case it will expect a pair of `key` and `value` as a return from
-the block, or is can be anything that responds to `<<`, such as Array, Set, or
-Stream. Access to the resource is protected using a mutex when using `threads`.
-When using `cpus`, the return value is piped back to the master process, which
-performs the addition.
+the block; or another hash, which will be added by `Hash#merge!`, except for
+`double` TSV object in which the method `TSV#merge_zip` is used. The object can
+also be anything that responds to `<<`, such as Array, Set, or Stream. Access
+to the resource is protected using a mutex when using `threads`.  When using
+`cpus`, the return value is piped back to the master process, which performs
+the addition.
 
 Bellow you can see an example of the syntax. Note that in this example, since
 it is so simple, using cpus is counter-productive, due to the overhead of
@@ -58,4 +60,71 @@ puts "Ensembl Gene IDs with UniProt equivalences: #{has_uniprot.compact.length}"
 {% endhighlight %}
 <dl class='result'><dt>Result</dt><dd><pre>
 Ensembl Gene IDs with UniProt equivalences: 20784
+</pre></dd></dl>
+
+The following example merges the result into a hash object. The result of each
+iteration, a Hash, is merged into the hash.
+
+{% highlight ruby %}
+
+require 'rbbt-util'
+require 'rbbt/sources/organism'
+
+# TSV#traversal currently ignores named arrays and entities except for
+# real TSV traversal; not for streams as in this case. so we need 
+# to find the position like this
+uniprot_pos = Organism.identifiers("Hsa").fields.index "UniProt/SwissProt Accession"
+
+uni2ens = {}
+TSV.traverse Organism.identifiers("Hsa"), :cpus => 3, :into => uni2ens do |k,v|
+  matches = {}
+  v[uniprot_pos].each do |uni|
+    matches[uni] = k
+  end
+  matches
+end
+
+puts "UniProt entries: #{uni2ens.keys.length}"
+puts "Ensembl entries (uniq): #{uni2ens.values.compact.flatten.uniq.length}"
+
+{% endhighlight %}
+<dl class='result'><dt>Result</dt><dd><pre>
+UniProt entries: 19079
+Ensembl entries (uniq): 18974
+</pre></dd></dl>
+
+The discrepancy in the numbers comes from the fact that some UniProt ids are
+assigned to several Ensembl Gene IDs, and the `Hash#merge!` method will
+override each entry with the next. To avoid this, the next example is
+the same, except that we 'reduce' into a `double` TSV; the `TSV#merge_zip`
+takes care of accumulating the values instead of overwriting them.
+
+{% highlight ruby %}
+
+require 'rbbt-util'
+require 'rbbt/sources/organism'
+
+# TSV#traversal currently ignores named arrays and entities except for
+# real TSV traversal; not for streams as in this case. so we need 
+# to find the position like this
+uniprot_pos = Organism.identifiers("Hsa").fields.index "UniProt/SwissProt Accession"
+
+uni2ens = TSV.setup({}, :key_field => "UniProt/SwissProt Accession", 
+                  :fields => ["Ensembl Gene ID"], :type => :double)
+
+TSV.traverse Organism.identifiers("Hsa"), :cpus => 3, :into => uni2ens do |k,v|
+  matches = {}
+  v[uniprot_pos].each do |uni|
+    matches[uni] = k
+  end
+  matches
+end
+
+puts "UniProt entries: #{uni2ens.keys.length}"
+puts "Ensembl entries (uniq): #{uni2ens.values.compact.flatten.uniq.length}"
+
+{% endhighlight %}
+<dl class='result'><dt>Result</dt><dd><pre>
+UniProt entries: 19079
+Ensembl entries (uniq): 20784
 </pre></dd></dl>
