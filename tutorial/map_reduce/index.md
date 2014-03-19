@@ -26,10 +26,13 @@ Stream. Access to the resource is protected using a mutex when using `threads`.
 When using `cpus`, the return value is piped back to the master process, which
 performs the addition.
 
-Bellow you can see an example of the syntax. Note that in this example, using
-cpus is quite slow, due to the overhead or serializing/deserializing through
-the pipe, etc. Also the particular problem it solves could have been
-implemented otherwise more simply.
+Bellow you can see an example of the syntax. Note that in this example, since
+it is so simple, using cpus is counter-productive, due to the overhead of
+serializing/deserializing through the pipe, starting and monitoring the
+processes, etc. Also the particular problem it solves could have been
+implemented otherwise more simply. If you execute this example, you can play
+around with different values for the `threads` and `cpus` parameters (`cpus`
+will be ignored if `threads` are specified)
 
 {% highlight ruby %}
 
