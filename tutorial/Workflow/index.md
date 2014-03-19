@@ -12,9 +12,9 @@ by placing it on `~/.rbbt/etc/workflow_dir`. You can place the workflow in the
 directory manually, or you can install it automatically from source using
 the following command:
 
-{% highlight ruby %}
+```bash
 rbbt workflow install <workflow>
-{% endhighlight %}
+```
 
 This command will download the workflow from http://github.com/Rbbt-Workflows.
 It will also update the workflow to the latest git revision. You can see

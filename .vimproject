@@ -54,6 +54,9 @@ rbbt-gh-pages=/$PWD filter="*" {
   TSV=TSV{
    index.md
   }
+  map_reduce=map_reduce{
+   index.md
+  }
   knowledge_base=knowledge_base{
    index.md
   }
