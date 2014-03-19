@@ -6,7 +6,8 @@ tagline: Map-reduce in Rbbt
 
 # TSV#traversal
 
-The TSV#traversal takes an object that could be a `TSV`, a `Hash`, an `Array`
+The TSV#traversal takes an object that could be a `TSV`, a `Hash`, an `Array`,
+a `Stream`, or a `Path` (produced, opened, and treated as a `Stream`),
 and iterates through each entry executing a block of code. TSV files and
 streams take the same options as when opening a TSV (`key_field`, `fields`, `sep`,
 `head`, `grep`, etc).
