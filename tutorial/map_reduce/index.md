@@ -8,7 +8,7 @@ tagline: Map-reduce in Rbbt
 
 The TSV#traversal takes an object that could be a `TSV`, a `Hash`, an `Array`
 and iterates through each entry executing a block of code. TSV files and
-streams take the same options as when opening a TSV (`key_field`, `fields`, `sep,
+streams take the same options as when opening a TSV (`key_field`, `fields`, `sep`,
 `head`, `grep`, etc).
 
 Using the `threads` or `cpus` parameter with an integer will start that number
