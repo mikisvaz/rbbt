@@ -64,28 +64,28 @@ To try out workflows the easiest way is to use them remotely. If you manage to
 install Ruby and the gems `rbbt-util` and `rbbt-rest` you can try the following
 examples; they should give you a taste of how it works.
 
+See available tasks for the Structure workflow; and the help for a particular task
+
 ```bash
-# See available tasks for the Structure workflow...
 rbbt workflow task http://se.bioinfo.cnio.es/Structure -h
-# ...and the help for a particular task
 rbbt workflow task http://se.bioinfo.cnio.es/Structure -h annotated_variants
 ```
 
+
+Translate gene names to Ensembl Gene ID
 ```bash
-# Translate gene names to Ensembl Gene ID
 rbbt workflow task http://se.bioinfo.cnio.es/Translation tsv_translate -g TP53,MDM2,RB1
 ```
 
+Annotated coding variants from VCF file
 ```bash
-# Annotated coding variants from VCF file
 rbbt workflow task http://se.bioinfo.cnio.es/Sequence vcf -f <some vcf file> | \
 rbbt workflow task http://se.bioinfo.cnio.es/Sequence mutated_isoforms -g - 
 ```
 
+Find up/down regulated genes in a GEO dataset for a particular contrast...
 ```bash
-# Find upregulated genes in a GEO dataset for a particular contrast...
 rbbt workflow task http://se.bioinfo.cnio.es/GEO up_genes -d GDS4455 -m "genotype/variation=RhoGDI2" -tg
-# ...and down-regulated
 rbbt workflow task http://se.bioinfo.cnio.es/GEO down_genes -d GDS4455 -m "genotype/variation=RhoGDI2" -tg
 ```
 
