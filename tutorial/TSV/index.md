@@ -6,11 +6,11 @@ tagline: TSV
 
 # TSV
 
-Tab Separated Value files (TSV) are the most common format in biology, so it is
-very convinient to have easy ways to manipulate them and work with them. A
+Tab Separated Value files (TSV) is one of the most common formats in biology,
+so it is very convenient to have easy ways to manipulate and work with them.  A
 proper TSV file for Rbbt is a representation of how entities, listed as the
 first column, are associated to different values, specified in the rest of the
-columns. Every column is identified by a header at the top of the file. The
+columns. Every column is identified by a header at the top of the file.  The
 most convinient way to programmatically access this information would be to do
 something like this:
 
@@ -23,7 +23,7 @@ we wish to query. The most similar structure in programming languages is the `Ha
 The Rbbt uses hashes to load TSV files, but has the option to replace them with a 
 Tokyocabinet DB transparently for fast access.
 
-The TSV in Rbbt--one of the its most important components--strives to make
+The TSV in Rbbt--one of its most important components--strives to make
 this possible for any type of data, regardless of it size, formatting details,
 or provenance. Having successfully achived this, we do not need to use
 databases and decide on database schemas, just query the data directly: the TSV

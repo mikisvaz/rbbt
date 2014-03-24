@@ -57,6 +57,37 @@ Well, a large number of workflows have been developed:
 * [Enrichment](https://github.com/Rbbt-Workflows/enrichment): over-representation and rank-based methods for enrichment analysis, supporting: Kegg, GO, Nature Curated Cancer Pathways, Reactome, Biocarta, PFAM, Transfac, ect
 * and many [more](https://github.com/Rbbt-Workflows)
 
+How can I try it?
+-----------------
+
+To try out workflows the easiest way is to use them remotely. If you manage to
+install Ruby and the gems `rbbt-util` and `rbbt-rest` you can try the following
+examples; they should give you a taste of how it works.
+
+```bash
+# See available tasks for the Structure workflow...
+rbbt workflow task http://se.bioinfo.cnio.es/Structure -h
+# ...and the help for a particular task
+rbbt workflow task http://se.bioinfo.cnio.es/Structure -h annotated_variants
+```
+
+```bash
+# Translate gene names to Ensembl Gene ID
+rbbt workflow task http://se.bioinfo.cnio.es/Translation tsv_translate -g TP53,MDM2,RB1
+```
+
+```bash
+# Annotated coding variants from VCF file
+rbbt workflow task http://se.bioinfo.cnio.es/Sequence vcf -f <some vcf file> | \
+rbbt workflow task http://se.bioinfo.cnio.es/Sequence mutated_isoforms -g - 
+```
+
+```bash
+# Find upregulated genes in a GEO dataset for a particular contrast...
+rbbt workflow task http://se.bioinfo.cnio.es/GEO up_genes -d GDS4455 -m "genotype/variation=RhoGDI2" -tg
+# ...and down-regulated
+rbbt workflow task http://se.bioinfo.cnio.es/GEO down_genes -d GDS4455 -m "genotype/variation=RhoGDI2" -tg
+```
 
 How can I benefit?
 ------------------
