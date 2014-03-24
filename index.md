@@ -9,10 +9,10 @@ What is Rbbt?
 -------------
 
 Rbbt stands for "Ruby Bioinformatics Tool-box". It is a framework for software
-developement in bioinformatics. It covers three aspects:
+development in bioinformatics. It covers three aspects:
 
 * Developing functionalities
-* Making the as widely accessible as possible
+* Making them as widely accessible as possible
 * Integrating them with one another
 
 Where has Rbbt been used?
@@ -24,7 +24,7 @@ parts of it, like the workflow management:
 * [SENT](http://sent.dacya.ucm.es/): semantic features in text
 * [BioNMF](http://bionmf.dacya.ucm.es/): Non-negative matrix factorization in biology
 * [MARQ](http://marq.dacya.ucm.es/): microarray-rank query
-* [Genecodis](http://genecodis.cnb.csic.es/): Gene annotation co-ocurrence discovery
+* [Genecodis](http://genecodis.cnb.csic.es/): Gene annotation co-occurrence discovery
 * [3DEM Loupe](http://3demloupe.cnb.csic.es): Normal mode analysis of dynamics of structures from electron microscopy
 * [TaLasso](http://talasso.cnb.csic.es/): Quantification of miRNA-mRNA interactions
 * [KinMut](http://wkinmut.bioinfo.cnio.es/): Pathogenicity predictions of kinase mutations
@@ -35,16 +35,15 @@ years, the code used in them has been re-factored several times since
 Where is it used now?
 ---------------------
 
-Our current interest is in cancer genome analysis. Development in this area has
+My current interest is in cancer genome analysis. Work in this area has
 stimulated the development of several new concepts, such as the Entity
-subsystem, a novel concept developed to aleviate the complex challenges of
+subsystem, a novel approach developed to alleviate the complex challenges of
 integration.
 
 The StudyExplorer is our current flagship application. I can be adapted to different
 scenarios and several instances of it serves different groups in our institution. An
 example deployment is [ICGC Scout](http://se.bioinfo.cnio.es), that provides access to 
 all cancer studies from ICGC and TCGA and offers a wide array of functionalities.
-*NOTE: The software is not easy to use, it requires training or documentation, which is mostly lacking*
 
 What is in it?
 --------------
@@ -65,7 +64,6 @@ install Ruby and the gems `rbbt-util` and `rbbt-rest` you can try the following
 examples; they should give you a taste of how it works.
 
 See available tasks for the Structure workflow; and the help for a particular task
-
 ```bash
 rbbt workflow task http://se.bioinfo.cnio.es/Structure -h
 rbbt workflow task http://se.bioinfo.cnio.es/Structure -h annotated_variants

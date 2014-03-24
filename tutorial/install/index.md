@@ -54,7 +54,7 @@ Sequence http://se.bioinfo.cnio.es`.
 
 When the system is configured, it is a good idea to bootstrap it. Many
 workflows include a `bootstrap` command, which run a series of dummy jobs to
-ensure all the necesary resources are claimed and indices and caches are made.
+ensure all the necessary resources are claimed and indices and caches are made.
 Bootstrapping a workflow is done using the `rbbt` command like in the following
 example:
 
@@ -68,7 +68,7 @@ in an orderly manner.
 
 ### Quick recipie
 
-Provided your linux distribution has the right packages, you should be able to
+Provided your Linux distribution has the right packages, you should be able to
 install the system by running the following script
 
 {% highlight sh %}

@@ -16,7 +16,7 @@ Using the `threads` or `cpus` parameter with an integer will start that number
 of threads/cpus to execute the blocks. The input elements for each execution
 are placed on a queue and are consumed by workers, which compete to get the
 new inputs from the queue as they finish the previous ones. For cpus the queue
-is implemented using a linux pipe (problems with concurrency in Marshal.load
+is implemented using a Linux pipe (problems with concurrency in Marshal.load
 have been addressed).
 
 In order to 'reduce' the results from each block into an object, you can

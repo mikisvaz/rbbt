@@ -11,7 +11,7 @@ so it is very convenient to have easy ways to manipulate and work with them.  A
 proper TSV file for Rbbt is a representation of how entities, listed as the
 first column, are associated to different values, specified in the rest of the
 columns. Every column is identified by a header at the top of the file.  The
-most convinient way to programmatically access this information would be to do
+most convenient way to programmatically access this information would be to do
 something like this:
 
 {% highlight ruby %}
@@ -25,7 +25,7 @@ Tokyocabinet DB transparently for fast access.
 
 The TSV in Rbbt--one of its most important components--strives to make
 this possible for any type of data, regardless of it size, formatting details,
-or provenance. Having successfully achived this, we do not need to use
+or provenance. Having successfully achieved this, we do not need to use
 databases and decide on database schemas, just query the data directly: the TSV
 module will take care of everything so you have a very fast access to your
 data. The cost of it is disk space and severe lags as the infrastructure

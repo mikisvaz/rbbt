@@ -21,7 +21,7 @@ accessed any of the following ways:
 Implementing workflows is simplified thanks to the extensive collection of
 tools in Rbbt. The can be maintained independently from the base system, and
 managed through the `rbbt` command to install or update them from different
-sources.
+sources, or to use them remotely.
 
 Any software that uses Rbbt will tap into the same infrastructure, sharing not
 only the functionalities and resources, but also the caches, indexes and

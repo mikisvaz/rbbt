@@ -531,7 +531,7 @@ Hsa/may2009
 ### Qualifying associations
 
 The following example shows how to access they values that qualify each association. The 
-`values` proerty of `AssociationItem` entities returns a `NamedArray` with the qualification 
+`values` property of `AssociationItem` entities returns a `NamedArray` with the qualification 
 values associated with their corresponding field names.
 
 {% highlight ruby %}
