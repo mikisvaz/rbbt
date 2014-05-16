@@ -66,7 +66,7 @@ examples; they should give you a taste of how it works.
 See available tasks for the Structure workflow; and the help for a particular task
 ```bash
 rbbt workflow task http://se.bioinfo.cnio.es/Structure -h
-rbbt workflow task http://se.bioinfo.cnio.es/Structure -h annotated_variants
+rbbt workflow task http://se.bioinfo.cnio.es/Structure -h annotate
 ```
 
 
@@ -77,14 +77,20 @@ rbbt workflow task http://se.bioinfo.cnio.es/Translation tsv_translate -g TP53,M
 
 Annotated coding variants from VCF file
 ```bash
-rbbt workflow task http://se.bioinfo.cnio.es/Sequence vcf -f <some vcf file> | \
-rbbt workflow task http://se.bioinfo.cnio.es/Sequence mutated_isoforms -g - 
+rbbt workflow task http://se.bioinfo.cnio.es/Sequence mutated_isoforms_fast -m <vcf.file> --vcf
 ```
 
 Find up/down regulated genes in a GEO dataset for a particular contrast...
 ```bash
 rbbt workflow task http://se.bioinfo.cnio.es/GEO up_genes -d GDS4455 -m "genotype/variation=RhoGDI2" -tg
 rbbt workflow task http://se.bioinfo.cnio.es/GEO down_genes -d GDS4455 -m "genotype/variation=RhoGDI2" -tg
+```
+
+You can also use `wget` or `curl`, but remember to specify the `_format` as
+`raw` or `json`
+
+```bash
+wget "http://se.bioinfo.cnio.es/Sequence/mutated_isoforms?mutations=7:31003700:T&_format=raw" -O -
 ```
 
 How can I benefit?
