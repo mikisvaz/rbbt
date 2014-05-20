@@ -90,7 +90,7 @@ You can also use `wget` or `curl`, but remember to specify the `_format` as
 `raw` or `json`
 
 ```bash
-wget "http://se.bioinfo.cnio.es/Sequence/mutated_isoforms?mutations=7:31003700:T&_format=raw" -O -
+wget "http://se.bioinfo.cnio.es/Sequence/mutated_isoforms?mutations=7:31003700:T&_format=raw" --quiet -O -
 ```
 
 How can I benefit?
