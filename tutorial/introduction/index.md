@@ -6,7 +6,7 @@ tagline: Rbbt introduction
 
 # Introduction
 
-The Rbbt system is a collection of functionalities (tools in the toolbox)
+The Rbbt system is a collection of functionalities (tools in the toolkit)
 organized into an API. These functionalities are powered by one another and
 by a sophisticated infrastructure of resources.
 

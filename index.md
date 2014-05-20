@@ -1,7 +1,7 @@
 ---
 title: Rbbt
 layout: default
-tagline: Ruby bioinformatics toolbox
+tagline: Ruby bioinformatics toolkit
 ---
 
 
