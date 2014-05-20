@@ -8,7 +8,7 @@ tagline: Ruby bioinformatics toolkit
 What is Rbbt?
 -------------
 
-Rbbt stands for "Ruby Bioinformatics Tool-box". It is a framework for software
+Rbbt stands for "Ruby Bioinformatics Toolkit". It is a framework for software
 development in bioinformatics. It covers three aspects:
 
 * Developing functionalities
