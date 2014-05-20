@@ -64,34 +64,38 @@ install Ruby and the gems `rbbt-util` and `rbbt-rest` you can try the following
 examples; they should give you a taste of how it works.
 
 See available tasks for the Structure workflow; and the help for a particular task
-```bash
+
+{% highlight bash %}
 rbbt workflow task http://se.bioinfo.cnio.es/Structure -h
 rbbt workflow task http://se.bioinfo.cnio.es/Structure -h annotate
-```
+{% endhighlight %}
 
 
 Translate gene names to Ensembl Gene ID
-```bash
+
+{% highlight bash %}
 rbbt workflow task http://se.bioinfo.cnio.es/Translation tsv_translate -g TP53,MDM2,RB1
-```
+{% endhighlight %}
 
 Annotated coding variants from VCF file
-```bash
+
+{% highlight bash %}
 rbbt workflow task http://se.bioinfo.cnio.es/Sequence mutated_isoforms_fast -m <vcf.file> --vcf
-```
+{% endhighlight %}
 
 Find up/down regulated genes in a GEO dataset for a particular contrast...
-```bash
+
+{% highlight bash %}
 rbbt workflow task http://se.bioinfo.cnio.es/GEO up_genes -d GDS4455 -m "genotype/variation=RhoGDI2" -tg
 rbbt workflow task http://se.bioinfo.cnio.es/GEO down_genes -d GDS4455 -m "genotype/variation=RhoGDI2" -tg
-```
+{% endhighlight %}
 
 You can also use `wget` or `curl`, but remember to specify the `_format` as
 `raw` or `json`
 
-```bash
+{% highlight bash %}
 wget "http://se.bioinfo.cnio.es/Sequence/mutated_isoforms?mutations=7:31003700:T&_format=raw" --quiet -O -
-```
+{% endhighlight %}
 
 How can I benefit?
 ------------------
