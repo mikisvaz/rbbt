@@ -64,7 +64,7 @@ The most common are:
 
 *Note that CASE is ALWAYS IMPORTANT*
 
-You may use the organism codes 'Hsa', 'Hsa/may2009' and 'Hsa/jun2011'. Other
+You may use the organism codes 'Hsa', 'Hsa/may2009' and Organism.default_code('Hsa'). Other
 organisms are supported: 'Mmu' and 'Sce'. Any Ensembl archive date can be
 specified, but it will require preparing that infrastructure as well.
 

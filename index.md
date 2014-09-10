@@ -28,6 +28,7 @@ parts of it, like the workflow management:
 * [3DEM Loupe](http://3demloupe.cnb.csic.es): Normal mode analysis of dynamics of structures from electron microscopy
 * [TaLasso](http://talasso.cnb.csic.es/): Quantification of miRNA-mRNA interactions
 * [KinMut](http://wkinmut.bioinfo.cnio.es/): Pathogenicity predictions of kinase mutations
+* [Structure-PPI](http://structureppi.bioinfo.cnio.es/): Pathogenicity predictions of kinase mutations
 
 These applications have driven the development of the framework over the
 years, the code used in them has been re-factored several times since
