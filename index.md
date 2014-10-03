@@ -63,8 +63,8 @@ important:
 * Enough syntactic sugar to make a cake thanks to (abused) ruby meta-programming and the
   principle of convention-over-configuration
 
-Using these features, dozens of workflows have been produced serving
-functionalities, resources, knowledge bases, and reports
+Using these features, dozens of workflows have been produced; serving
+functionalities, resources, knowledge bases, and reports.
 
 Where has Rbbt been used?
 -------------------------
