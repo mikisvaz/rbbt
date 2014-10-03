@@ -22,44 +22,36 @@ The Rbbt framework has many many features. The following are some of the most
 important:
 
 * TSV file manipulation, indexing and traversal with native programmatic
-support for persistence, map-reduce, indexing, slicing, reordering, sorting,
-pagination, semantic interpretation of file headers, etc
-
+  support for persistence, map-reduce, indexing, slicing, reordering, sorting,
+  pagination, semantic interpretation of file headers, etc
 * Resource management with cross-application sharing, claiming production,
-updating, versioning, etc
-
+  updating, versioning, etc
 * Transparent out of the box top-of-the-line performance with no loading time
-across all functionalities thanks to automatic database generation using a
-dozen different database approaches ranging from key-value stores and B-trees
-to sorted fixed-width indices with binary search support for point and range
-based queries
-
+  across all functionalities thanks to automatic database generation using a
+  dozen different database approaches ranging from key-value stores and B-trees
+  to sorted fixed-width indices with binary search support for point and range
+  based queries
 * Workflow definition and enactment, with map-reduce, streaming,
-cross-workflow/cross-host dependencies, incremental/intelligent updates,
-orthogonal command-line/web-page/REST/SOAP/API access automatically
-supported, extensible web templating
-
+  cross-workflow/cross-host dependencies, incremental/intelligent updates,
+  orthogonal command-line/web-page/REST/SOAP/API access automatically
+  supported, extensible web templating
 * Full-blown templating engine for HTML/CSS/javascript based on
-HAML/SASS-Compass/JQuery, with a plugin approach to functionality integration
-and a state-of-the-art semantic-based live report generation
-
+  HAML/SASS-Compass/JQuery, with a plugin approach to functionality integration
+  and a state-of-the-art semantic-based live report generation
 * Knowledge representation standard that allow for new approaches for data
-integration and exploration through interactive graphs, and plots, and reports 
-that allow the user to follow leads and examine the evidence to support
-connections between different entities
-
+  integration and exploration through interactive graphs, and plots, and
+  reports that allow the user to follow leads and examine the evidence to
+  support connections between different entities
 * Stream oriented processing with transparent support for working with files,
-sockets, remote urls, workflow dependencies, compressed files, support for
-seekable compressed streams using a native implementation of BGZF with
-in-situ incremental index generation. Complex native concurrency support using
-event driven programming for multi-processing streaming cascades
-
+  sockets, remote urls, workflow dependencies, compressed files, support for
+  seekable compressed streams using a native implementation of BGZF with
+  in-situ incremental index generation. Complex native concurrency support
+  using event driven programming for multi-processing streaming cascades
 * R integration using direct library calls (RSRuby), shared server (Reval) or
-shell-out (R CMD). Deep integration for model fitting, plotting of SVG with
-painless state-of-the-art D3js integration
-
-* Enough syntactic sugar to make a cake thanks to ruby meta-programming and the principle
-of convention over configuration
+  shell-out (R CMD). Deep integration for model fitting, plotting of SVG with
+  painless state-of-the-art D3js integration
+* Enough syntactic sugar to make a cake thanks to ruby meta-programming and the
+  principle of convention over configuration
 
 Using these features, dozens of workflows have been produced serving
 functionalities, resources, knowledge bases, and reports
