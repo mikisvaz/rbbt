@@ -15,6 +15,45 @@ development in bioinformatics. It covers three aspects:
 * Making them as widely accessible as possible
 * Integrating them with one another
 
+What are Rbbt main features?
+-------------
+
+* TSV file manipulation, indexing and traversal with native programmatic
+  support for persistence, map-reduce, indexing, slicing, reordering, sorting,
+  pagination, semantic interpretation of file headers, etc
+
+* Resource management with cross-application sharing, claiming production,
+  updating, versioning, etc
+
+* Transparent out of the box top-of-the-line performance with no loading time
+  across all functionalities thanks to automatic database generation using a
+  dozen different database approaches ranging from key-value stores and B-trees
+  to sorted fixed-width indices with binary search support for point and range
+  based queries
+
+* Workflow definition and enactment, with map-reduce, streaming,
+  cross-workflow/cross-host dependencies, incremental/intelligent updates,
+  orthogonal command-line/web-page/REST/SOAP/API access automatically
+  supported, extensible web templating
+
+* Full-blown templating engine for HTML/CSS/javascript based on
+  HAML/SASS-Compass/JQuery, with a plugin approach to functionality integration
+  and a state-of-the-art semantic-based live report generation
+
+* Stream oriented processing with transparent support for working with files,
+  sockets, remote urls, workflow dependencies, compressed files, support for
+  seekable compressed streams using a native implementation of BGZF with
+  in-situ incremental index generation. Complex native concurrency support using
+  event driven programming for multi-processing streaming cascades
+
+* R integration using direct library calls (RSRuby), shared server (Reval) or
+  shell-out (R CMD). Deep integration for model fitting, plotting of SVG with
+  painless state-of-the-art D3js integration
+
+* Enough syntactic sugar to make a cake thanks to ruby meta-programming and the principle
+  of convention over configuration
+
+
 Where has Rbbt been used?
 -------------------------
 
@@ -41,6 +80,7 @@ My current interest is in cancer genome analysis. Work in this area has
 stimulated the development of several new concepts, such as the Entity
 subsystem, a novel approach developed to alleviate the complex challenges of
 integration.
+
 
 The StudyExplorer is our current flagship application. I can be adapted to different
 scenarios and several instances of it serves different groups in our institution. An
