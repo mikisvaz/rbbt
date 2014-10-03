@@ -15,7 +15,7 @@ development in bioinformatics. It covers three aspects:
 * Making them as widely accessible as possible
 * Integrating them with one another
 
-What are Rbbt main features?
+What are the main features in Rbbt?
 -------------
 
 The Rbbt framework has many many features. The following are some of the most
