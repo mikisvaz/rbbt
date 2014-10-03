@@ -36,14 +36,15 @@ important:
 * Resource management with cross-application sharing, claiming production,
   updating, versioning, etc
 * Transparent out of the box top-of-the-line performance with no loading time
-  across all functionalities thanks to automatic database generation using a
-  dozen different database approaches ranging from key-value stores and B-trees
+  across all functionalities owing to automatic database generation using a
+  dozen different database backends ranging from key-value stores and B-trees
   to sorted fixed-width indices with binary search support for point and range
-  based queries
+  based queries, with support for sharding, indexing, etc
 * Workflow definition and enactment, with map-reduce, streaming,
-  cross-workflow/cross-host dependencies, incremental/intelligent updates,
+  cross-workflow/cross-host dependencies for functionality syndication across
+  departments/institutions, incremental/intelligent updates,
   orthogonal command-line/web-page/REST/SOAP/API access automatically
-  supported, extensible web templating
+  provided, extensible web templating, etc
 * Full-blown templating engine for HTML/CSS/javascript based on
   HAML/SASS-Compass/JQuery, with a plugin approach to functionality integration
   and a state-of-the-art semantic-based live report generation
@@ -59,7 +60,7 @@ important:
 * R integration using direct library calls (RSRuby), shared server (Reval) or
   shell-out (R CMD). Deep integration for model fitting and plotting of SVGs with
   painless state-of-the-art D3js integration
-* Enough syntactic sugar to make a cake thanks to ruby meta-programming and the
+* Enough syntactic sugar to make a cake thanks to (abused) ruby meta-programming and the
   principle of convention over configuration
 
 Using these features, dozens of workflows have been produced serving
