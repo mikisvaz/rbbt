@@ -15,6 +15,15 @@ development in bioinformatics. It covers three aspects:
 * Making them as widely accessible as possible
 * Integrating them with one another
 
+It was intended initially to hold different low level tools that for the basis
+of most bioinformatics work: parsing and tidying data, gathering resources,
+organizing the sequential production of results for reusable/reproducible work.
+The framework provides incentives to adhere to several reasonable standards that
+improve reusability and interoperability and has thus resulted in a very
+comprehensive set of functionalities that now form one of the most ambitions
+bioinformatics frameworks available.
+
+
 What are the main features in Rbbt?
 -------------
 
@@ -48,14 +57,13 @@ important:
   in-situ incremental index generation. Complex native concurrency support
   using event driven programming for multi-processing streaming cascades
 * R integration using direct library calls (RSRuby), shared server (Reval) or
-  shell-out (R CMD). Deep integration for model fitting, plotting of SVG with
+  shell-out (R CMD). Deep integration for model fitting and plotting of SVGs with
   painless state-of-the-art D3js integration
 * Enough syntactic sugar to make a cake thanks to ruby meta-programming and the
   principle of convention over configuration
 
 Using these features, dozens of workflows have been produced serving
 functionalities, resources, knowledge bases, and reports
-
 
 Where has Rbbt been used?
 -------------------------
@@ -148,6 +156,15 @@ How can I benefit?
 As a user by using the applications that it powers :) As a developer, by taking
 its code apart, copying the ideas, stealing shamelessly the implementations,
 or even by using the framework as it is supposed to be used. 
+
+The extent of the functionalities and the conceptual depth of the underlaying
+design makes approaching the Rbbt framework daunting. I'm spend many work
+sprints improving the accessibility of the functionalities, but few on
+documenting the core. I believe a good programmer with a little guidance can
+easily find code examples in workflows and test sets that illustrate the myriad
+of ways the framework can be used. I have little time left to document more,
+but I'll be willing to lend a hand to a motivated programmer if he find this
+interesting.
 
 Examples and tutorials
 ----------------------
