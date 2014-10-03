@@ -61,7 +61,7 @@ important:
   shell-out (R CMD). Deep integration for model fitting and plotting of SVGs with
   painless state-of-the-art D3js integration
 * Enough syntactic sugar to make a cake thanks to (abused) ruby meta-programming and the
-  principle of convention over configuration
+  principle of convention-over-configuration
 
 Using these features, dozens of workflows have been produced serving
 functionalities, resources, knowledge bases, and reports
