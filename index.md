@@ -145,7 +145,7 @@ rbbt workflow task http://se.bioinfo.cnio.es/GEO down_genes -d GDS4455 -m "genot
 {% endhighlight %}
 
 You can also use `wget` or `curl`, but remember to specify the `_format` as
-`raw` or `json`
+`raw` or `json`. Both `POST` and `GET` are accepted.
 
 {% highlight bash %}
 wget "http://se.bioinfo.cnio.es/Sequence/mutated_isoforms?mutations=7:31003700:T&_format=raw" --quiet -O -
