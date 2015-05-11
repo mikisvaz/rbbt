@@ -157,6 +157,8 @@ If you want to specify any inputs as files, you can use cURL:
 curl -H "Expect:" -L http://rbbt.bioinfo.cnio.es/Sequence/mutated_isoforms_fast -F "_format=raw" -F "mutations=@<file>" -F "organism=Hsa/feb2014"
 {% endhighlight %}
 
+Note the -H "Expect", which is required for some reason
+
 How can I benefit?
 ------------------
 
