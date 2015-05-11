@@ -140,15 +140,21 @@ rbbt workflow task http://se.bioinfo.cnio.es/Sequence mutated_isoforms_fast -m <
 Find up/down regulated genes in a GEO dataset for a particular contrast...
 
 {% highlight bash %}
-rbbt workflow task http://se.bioinfo.cnio.es/GEO up_genes -d GDS4455 -m "genotype/variation=RhoGDI2" -tg
-rbbt workflow task http://se.bioinfo.cnio.es/GEO down_genes -d GDS4455 -m "genotype/variation=RhoGDI2" -tg
+rbbt workflow task http://rbbt.bioinfo.cnio.es/GEO up_genes -d GDS4455 -m "genotype/variation=RhoGDI2" -tg
+rbbt workflow task http://rbbt.bioinfo.cnio.es/GEO down_genes -d GDS4455 -m "genotype/variation=RhoGDI2" -tg
 {% endhighlight %}
 
-You can also use `wget` or `curl`, but remember to specify the `_format` as
+You can also use `wget` or `cURL`, but remember to specify the `_format` as
 `raw` or `json`. Both `POST` and `GET` are accepted.
 
 {% highlight bash %}
-wget "http://se.bioinfo.cnio.es/Sequence/mutated_isoforms?mutations=7:31003700:T&organism=Hsa/feb2014&_format=raw" --quiet -O -
+wget "http://rbbt.bioinfo.cnio.es/Sequence/mutated_isoforms?mutations=7:31003700:T&organism=Hsa/feb2014&_format=raw" --quiet -O -
+{% endhighlight %}
+
+If you want to specify any inputs as files, you can use cURL:
+
+{% highlight bash %}
+curl -H "Expect:" -L http://rbbt.bioinfo.cnio.es/Sequence/mutated_isoforms_fast -F "_format=raw" -F "mutations=@<file>" -F "organism=Hsa/feb2014"
 {% endhighlight %}
 
 How can I benefit?
