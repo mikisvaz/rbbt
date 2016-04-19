@@ -96,7 +96,7 @@ integration.
 
 The StudyExplorer is our current flagship application. I can be adapted to different
 scenarios and several instances of it serves different groups in our institution. An
-example deployment is [ICGC Scout](http://se.bioinfo.cnio.es), that provides access to 
+example deployment is [ICGC Scout](http://icgcscout.bioinfo.cnio.es), that provides access to 
 all cancer studies from ICGC and TCGA and offers a wide array of functionalities.
 
 What is in it?
