@@ -177,11 +177,10 @@ interesting.
 
 Examples and tutorials
 ----------------------
-* [Introduction](tutorial/getting_started)
+* [Getting Started!](tutorial/getting_started)
 * [Introduction](tutorial/introduction)
 * [Background](tutorial/background)
 * [Command-line](tutorial/commandline)
-* [Install](tutorial/install)
 * [TSV](tutorial/TSV)
 * [TSV#traversal (map-reduce)](tutorial/map_reduce)
 * [Resource](tutorial/Resource)
