@@ -31,6 +31,7 @@ rbbt-gh-pages=/$PWD filter="*" {
  _posts=_posts{
   2014-03-17-translating-ids.md
   2014-05-28-Sharding.md
+  2016-05-13-Streaming API.md
  }
 
  tutorial=tutorial{
@@ -45,6 +46,7 @@ rbbt-gh-pages=/$PWD filter="*" {
   }
   install=install{
    index.md
+   index.md.save
   }
   Workflow=Workflow{
    index.md

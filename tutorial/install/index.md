@@ -13,8 +13,8 @@ There are three parts to the installation:
 * Bootstrap the installation
 
 Note that Rbbt has been developed for Unix/Linux systems. Mac OS X, being based
-on Unix, works as well. I haven't tried to run it on Windows, but I'm almost
-sure it will not work.
+on Unix, so to speak, works as well. I haven't tried to run it on Windows, but
+I'm almost sure it will not work.
 
 ## Base-system
 
@@ -22,13 +22,13 @@ Installing the base-system amounts to installing some system packages, ruby,
 and some ruby gems. Except for a couple of gems, which require a bit of
 configuration, all the installation is straight forward.  
 
-To ease installation I have prepare a `Vagrant` installation
-[here](https://github.com/mikisvaz/rbbt-vagrant). The `bootstrap.sh` script
-contains all the necessary steps to setup the base system on an Ubuntu box.
-The step should be easy to adapt for other installations.
+There is a gem called rbbt-image that contains the necesary scripts to
+provision docker containers and vagrant images and that can be used also to
+provision a normal account. There is no need for root access except to install
+some base packages. In the organization [Rbbt-Images](https://github.com/Rbbt-Images) 
+you can find several repos used to create docker images and include provision
+files that can be used as reference.
 
-In my own work, I like to install ruby locally from my user account through
-[RVM](https://rvm.io/).
 
 ## Configuration and Bootstrapping
 
