@@ -35,6 +35,9 @@ rbbt-gh-pages=/$PWD filter="*" {
  }
 
  tutorial=tutorial{
+  getting_started=getting_started{
+   index.md
+  }
   introduction=introduction{
    index.md
   }
