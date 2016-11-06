@@ -177,6 +177,7 @@ interesting.
 
 Examples and tutorials
 ----------------------
+* [Introduction](tutorial/getting_started)
 * [Introduction](tutorial/introduction)
 * [Background](tutorial/background)
 * [Command-line](tutorial/commandline)
