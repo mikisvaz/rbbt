@@ -225,7 +225,7 @@ with a more verbose log level so you can monitor the process
 rbbt workflow task Translation translate --gene TP53 --format "Ensembl Gene ID" --log 0
 ```
 
-What next
+What next?
 ========
 
 You have now gotten started with Rbbt. The next thing you can do is find
