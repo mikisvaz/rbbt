@@ -151,6 +151,7 @@ you should write `docker run -it mikisvaz/rbbt-basic rbbt`.
 
 Usage
 --------
+
 ### The `rbbt` command
 
 After the installation steps above we are ready to use rbbt. The main way to
