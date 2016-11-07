@@ -182,7 +182,7 @@ some logs via the `STDERR`.  To get more help on this command you can type
 `rbbt workflow task Translation translate -h` to see the available
 options[^organism_footnote] and even some examples. 
 
-[^organism_footnote]: You might have noticed the `organism` options, this is a very important option that allows all our workflows to be perfectly in sync with regards to their versions of genomic data, just know that `Hsa` stands for **H**omo **sa**piens, with data gathered from the `feb2014` version of the Ensembl archives (remember how the we discussed that data files where gathered automatically in Rbbt?). If you wanted to translate mouse genes you coud have written `Mmu/feb2014`. Also, note that gene symbols are case sensitive, human genes are uppercase, mouse genes are not.
+[^organism_footnote]: You might have noticed the `organism` options, this is a very important option that allows all our workflows to be perfectly in sync with regards to their versions of genomic data. Just know that `Hsa` stands for (H)omo (sa)piens, with data gathered from the `feb2014` version of the Ensembl archives (remember how the we discussed that data files where gathered automatically in Rbbt?). If you wanted to translate mouse genes you coud have written `Mmu/feb2014`. Also, note that gene symbols are case sensitive, human genes are uppercase, mouse genes are not.  
 
 #### Using a remote workflow
 
