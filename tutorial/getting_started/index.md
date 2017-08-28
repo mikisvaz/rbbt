@@ -174,7 +174,7 @@ translate the gene symbol _TP53_ to Ensembl ID you would run the following
 command (see the following sub-section before trying it out!):
 
 ```sh
-rbbt workflow task Translation translate --gene TP53 --format "Ensembl Gene ID"
+rbbt workflow task Translation translate --genes TP53 --format "Ensembl Gene ID"
 ```
 
 This command will output through `STDOUT` the code _ENSG00000141510_, as well
@@ -222,7 +222,7 @@ autoinstall as needed. And run the command as initially, though in this case
 with a more verbose log level so you can monitor the process
 
 ```sh
-rbbt workflow task Translation translate --gene TP53 --format "Ensembl Gene ID" --log 0
+rbbt workflow task Translation translate --genes TP53 --format "Ensembl Gene ID" --log 0
 ```
 
 What next?
