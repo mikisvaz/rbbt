@@ -29,6 +29,91 @@ some base packages. In the organization [Rbbt-Images](https://github.com/Rbbt-Im
 you can find several repos used to create docker images and include provision
 files that can be used as reference.
 
+```bash
+
+# Basic system requirements
+# -------------------------
+apt-get -y update
+apt-get -y update
+apt-get -y install \
+  bison autoconf g++ libxslt1-dev make \
+  zlib1g-dev libbz2-dev libreadline6 libreadline6-dev \
+  wget curl git openssl libyaml-0-2 libyaml-dev \
+  openjdk-8-jdk \
+  libcairo2 libcairo2-dev r-base-core r-base-dev r-cran-rserve liblzma5 liblzma-dev libcurl4-openssl-dev \
+  build-essential zlib1g-dev libssl-dev libreadline6-dev libyaml-dev libffi-dev
+
+# This link was broken for some reason
+rm /usr/lib/R/bin/Rserve
+ln -s /usr/lib/R/site-library/Rserve/libs/Rserve /usr/lib/R/bin/Rserve
+
+grep R_HOME /etc/profile || echo "export R_HOME='/usr/lib/R' # For Ruby's RSRuby gem" >> /etc/profile
+. /etc/profile
+
+# TOKYOCABINET INSTALL
+# ===================
+
+cd /tmp
+wget http://fallabs.com/tokyocabinet/tokyocabinet-1.4.48.tar.gz -O "tokyocabinet.tar.gz"
+tar -xvzf tokyocabinet.tar.gz
+cd tokyocabinet-1.4.48
+./configure --prefix=/usr/local
+make && make install
+
+echo "3. Setting up ruby"
+export RUBY_VERSION='2.4.1'
+#!/bin/bash -x
+
+# RUBY INSTALL
+# ============
+
+_small_version=`echo $RUBY_VERSION | cut -f 1,2 -d.`
+cd /tmp
+wget https://cache.ruby-lang.org/pub/ruby/$_small_version/ruby-${RUBY_VERSION}.tar.gz -O "ruby.tar.gz"
+tar -xvzf ruby.tar.gz
+cd ruby-*/
+./configure --prefix=/usr/local
+make && make install
+
+unset _small_version
+
+grep '#Ruby2' /etc/profile || echo 'export PATH="/usr/local/bin:$PATH" #Ruby2' >> /etc/profile
+. /etc/profile
+
+. /etc/profile
+
+export REALLY_GEM_UPDATE_SYSTEM=true
+env REALLY_GEM_UPDATE_SYSTEM=true gem update --no-ri --no-rdoc --system
+gem install --force --no-ri --no-rdoc ZenTest
+gem install --force --no-ri --no-rdoc RubyInline
+
+# R (extra config in gem)
+. /etc/profile
+export R_INCLUDE="$(echo "$R_HOME" | sed 's@/usr/lib\(32\|64\)*@/usr/share@')/include"
+gem install --conservative --no-ri --no-rdoc rsruby -- --with-R-dir="$R_HOME" --with-R-include="$R_INCLUDE" \
+  --with_cflags="-fPIC -g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Wall -fno-strict-aliasing"
+
+# Java (extra config in gem)
+export JAVA_HOME=$(echo /usr/lib/jvm/java-?-openjdk-*)
+gem install --conservative --force --no-ri --no-rdoc rjb
+
+# Rbbt and some optional gems
+gem install --no-ri --no-rdoc --force \
+    tokyocabinet \
+    ruby-prof \
+    rbbt-util rbbt-rest rbbt-dm rbbt-text rbbt-sources rbbt-phgx rbbt-GE \
+    rserve-client \
+    uglifier therubyracer kramdown\
+    puma
+
+# Get good version of lockfile
+wget http://ubio.bioinfo.cnio.es/people/mvazquezg/lockfile-2.1.4.gem -O /tmp/lockfile-2.1.4.gem
+gem install --no-ri --no-rdoc /tmp/lockfile-2.1.4.gem
+gem install --no-ri --no-rdoc bio-svgenes mimemagic
+
+
+
+```
 
 ## Configuration and Bootstrapping
 
