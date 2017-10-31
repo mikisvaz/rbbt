@@ -178,6 +178,7 @@ interesting.
 Examples and tutorials
 ----------------------
 * [Getting Started!](tutorial/getting_started)
+* [Install](tutorial/install)
 * [Introduction](tutorial/introduction)
 * [Background](tutorial/background)
 * [Command-line](tutorial/commandline)

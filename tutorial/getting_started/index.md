@@ -58,7 +58,7 @@ out. The `rbbt-image` gem provides a convenient tool to produce _provision_
 files for docker images and virtual machines that will install the base
 system. 
 
-Follow the instructions in the [install section](tutorial/install).
+Follow the instructions in the [install section](/tutorial/install).
 
 Usage
 --------
