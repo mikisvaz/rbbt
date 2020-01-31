@@ -29,6 +29,8 @@ some base packages. In the organization [Rbbt-Images](https://github.com/Rbbt-Im
 you can find several repos used to create docker images and include provision
 files that can be used as reference.
 
+For a minimal installation:
+
 ```bash
 
 # Basic system requirements
@@ -37,11 +39,33 @@ apt-get -y update
 apt-get -y update
 apt-get -y install \
   bison autoconf g++ libxslt1-dev make \
-  zlib1g-dev libbz2-dev libreadline6 libreadline6-dev \
+  zlib1g-dev libbz2-dev libreadline-dev \
   wget curl git openssl libyaml-0-2 libyaml-dev \
   openjdk-8-jdk \
   libcairo2 libcairo2-dev r-base-core r-base-dev r-cran-rserve liblzma5 liblzma-dev libcurl4-openssl-dev \
-  build-essential zlib1g-dev libssl-dev libreadline6-dev libyaml-dev libffi-dev
+  build-essential zlib1g-dev libssl-dev libyaml-dev libffi-dev ruby-dev ruby-tokyocabinet
+
+# Rbbt and some optional gems
+gem install --no-ri --no-rdoc --force rbbt-util rbbt-rest rbbt-dm rbbt-sources 
+
+```
+
+
+For a more comprehensive installation:
+
+```bash
+
+# Basic system requirements
+# -------------------------
+apt-get -y update
+apt-get -y update
+apt-get -y install \
+  bison autoconf g++ libxslt1-dev make \
+  zlib1g-dev libbz2-dev libreadline-dev \
+  wget curl git openssl libyaml-0-2 libyaml-dev \
+  openjdk-8-jdk \
+  libcairo2 libcairo2-dev r-base-core r-base-dev r-cran-rserve liblzma5 liblzma-dev libcurl4-openssl-dev \
+  build-essential zlib1g-dev libssl-dev libyaml-dev libffi-dev
 
 # This link was broken for some reason
 rm /usr/lib/R/bin/Rserve
@@ -101,7 +125,7 @@ gem install --conservative --force --no-ri --no-rdoc rjb
 gem install --no-ri --no-rdoc --force \
     tokyocabinet \
     ruby-prof \
-    rbbt-util rbbt-rest rbbt-dm rbbt-text rbbt-sources rbbt-phgx rbbt-GE \
+    rbbt-util rbbt-rest rbbt-dm rbbt-text rbbt-sources \
     rserve-client \
     uglifier therubyracer kramdown\
     puma
