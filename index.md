@@ -15,97 +15,50 @@ development in bioinformatics. It covers three aspects:
 * Making them as widely accessible as possible
 * Integrating them with one another
 
-It was intended initially to hold different low level tools that for the basis
+It was intended initially to hold different assorted tools that form the basis
 of most bioinformatics work: parsing and tidying data, gathering resources,
 organizing the sequential production of results for reusable/reproducible work.
-The framework provides incentives to adhere to several reasonable standards that
-improve reusability and interoperability and has thus resulted in a very
-comprehensive set of functionalities that now form one of the most ambitions
-bioinformatics frameworks available.
+The framework provides incentives to adhere to several reasonable standards
+that improve reusability and interoperability, and has resulted, arguably, in
+one of the most ambitious bioinformatics frameworks available.
 
 
 What are the main features in Rbbt?
 -------------
 
-The Rbbt framework has many many features. The following are some of the most
-important:
+Many of the features of Rbbt are organized around four large subsystems:
 
-* TSV file manipulation, indexing and traversal with native programmatic
-  support for persistence, map-reduce, indexing, slicing, reordering, sorting,
-  pagination, semantic interpretation of file headers, etc
-* Resource management with cross-application sharing, claiming production,
-  updating, versioning, etc
-* Transparent out of the box top-of-the-line performance with no loading time
-  across all functionalities owing to automatic database generation using a
-  dozen different database backends ranging from key-value stores and B-trees
-  to sorted fixed-width indices with binary search support for point and range
-  based queries, with support for sharding, indexing, etc
-* Workflow definition and enactment, with map-reduce, streaming,
-  cross-workflow/cross-host dependencies for functionality syndication across
-  departments/institutions, incremental/intelligent updates,
-  orthogonal command-line/web-page/REST/SOAP/API access automatically
-  provided, extensible web templating, etc
-* Full-blown templating engine for HTML/CSS/javascript based on
-  HAML/SASS-Compass/JQuery, with a plugin approach to functionality integration
-  and a state-of-the-art semantic-based live report generation
-* Knowledge representation standard that allow for new approaches for data
-  integration and exploration through interactive graphs, and plots, and
-  reports that allow the user to follow leads and examine the evidence to
-  support connections between different entities
-* Stream oriented processing with transparent support for working with files,
-  sockets, remote urls, workflow dependencies, compressed files, support for
-  seekable compressed streams using a native implementation of BGZF with
-  in-situ incremental index generation. Complex native concurrency support
-  using event driven programming for multi-processing streaming cascades
-* R integration using direct library calls (RSRuby), shared server (Reval) or
-  shell-out (R CMD). Deep integration for model fitting and plotting of SVGs with
-  painless state-of-the-art D3js integration
-* Enough syntactic sugar to make a cake thanks to (abused) ruby meta-programming and the
-  principle of convention-over-configuration
+* Workflows: A fully functional workflow enactment system like nextflow or
+  cromwell, but with more advanced features. Rbbt has many workflows
+  implementing functionalities from different areas of bioinformatics.
+* TSV files: Tab separated value files are the most versatile file format in
+  bioinformatics, and Rbbt has plenty of functionalities to manipulate, index,
+  traverse, persist, slice, reorder, sort, paginate and add semantics to them.
+* Resource management: Rbbt provides very succinct instructions to
+  automatically gather, setup and configure data and software resources
+* HTML and REST: All Rbbt workflows are provided HTML interfaces as well as
+  remote execution capabilities through REST. Rbbt has its own concept for the
+  design of web applications that greatly cuts down development time.
 
-Using these features, dozens of workflows have been produced; serving
-functionalities, resources, knowledge bases, and reports.
-
-Where has Rbbt been used?
+Where has Rbbt been used and where is it used now?
 -------------------------
 
-Rbbt has been used to power several applications, either in their entirety of
-parts of it, like the workflow management:
-
-* [SENT](http://sent.dacya.ucm.es/): semantic features in text
-* [BioNMF](http://bionmf.dacya.ucm.es/): Non-negative matrix factorization in biology
-* [MARQ](http://marq.dacya.ucm.es/): microarray-rank query
-* [Genecodis](http://genecodis.cnb.csic.es/): Gene annotation co-occurrence discovery
-* [3DEM Loupe](http://3demloupe.cnb.csic.es): Normal mode analysis of dynamics of structures from electron microscopy
-* [TaLasso](http://talasso.cnb.csic.es/): Quantification of miRNA-mRNA interactions
-* [KinMut](http://wkinmut.bioinfo.cnio.es/): Pathogenicity predictions of kinase mutations
-* [Structure-PPI](http://structureppi.bioinfo.cnio.es/): Maps mutations to
-  structural features in several databases using PDBs 
-
-These applications have driven the development of the framework over the
-years, the code used in them has been re-factored several times since
-
-Where is it used now?
----------------------
-
-My current interest is in cancer genome analysis. Work in this area has
-stimulated the development of several new concepts, such as the Entity
-subsystem, a novel approach developed to alleviate the complex challenges of
-integration.
-
-
-The StudyExplorer is our current flagship application. I can be adapted to different
-scenarios and several instances of it serves different groups in our institution. An
-example deployment is [ICGC Scout](http://icgcscout.bioinfo.cnio.es), that provides access to 
-all cancer studies from ICGC and TCGA and offers a wide array of functionalities.
+Rbbt has been used in dozens of applications and projects in the last decade or
+so including drug response analysis, text-mining, functional enrichment
+analyses, etc. Some of these online applications have been discontinued, but
+they have all contributed to define the code base in Rbbt. Currently the focus
+is on delivering workflows for genomics analyses that range from alignment and
+variant calling to functional interpretation in investigating clonal evolution,
+defining combinatorial drug therapies, designing cancer vaccines, etc.
 
 What is in it?
 --------------
 
 Well, a large number of workflows have been developed:
 
+* [HTS](https://github.com/Rbbt-Workflows/HTS): High throughput sequencing functionalities (DNA and RNA-Seq), like alignment and variant calling
+* [Translation](https://github.com/Rbbt-Workflows/translation): functionalities to translate gene and protein identifiers across different formats
 * [Sequence](https://github.com/Rbbt-Workflows/sequence): functionalities regarding genomic analysis, such as mutation consequence analysis
-* [MutEval](https://github.com/Rbbt-Workflows/mut_eval): evaluation of pathogenicity of variants (it actually interfaces with other systems)
 * [Structure](https://github.com/Rbbt-Workflows/structure): functionalities for structural analysis of proteins
 * [Enrichment](https://github.com/Rbbt-Workflows/enrichment): over-representation and rank-based methods for enrichment analysis, supporting: Kegg, GO, Nature Curated Cancer Pathways, Reactome, Biocarta, PFAM, Transfac, ect
 * and many [more](https://github.com/Rbbt-Workflows)
@@ -120,41 +73,34 @@ examples; they should give you a taste of how it works.
 See available tasks for the Structure workflow; and the help for a particular task
 
 {% highlight bash %}
-rbbt workflow task http://se.bioinfo.cnio.es/Structure -h
-rbbt workflow task http://se.bioinfo.cnio.es/Structure -h annotate
+rbbt workflow task https://rbbt.bsc.es/Sequence -h
+rbbt workflow task https://rbbt.bsc.es/Sequence -h mutated_isoforms_fast
 {% endhighlight %}
 
 
 Translate gene names to Ensembl Gene ID
 
 {% highlight bash %}
-rbbt workflow task http://se.bioinfo.cnio.es/Translation tsv_translate -g TP53,MDM2,RB1
+rbbt workflow task https://rbbt.bsc.es/Translation tsv_translate -g TP53,MDM2,RB1
 {% endhighlight %}
 
 Annotated coding variants from VCF file
 
 {% highlight bash %}
-rbbt workflow task http://se.bioinfo.cnio.es/Sequence mutated_isoforms_fast -m <vcf.file> --vcf
-{% endhighlight %}
-
-Find up/down regulated genes in a GEO dataset for a particular contrast...
-
-{% highlight bash %}
-rbbt workflow task http://rbbt.bioinfo.cnio.es/GEO up_genes -d GDS4455 -m "genotype/variation=RhoGDI2" -tg
-rbbt workflow task http://rbbt.bioinfo.cnio.es/GEO down_genes -d GDS4455 -m "genotype/variation=RhoGDI2" -tg
+rbbt workflow task https://rbbt.bsc.es/Sequence mutated_isoforms_fast -m <vcf.file> --vcf
 {% endhighlight %}
 
 You can also use `wget` or `cURL`, but remember to specify the `_format` as
 `raw` or `json`. Both `POST` and `GET` are accepted.
 
 {% highlight bash %}
-wget "http://rbbt.bioinfo.cnio.es/Sequence/mutated_isoforms?mutations=7:31003700:T&organism=Hsa/feb2014&_format=raw" --quiet -O -
+wget "https://rbbt.bsc.es/Sequence/mutated_isoforms?mutations=7:31003700:T&organism=Hsa/feb2014&_format=raw" --quiet -O -
 {% endhighlight %}
 
 If you want to specify any inputs as files, you can use cURL:
 
 {% highlight bash %}
-curl -H "Expect:" -L http://rbbt.bioinfo.cnio.es/Sequence/mutated_isoforms_fast -F "_format=raw" -F "mutations=@<file>" -F "organism=Hsa/feb2014"
+curl -H "Expect:" -L http://rbbt.bsc.es/Sequence/mutated_isoforms_fast -F "_format=raw" -F "mutations=@<file>" -F "organism=Hsa/feb2014"
 {% endhighlight %}
 
 Note the -H "Expect", which is required for some reason
@@ -177,16 +123,16 @@ interesting.
 
 Examples and tutorials
 ----------------------
-* [Getting Started!](tutorial/getting_started)
-* [Install](tutorial/install)
-* [Introduction](tutorial/introduction)
-* [Background](tutorial/background)
-* [Command-line](tutorial/commandline)
-* [TSV](tutorial/TSV)
-* [TSV#traversal (map-reduce)](tutorial/map_reduce)
-* [Resource](tutorial/Resource)
-* [Workflow](tutorial/Workflow)
-* [Knowledge Base](tutorial/knowledge_base)
+* [Getting Started!](tutorial/getting_started/)
+* [Install](tutorial/install/)
+* [Introduction](tutorial/introduction/)
+* [Background](tutorial/background/)
+* [Command-line](tutorial/commandline/)
+* [TSV](tutorial/TSV/)
+* [TSV#traversal (map-reduce)](tutorial/map_reduce/)
+* [Resource](tutorial/Resource/)
+* [Workflow](tutorial/Workflow/)
+* [Knowledge Base](tutorial/knowledge_base/)
 
 What is up?
 -----------

@@ -45,7 +45,7 @@ transparently to the remote server. This is specially recommended for the
 mutation damage predictions, and is over thirty gigabytes in size.
 
 File servers and remote workflows are served from any Rbbt REST server.
-Currently you may use http://se.bioinfo.cnio.es.
+Currently you may use https://rbbt.bsc.es.
 
 You may start you own REST interface for a workflow issuing the following
 command `rbbt workflow server <workflow>`.

@@ -20,3 +20,19 @@ dl.result > dt{
  right: 0
 }
 
+pre{
+ overflow: visible
+}
+
+div.footnotes{
+ font-style: italic;
+ font-size: 0.8em;
+}
+div.footnotes p{
+ display: inline;
+}
+
+a.footnote{
+ vertical-align: super;
+ font-size: smaller;
+}

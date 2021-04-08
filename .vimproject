@@ -32,6 +32,8 @@ rbbt-gh-pages=/$PWD filter="*" {
   2014-03-17-translating-ids.md
   2014-05-28-Sharding.md
   2016-05-13-Streaming API.md
+  2021-04-6-Genomics with Rbbt.md
+  2021-04-6-Genomics at Marenostrum.md
  }
 
  tutorial=tutorial{

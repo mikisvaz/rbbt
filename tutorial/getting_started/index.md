@@ -104,15 +104,18 @@ Ensembl BioMart take a little while and you would end up probably interrupting
 the process and with a bad feeling about it. Instead let us first try to run
 the same command on one of the workflow servers maintained at CNIO.
 
-```sh
-rbbt workflow task http://rbbt.bioinfo.cnio.es/Translation translate --genes TP53 --format "Ensembl Gene ID"
-```
+{% highlight bash %}
+rbbt workflow task https://rbbt.bsc.es/Translation translate --genes TP53 --format "Ensembl Gene ID"
+{% endhighlight %}
+<dl class='result'><dt>Result</dt><dd><pre>
+ENSG00000141510
+</pre></dd></dl>
 
 Alternatively you can also configure the Translation workflow to always use
 that remote sever so that you can just write `Translation`
 
 ```sh 
-rbbt workflow remote add Translation http://rbbt.bioinfo.cnio.es/Translation
+rbbt workflow remote add Translation https://rbbt.bsc.es/Translation
 ```
 
 If you would like to install the infrastructure locally you can remove the
@@ -128,7 +131,7 @@ install the workflow locally (the code)
 rbbt workflow install Translation
 ```
 
-or alternative do `export RBBT_WORKFLOW_AUTOINSTALL=true' to have workflows
+or alternative do `export RBBT_WORKFLOW_AUTOINSTALL=true` to have workflows
 autoinstall as needed. And run the command as initially, though in this case
 with a more verbose log level so you can monitor the process
 

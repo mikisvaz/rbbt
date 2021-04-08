@@ -153,13 +153,13 @@ One of the most time consuming steps is the production of some data resources,
 most notably basic genomic data from model organisms, which requires
 downloading long files from BioMart and processing them to get them tidy. To
 avoid this step, you can setup `file_servers` that will serve these resources
-already prepared. `rbbt file_server add Organism http://se.bioinfo.cnio.es/`.
+already prepared. `rbbt file_server add Organism https://rbbt.bsc.es/`.
 When a resource needs to be produce, the `file_servers` will be checked to see
 if they can serve that file, if not, it will be produced normally.
 
 Additionally, particular workflows can be delegated to other servers
 (`remote_workflows`), which can be done as follows `rbbt workflow remote add
-Sequence http://se.bioinfo.cnio.es`.
+Sequence https://rbbt.bsc.es`.
 
 When the system is configured, it is a good idea to bootstrap it. Many
 workflows include a `bootstrap` command, which run a series of dummy jobs to

@@ -62,7 +62,7 @@ puts "Ensembl Gene IDs with UniProt equivalences: #{has_uniprot.compact.length}"
 
 {% endhighlight %}
 <dl class='result'><dt>Result</dt><dd><pre>
-Ensembl Gene IDs with UniProt equivalences: 20784
+Ensembl Gene IDs with UniProt equivalences: 20872
 </pre></dd></dl>
 
 The following example merges the result into a hash object. The result of each
