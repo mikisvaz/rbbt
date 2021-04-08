@@ -3,3 +3,4 @@ lsi: false
 highlighter: rouge
 baseurl: /rbbt
 markdown: kramdown
+theme: jekyll-theme-hacker
