@@ -8,7 +8,11 @@ tagline: Stream API
 
 This guide assumes that you have access to a working installation of Rbbt
 prepared for genomics analysis. If not, check out the alternative ways to
-[setup an Rbbt installation](/rbbt/tutorial/install/).
+[setup an Rbbt installation](/rbbt/tutorial/install/). If you decide to use the
+singularity image instead of a native installation, consider downloading [this
+version]({{ site.singularity_HTS_image_url }}) which has pre-installed most of the
+software tools you will need.
+
 
 # Rbbt basics
 
