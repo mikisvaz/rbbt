@@ -36,3 +36,11 @@ a.footnote{
  vertical-align: super;
  font-size: smaller;
 }
+
+aside#sidebar{
+ display: none
+}
+
+em{
+ font-weight: bold;
+}

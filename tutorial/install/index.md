@@ -22,7 +22,16 @@ Installing the base-system amounts to installing some system packages, ruby,
 and some ruby gems. Except for a couple of gems, which require a bit of
 configuration, all the installation is straight forward.  
 
-There is a gem called rbbt-image that contains the necesary scripts to
+If you have can run singularity containers you can skill completely the base system
+installation:
+
+```bash
+wget "{{ site.singularity_image_url }}" -O ~/rbbt.singularity.img
+alias rbbt='singularity exec -e ~/rbbt.singularity.img rbbt'
+rbbt
+```
+
+There is a gem called rbbt-image that contains the necessary scripts to
 provision docker containers and vagrant images and that can be used also to
 provision a normal account. There is no need for root access except to install
 some base packages. In the organization [Rbbt-Images](https://github.com/Rbbt-Images) 
@@ -186,7 +195,7 @@ install the system by running the following script
 source ~/.profile
 rvm reload
 rvm autolibs disable
-rvm install ruby-1.9.3
+rvm install ruby-2.7
 gem install --no-ri --no-rdoc tokyocabinet \
   uglifier therubyracer kramdown ruby-prof \
   rbbt-util rbbt-rest rbbt-study rbbt-dm rbbt-text rbbt-sources rbbt-phgx rbbt-GE 

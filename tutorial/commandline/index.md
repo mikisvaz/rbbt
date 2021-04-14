@@ -29,16 +29,16 @@ command-line documentation with -h.
 
 Some of the most important commands are the following:
 
-* rbbt workflow
-    * rbbt workflow list: See all installed workflows
-    * rbbt workflow install: Install new workflows from github
-    * rbbt workflow remote
-        * rbbt workflow remote {add|list|remove}: Add/list/remove remote workflows
-    * rbbt workflow task: Examine, execute and monitor workflow tasks
-    * rbbt workflow server: Start a http server with a REST interface that can be contacted through the browser or as a remote workflow
-* rbbt tsv
-    * rbbt tsv info: Display some general information about a tsv file (field names, number of entries, ect)
-    * rbbt tsv change_id: Change columns between formats
+* `rbbt workflow`
+    * `rbbt workflow list`: See all installed workflows
+    * `rbbt workflow install`: Install new workflows from github
+    * `rbbt workflow remote`:
+        * `rbbt workflow remote {add|list|remove}`: Add/list/remove remote workflows
+    * `rbbt workflow task`: Examine, execute and monitor workflow tasks
+    * `rbbt workflow server`: Start a http server with a REST interface that can be contacted through the browser or as a remote workflow
+* `rbbt tsv`
+    * `rbbt tsv info`: Display some general information about a tsv file (field names, number of entries, ect)
+    * `rbbt tsv change_id`: Change columns between formats
 
 Each command is free to implement its functionality however it wants. Unless the command is very
 simple, it usually displays help with the '-h' parameter.  If they are badly documented you can always
@@ -75,7 +75,7 @@ rbbt workflow task Translation translate -f "Associated Gene Name" -g ensembl.tx
 # Practical examples
 
 The most common command you will probably be using will be `rbbt workflow task`. 
-Typing `rbbt workflow task <wofkflowname>` will display all the tasks that this
+Typing `rbbt workflow task <workflowname>` will display all the tasks that this
 workflow makes available. Typing `rbbt workflow task <workflowname> <taskname> -h`
 will display a summary of the task parameters. Each parameter is associated with a 
 task `input`.

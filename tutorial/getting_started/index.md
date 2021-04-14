@@ -66,12 +66,12 @@ Usage
 ### The `rbbt` command
 
 After the installation steps above we are ready to use rbbt. The main way to
-interact with the system is via de command `rbbt` which offers a convenient
-way to access many different tools. Its use is similar to other commands line
-`git` and follows the general sytax `rbbt command subcommand1 subcommand2
---option1 --option2 arg1 arg2`. As you time commands it will show you the
-subcommands available, and you can always use the `-h` flag to get help on the
-available options. 
+interact with the system is via de command `rbbt` which offers a convenient way
+to access many different tools. Its use is similar to other commands like `git`
+and follows the general syntax `rbbt command subcommand1 subcommand2
+--boolean_flag --option_key option_value arg1 arg2`. As you time commands it
+will show you the subcommands available, and you can always use the `--help` or `-h` flag
+to get help on the available options. 
 
 The tools available include examining TSV files, monitoring the system status,
 configuring remote workflows, initiating web servers, and most importantly

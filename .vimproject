@@ -33,7 +33,6 @@ rbbt-gh-pages=/$PWD filter="*" {
   2014-05-28-Sharding.md
   2016-05-13-Streaming API.md
   2021-04-6-Genomics with Rbbt.md
-  2021-04-6-Genomics at Marenostrum.md
  }
 
  tutorial=tutorial{
@@ -63,6 +62,9 @@ rbbt-gh-pages=/$PWD filter="*" {
    index.md
   }
   map_reduce=map_reduce{
+   index.md
+  }
+  HPC=HPC{
    index.md
   }
   knowledge_base=knowledge_base{
