@@ -134,6 +134,7 @@ interesting.
 Examples and tutorials
 ----------------------
 * [Install](tutorial/install/)
+* [Containers](tutorial/containers/)
 * [Quick overview!](tutorial/getting_started/)
 * [Introduction](tutorial/introduction/)
 * [Background](tutorial/background/)
