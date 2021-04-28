@@ -44,3 +44,7 @@ aside#sidebar{
 em{
  font-weight: bold;
 }
+
+img{
+ max-width: 50%;
+}

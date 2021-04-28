@@ -7,10 +7,18 @@ tagline: Stream API
 # Asciinema
 
 If you would like to see a terminal cast with this same information, please
-visit the following casts
+visit the following casts:
+
+## Rbbt tutorial 1.- HTS workflow basic usage 
 
 [![asciicast](https://asciinema.org/a/410445.svg)](https://asciinema.org/a/410445?speed=2)
+
+## Rbbt tutorial 2.- Sample workflow
+
 [![asciicast](https://asciinema.org/a/410445.svg)](https://asciinema.org/a/410445?speed=2)
+
+## Rbbt tutorial 3.- downstream analysis
+
 [![asciicast](https://asciinema.org/a/410445.svg)](https://asciinema.org/a/410445?speed=2)
 
 # Setup
