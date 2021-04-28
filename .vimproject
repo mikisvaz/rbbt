@@ -36,6 +36,9 @@ rbbt-gh-pages=/$PWD filter="*" {
  }
 
  tutorial=tutorial{
+  containers=containers{
+   index.md
+  }
   getting_started=getting_started{
    index.md
   }

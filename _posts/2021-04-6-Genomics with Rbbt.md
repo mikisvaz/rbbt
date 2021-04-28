@@ -378,7 +378,4 @@ mutect2 -jn ARGO-NEAT -ck HTS`. Note how when a config key consists only of a
 single token, `HTS` in this case, it loads a file with that name found under
 `etc/config_profile` directory.
 
-# Going beyond variant calling with the Sample workflow
-
-We have laid the ground 
 
