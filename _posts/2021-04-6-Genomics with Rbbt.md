@@ -15,11 +15,11 @@ visit the following casts:
 
 ## Rbbt tutorial 2.- Sample workflow
 
-[![asciicast](https://asciinema.org/a/410445.svg)](https://asciinema.org/a/410445?speed=2)
+[![asciicast](https://asciinema.org/a/410446.svg)](https://asciinema.org/a/410446)
 
 ## Rbbt tutorial 3.- downstream analysis
 
-[![asciicast](https://asciinema.org/a/410445.svg)](https://asciinema.org/a/410445?speed=2)
+[![asciicast](https://asciinema.org/a/410447.svg)](https://asciinema.org/a/410447)
 
 # Setup
 
