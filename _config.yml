@@ -3,6 +3,6 @@ lsi: false
 highlighter: rouge
 baseurl: /rbbt
 markdown: kramdown
-singularity_image_url: https://b2drop.bsc.es/index.php/s/D5rgH3paTefSw2K/download
+singularity_image_url: https://b2drop.bsc.es/index.php/s/ay9mqyD8CTE3GgA/download
 singularity_HTS_image_url: https://b2drop.bsc.es/index.php/s/Z2MadBc4jFGYtEY/download
 singularity_Proteomics_image_url: https://b2drop.bsc.es/index.php/s/wjSaLtEmxdJqrbj/download
