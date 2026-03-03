@@ -1,8 +1,36 @@
-safe: true
-lsi: false
-highlighter: rouge
-baseurl: /rbbt
+## Site basics
+title: Rbbt
+description: Reproducible workflows & data framework for bioinformatics (powered by Scout)
+
+# GitHub Pages project site (https://<org>.github.io/<repo>)
+baseurl: "/rbbt"
+
+## Theme: Just the Docs (remote theme)
+remote_theme: just-the-docs/just-the-docs
+
+plugins:
+  - jekyll-remote-theme
+
+# Just-the-docs options
+search_enabled: true
+aux_links:
+  "Rbbt on GitHub":
+    - "https://github.com/mikisvaz/rbbt"
+aux_links_new_tab: true
+
+## Markdown / syntax highlighting
 markdown: kramdown
+highlighter: rouge
+
+## Custom site variables used by existing docs
 singularity_image_url: https://b2drop.bsc.es/index.php/s/ay9mqyD8CTE3GgA/download
 singularity_HTS_image_url: https://b2drop.bsc.es/index.php/s/Z2MadBc4jFGYtEY/download
 singularity_Proteomics_image_url: https://b2drop.bsc.es/index.php/s/wjSaLtEmxdJqrbj/download
+
+## Keep the repo clean of build artifacts
+exclude:
+  - _site
+  - .jekyll-cache
+  - .sass-cache
+  - vendor
+  - Gemfile.lock

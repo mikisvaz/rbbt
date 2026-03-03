@@ -1,3 +1,20 @@
+# Jekyll build output
+_site/
+
+# Jekyll / Bundler caches
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+.bundle/
+vendor/
+
+# OS / editor
+.DS_Store
+
+# Ruby
+Gemfile.lock
+
+# Legacy / misc
 .save
 .crap
-_site
+chats
