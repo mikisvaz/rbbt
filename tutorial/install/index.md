@@ -2,6 +2,8 @@
 title: Install
 layout: default
 tagline: Rbbt install
+parent: Legacy tutorials
+nav_order: 1
 ---
 
 # Install

@@ -2,6 +2,8 @@
 title: TSV traversal
 layout: default
 tagline: Map-reduce in Rbbt
+parent: Legacy tutorials
+nav_order: 8
 ---
 
 # TSV#traversal

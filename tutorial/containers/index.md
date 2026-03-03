@@ -2,6 +2,8 @@
 title: Containers
 layout: default
 tagline: Available containers for Rbbt
+parent: Legacy tutorials
+nav_order: 2
 ---
 
 # Containers for Rbbt

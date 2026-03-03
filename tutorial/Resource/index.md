@@ -2,6 +2,8 @@
 title: Resource Tutorial
 layout: default
 tagline: Resource
+parent: Legacy tutorials
+nav_order: 9
 ---
 
 # Resource

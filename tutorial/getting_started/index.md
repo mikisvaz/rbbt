@@ -2,6 +2,8 @@
 title: Get started
 layout: default
 tagline: Getting started with Rbbt
+parent: Legacy tutorials
+nav_order: 3
 ---
 
 Getting started with Rbbt
@@ -58,7 +60,7 @@ out. The `rbbt-image` gem provides a convenient tool to produce _provision_
 files for docker images and virtual machines that will install the base
 system. 
 
-Follow the instructions in the [install section](/tutorial/install).
+Follow the instructions in the [install section]({{ site.baseurl }}/tutorial/install/).
 
 Usage
 --------

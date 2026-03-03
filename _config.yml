@@ -13,6 +13,11 @@ plugins:
 
 # Just-the-docs options
 search_enabled: true
+nav_sort: case_insensitive
+heading_anchors: true
+
+# Use “pretty” URLs (/path/ instead of /path.html)
+permalink: pretty
 aux_links:
   "Rbbt on GitHub":
     - "https://github.com/mikisvaz/rbbt"
@@ -33,4 +38,5 @@ exclude:
   - .jekyll-cache
   - .sass-cache
   - vendor
+  - chats
   - Gemfile.lock

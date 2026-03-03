@@ -2,6 +2,8 @@
 title: Workflow Tutorial
 layout: default
 tagline: Workflow overview
+parent: Legacy tutorials
+nav_order: 10
 ---
 
 # Workflows in Rbbt

@@ -2,6 +2,8 @@
 title: HPC (SLURM & LSF)
 layout: default
 tagline: Submission to batch systems
+parent: Legacy tutorials
+nav_order: 11
 ---
 # Submission to batch systems
 

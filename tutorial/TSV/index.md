@@ -2,6 +2,8 @@
 title: TSV Tutorial
 layout: default
 tagline: TSV
+parent: Legacy tutorials
+nav_order: 7
 ---
 
 # TSV

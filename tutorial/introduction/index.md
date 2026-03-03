@@ -2,6 +2,8 @@
 title: Introduction
 layout: default
 tagline: Rbbt introduction
+parent: Legacy tutorials
+nav_order: 4
 ---
 
 # Introduction

@@ -2,6 +2,8 @@
 title: Knowledge Base Tutorial
 layout: default
 tagline: Knowledge Base
+parent: Legacy tutorials
+nav_order: 12
 ---
 
 # Knowledge Bases in Rbbt

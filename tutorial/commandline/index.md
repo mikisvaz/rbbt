@@ -2,6 +2,8 @@
 title: Command-line
 layout: default
 tagline: The `rbbt` command line utility
+parent: Legacy tutorials
+nav_order: 6
 ---
 
 # Overview

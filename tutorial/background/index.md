@@ -2,6 +2,8 @@
 title: Background
 layout: default
 tagline: Background
+parent: Legacy tutorials
+nav_order: 5
 ---
 
 # Background
